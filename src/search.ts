@@ -9,9 +9,9 @@ export async function search(
   console.log(`Searching for: ${searchString}`);
 
   const files = await getFilesToSearch(config);
+  let totalMatches = 0;
 
   for (const file of files) {
-    console.log(`Searching in: ${file}`);
     let xmlString: string;
     try {
       xmlString = unpack(config, file);
@@ -23,9 +23,12 @@ export async function search(
     if (xmlString.includes(searchString)) {
       const matches = xmlString.match(new RegExp(searchString, "g"));
       const numberOfMatches = matches ? matches.length : 0;
+      totalMatches += numberOfMatches;
       console.log(
         `File ${file} contains search string "${searchString}" ${numberOfMatches} times`
       );
     }
   }
+
+  console.log(`Total matches found: ${totalMatches}`);
 }
