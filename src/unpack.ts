@@ -7,9 +7,7 @@ export function unpack(config: Config, filePath: string): string {
   const entry = zip.getEntry(MINDMAP_XML_PATH);
 
   if (!entry) {
-    throw new Error(
-      `This does not seem to be a SimpleMind file: ${filePath}`
-    );
+    throw new Error(`This does not seem to be a SimpleMind file: ${filePath}`);
   }
 
   return zip.readAsText(entry);

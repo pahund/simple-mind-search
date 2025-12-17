@@ -4,7 +4,7 @@ import { unpack } from "./unpack";
 
 export async function search(
   config: Config,
-  searchString: string,
+  searchString: string
 ): Promise<void> {
   console.log(`Searching for: ${searchString}`);
 
