@@ -12,12 +12,14 @@
   },
   "packageManager": "yarn@4.2.2",
   "devDependencies": {
+    "@types/adm-zip": "^0.5.7",
     "@types/node": "^25.0.3",
     "prettier": "^3.7.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "adm-zip": "^0.5.16",
     "commander": "^14.0.2",
     "dotenv": "^17.2.3",
     "fast-glob": "^3.3.3"

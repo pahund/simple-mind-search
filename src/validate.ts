@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as os from "os";
-import fg from "fast-glob";
 import { Config } from "./configure";
+import { getFilesToSearch } from "./getFilesToSearch";
 
 export async function validate(config: Config): Promise<void> {
   const mindMapsDir = config.MIND_MAPS_DIR.replace(/^~/, os.homedir());
@@ -9,10 +9,7 @@ export async function validate(config: Config): Promise<void> {
     throw new Error(`MIND_MAPS_DIR does not exist: ${config.MIND_MAPS_DIR}`);
   }
 
-  const files = await fg(config.FILES_TO_SEARCH, {
-    cwd: mindMapsDir,
-    absolute: false
-  });
+  const files = await getFilesToSearch(config);
 
   if (files.length === 0) {
     throw new Error(

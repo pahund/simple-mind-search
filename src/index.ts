@@ -4,18 +4,24 @@ import { Command } from "commander";
 import { printBanner } from "./printBanner";
 import { configure } from "./configure";
 import { validate } from "./validate";
+import { prepare } from "./prepare";
+import { search } from "./search";
 
 const program = new Command();
 
-program.action(async () => {
-  printBanner();
-  const config = configure();
-  try {
-    await validate(config);
-  } catch (error) {
-    console.error((error as Error).message);
-    process.exit(1);
-  }
-});
+program
+  .argument("<search-string>", "String to search for")
+  .action(async (searchString: string) => {
+    printBanner();
+    const config = configure();
+    try {
+      await validate(config);
+    } catch (error) {
+      console.error((error as Error).message);
+      process.exit(1);
+    }
+    prepare(config);
+    await search(config, searchString);
+  });
 
 program.parse(process.argv);
