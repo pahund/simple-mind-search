@@ -1,3 +1,2 @@
-TEMP_DIR=/tmp/simple-mind-search
 MIND_MAPS_DIR="~/Documents/Mind Maps"
 FILES_TO_SEARCH="**/*.smmx"

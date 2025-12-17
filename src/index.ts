@@ -4,7 +4,6 @@ import { Command } from "commander";
 import { printBanner } from "./printBanner";
 import { configure } from "./configure";
 import { validate } from "./validate";
-import { prepare } from "./prepare";
 import { search } from "./search";
 
 const program = new Command();
@@ -20,7 +19,6 @@ program
       console.error((error as Error).message);
       process.exit(1);
     }
-    prepare(config);
     await search(config, searchString);
   });
 

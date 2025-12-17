@@ -5,7 +5,6 @@ import { parse } from "dotenv";
 import { CONFIG_FILE_NAME, DEFAULT_CONFIG_FILE_NAME } from "./constants";
 
 export interface Config {
-  TEMP_DIR: string;
   MIND_MAPS_DIR: string;
   FILES_TO_SEARCH: string;
 }
@@ -33,7 +32,6 @@ export function configure(): Config {
   const config = parse(configString) as unknown as Config;
 
   const requiredKeys: Array<keyof Config> = [
-    "TEMP_DIR",
     "MIND_MAPS_DIR",
     "FILES_TO_SEARCH"
   ];
