@@ -1,33 +1,21 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-import * as fs from "fs";
-import * as path from "path";
-import * as os from "os";
+import { printBanner } from "./printBanner";
+import { configure } from "./configure";
+import { validate } from "./validate";
 
 const program = new Command();
 
-program.action(() => {
-  console.log("==================");
-  console.log("Simple Mind Search");
-  console.log("==================");
-  const configPath = path.join(os.homedir(), ".simple-mind-search");
-
-  if (!fs.existsSync(configPath)) {
-    const defaultConfigPath = path.join(__dirname, "..", ".simple-mind-search.default");
-    
-    if (!fs.existsSync(defaultConfigPath)) {
-      console.error("Default configuration file not found");
-      process.exit(1);
-    }
-
-    fs.copyFileSync(defaultConfigPath, configPath);
-    console.log(`Created new configuration file: ${configPath}`);
+program.action(async () => {
+  printBanner();
+  const config = configure();
+  try {
+    await validate(config);
+  } catch (error) {
+    console.error((error as Error).message);
+    process.exit(1);
   }
-
-  const config = fs.readFileSync(configPath, "utf-8");
-  console.log("Using configuration:");
-  console.log(config);
 });
 
 program.parse(process.argv);
