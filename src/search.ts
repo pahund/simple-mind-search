@@ -71,7 +71,11 @@ function extractTopics(obj: Topic): Topic[] {
     }
 
     for (const key in node) {
-      if (key !== "topic" && typeof node[key] === "object" && node[key] !== null) {
+      if (
+        key !== "topic" &&
+        typeof node[key] === "object" &&
+        node[key] !== null
+      ) {
         traverse(node[key] as Topic);
       }
     }
