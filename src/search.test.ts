@@ -55,6 +55,59 @@ describe("search", () => {
     expect(console.log).toHaveBeenCalledWith("Total matches found: 2");
   });
 
+  it("should search in notes and find matches", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      {
+        "@_text": "Topic with notes",
+        children: {
+          text: { note: "This is a test note" }
+        }
+      }
+    ]);
+
+    await search(mockConfig, "test");
+
+    expect(console.log).toHaveBeenCalledWith(
+      'File /path/to/file.smmx contains search string "test" 1 times'
+    );
+    expect(console.log).toHaveBeenCalledWith("  - Topic with notes");
+    expect(console.log).toHaveBeenCalledWith("    Note: This is a test note");
+    expect(console.log).toHaveBeenCalledWith("Total matches found: 1");
+  });
+
+  it("should display all notes for matched topics even without matches in notes", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      {
+        "@_text": "Topic with test in text",
+        children: {
+          text: [{ note: "First note" }, { note: "Second note" }]
+        }
+      }
+    ]);
+
+    await search(mockConfig, "test");
+
+    expect(console.log).toHaveBeenCalledWith("  - Topic with test in text");
+    expect(console.log).toHaveBeenCalledWith("    Note: First note");
+    expect(console.log).toHaveBeenCalledWith("    Note: Second note");
+  });
+
   it("should handle multiple matches in single text", async () => {
     vi.mocked(getFilesToSearch).mockResolvedValue([
       {

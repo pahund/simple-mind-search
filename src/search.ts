@@ -4,6 +4,21 @@ import { extractTopics } from "./extractTopics";
 import { getFilesToSearch } from "./getFilesToSearch";
 import { unpack } from "./unpack";
 
+interface NoteContent {
+  "#text"?: string;
+  "@_textfmt"?: string;
+  [key: string]: unknown;
+}
+
+interface TextNode {
+  note?: string | NoteContent;
+  [key: string]: unknown;
+}
+
+interface Children {
+  text?: TextNode | TextNode[];
+}
+
 interface Topic {
   "@_text"?: string;
   "@_checkbox-mode"?: string;
@@ -11,6 +26,7 @@ interface Topic {
   "@_progress"?: string;
   topic?: Topic | Topic[];
   link?: Link | Link[];
+  children?: Children;
   [key: string]: unknown;
 }
 
@@ -23,6 +39,7 @@ interface MatchedText {
   text: string;
   url?: string;
   done?: boolean;
+  notes?: string[];
 }
 
 function escapeRegExp(str: string): string {
@@ -57,15 +74,61 @@ export async function search(
     for (const topic of topics) {
       const text = topic["@_text"];
       if (typeof text === "string") {
-        const matchFound = ignoreCase
+        const notes: string[] = [];
+        const topicChildren = topic.children as Children | undefined;
+        if (topicChildren?.text) {
+          const textNodes = Array.isArray(topicChildren.text)
+            ? topicChildren.text
+            : [topicChildren.text];
+          for (const textNode of textNodes) {
+            if (textNode.note) {
+              if (typeof textNode.note === "string") {
+                notes.push(textNode.note);
+              } else if (
+                typeof textNode.note === "object" &&
+                textNode.note !== null &&
+                "#text" in textNode.note
+              ) {
+                const noteText = textNode.note["#text"];
+                if (noteText && typeof noteText === "string") {
+                  notes.push(noteText);
+                }
+              }
+            }
+          }
+        }
+
+        const matchFoundInText = ignoreCase
           ? text.toLowerCase().includes(searchString.toLowerCase())
           : text.includes(searchString);
+
+        let matchFoundInNotes = false;
+        for (const note of notes) {
+          const noteMatchFound = ignoreCase
+            ? note.toLowerCase().includes(searchString.toLowerCase())
+            : note.includes(searchString);
+          if (noteMatchFound) {
+            matchFoundInNotes = true;
+            break;
+          }
+        }
+
+        const matchFound = matchFoundInText || matchFoundInNotes;
 
         if (matchFound) {
           const flags = ignoreCase ? "gi" : "g";
           const escapedSearchString = escapeRegExp(searchString);
-          const matches = text.match(new RegExp(escapedSearchString, flags));
-          numberOfMatches += matches ? matches.length : 0;
+          const textMatches = text.match(
+            new RegExp(escapedSearchString, flags)
+          );
+          numberOfMatches += textMatches ? textMatches.length : 0;
+
+          for (const note of notes) {
+            const noteMatches = note.match(
+              new RegExp(escapedSearchString, flags)
+            );
+            numberOfMatches += noteMatches ? noteMatches.length : 0;
+          }
 
           let url: string | undefined;
           if (topic.link) {
@@ -97,7 +160,7 @@ export async function search(
             }
           }
 
-          matchedTexts.push({ text, url, done });
+          matchedTexts.push({ text, url, done, notes });
         }
       }
     }
@@ -117,6 +180,12 @@ export async function search(
         }
         if (match.done !== undefined) {
           console.log(`    Done: ${match.done ? "✓" : "✗"}`);
+        }
+        if (match.notes && match.notes.length > 0) {
+          console.log("    Notes:");
+          for (const note of match.notes) {
+            console.log(`    - ${note.replace(/\n/g, " ")}`);
+          }
         }
       }
     }
