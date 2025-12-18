@@ -10,9 +10,9 @@ vi.mock("path");
 
 describe("configure", () => {
   const mockHomedir = "/home/user";
-  const mockConfigPath = "/home/user/.simple-mind-search";
+  const mockConfigPath = "/home/user/.simple-mind-search.yml";
   const mockConfigContent =
-    "MIND_MAPS_DIR=~/Documents/Mind Maps\nFILES_TO_SEARCH=**/*.smmx";
+    "mindMapsDir: ~/Documents/Mind Maps\nfilesToSearch: '**/*.smmx'";
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -36,8 +36,8 @@ describe("configure", () => {
     const config = configure();
 
     expect(config).toEqual({
-      MIND_MAPS_DIR: "~/Documents/Mind Maps",
-      FILES_TO_SEARCH: "**/*.smmx"
+      mindMapsDir: "~/Documents/Mind Maps",
+      filesToSearch: "**/*.smmx"
     });
     expect(fs.existsSync).toHaveBeenCalledWith(mockConfigPath);
     expect(fs.readFileSync).toHaveBeenCalledWith(mockConfigPath, "utf-8");
@@ -60,8 +60,8 @@ describe("configure", () => {
       expect.stringContaining("Created new configuration file:")
     );
     expect(config).toEqual({
-      MIND_MAPS_DIR: "~/Documents/Mind Maps",
-      FILES_TO_SEARCH: "**/*.smmx"
+      mindMapsDir: "~/Documents/Mind Maps",
+      filesToSearch: "**/*.smmx"
     });
   });
 
@@ -77,28 +77,13 @@ describe("configure", () => {
   it("should exit when required key is missing", () => {
     vi.mocked(fs.existsSync).mockReturnValue(true);
     vi.mocked(fs.readFileSync).mockReturnValue(
-      "MIND_MAPS_DIR=~/Documents/Mind Maps"
+      "mindMapsDir: ~/Documents/Mind Maps"
     );
 
     expect(() => configure()).toThrow("process.exit: 1");
     expect(console.error).toHaveBeenCalledWith(
-      "Missing required configuration: FILES_TO_SEARCH"
+      "Missing required configuration: filesToSearch"
     );
-  });
-
-  it("should override config with environment variables", () => {
-    vi.mocked(fs.existsSync).mockReturnValue(true);
-    vi.mocked(fs.readFileSync).mockReturnValue(mockConfigContent);
-    process.env.MIND_MAPS_DIR = "/custom/path";
-
-    const config = configure();
-
-    expect(config.MIND_MAPS_DIR).toBe("/custom/path");
-    expect(console.log).toHaveBeenCalledWith(
-      "Overriding MIND_MAPS_DIR with environment variable"
-    );
-
-    delete process.env.MIND_MAPS_DIR;
   });
 
   it("should log the final configuration", () => {

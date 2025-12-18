@@ -12,9 +12,9 @@ export interface FileMetadata {
 export async function getFilesToSearch(
   config: Config
 ): Promise<FileMetadata[]> {
-  const mindMapsDir = config.MIND_MAPS_DIR.replace(/^~/, os.homedir());
+  const mindMapsDir = config.mindMapsDir.replace(/^~/, os.homedir());
 
-  const files = await fg(config.FILES_TO_SEARCH, {
+  const files = await fg(config.filesToSearch, {
     cwd: mindMapsDir,
     absolute: true
   });

@@ -17,8 +17,8 @@ vi.mock("fast-xml-parser", () => ({
 
 describe("search", () => {
   const mockConfig = {
-    MIND_MAPS_DIR: "~/Documents/Mind Maps",
-    FILES_TO_SEARCH: "**/*.smmx"
+    mindMapsDir: "~/Documents/Mind Maps",
+    filesToSearch: "**/*.smmx"
   };
 
   beforeEach(() => {

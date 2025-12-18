@@ -4,16 +4,16 @@ import type { Config } from "./configure";
 import { getFilesToSearch } from "./getFilesToSearch";
 
 export async function validate(config: Config): Promise<void> {
-  const mindMapsDir = config.MIND_MAPS_DIR.replace(/^~/, os.homedir());
+  const mindMapsDir = config.mindMapsDir.replace(/^~/, os.homedir());
   if (!fs.existsSync(mindMapsDir)) {
-    throw new Error(`MIND_MAPS_DIR does not exist: ${config.MIND_MAPS_DIR}`);
+    throw new Error(`mindMapsDir does not exist: ${config.mindMapsDir}`);
   }
 
   const files = await getFilesToSearch(config);
 
   if (files.length === 0) {
     throw new Error(
-      `No files found matching pattern "${config.FILES_TO_SEARCH}" in ${config.MIND_MAPS_DIR}`
+      `No files found matching pattern "${config.filesToSearch}" in ${config.mindMapsDir}`
     );
   }
 }

@@ -1,12 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
-import { parse } from "dotenv";
+import * as yaml from "js-yaml";
 import { CONFIG_FILE_NAME, DEFAULT_CONFIG_FILE_NAME } from "./constants";
 
 export interface Config {
-  MIND_MAPS_DIR: string;
-  FILES_TO_SEARCH: string;
+  mindMapsDir: string;
+  filesToSearch: string;
 }
 
 export function configure(): Config {
@@ -29,24 +29,14 @@ export function configure(): Config {
   }
 
   const configString = fs.readFileSync(configPath, "utf-8");
-  const config = parse(configString) as unknown as Config;
+  const config = yaml.load(configString) as Config;
 
-  const requiredKeys: Array<keyof Config> = [
-    "MIND_MAPS_DIR",
-    "FILES_TO_SEARCH"
-  ];
+  const requiredKeys: Array<keyof Config> = ["mindMapsDir", "filesToSearch"];
 
   for (const key of requiredKeys) {
     if (!config[key]) {
       console.error(`Missing required configuration: ${key}`);
       process.exit(1);
-    }
-  }
-
-  for (const key of Object.keys(config)) {
-    if (process.env[key]) {
-      console.log(`Overriding ${key} with environment variable`);
-      config[key as keyof Config] = process.env[key];
     }
   }
 

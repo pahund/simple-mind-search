@@ -18,8 +18,8 @@ describe("getFilesToSearch", () => {
     vi.mocked(fg).mockResolvedValue([]);
 
     await getFilesToSearch({
-      MIND_MAPS_DIR: "~/Documents/Mind Maps",
-      FILES_TO_SEARCH: "**/*.smmx"
+      mindMapsDir: "~/Documents/Mind Maps",
+      filesToSearch: "**/*.smmx"
     });
 
     expect(fg).toHaveBeenCalledWith("**/*.smmx", {
@@ -33,8 +33,8 @@ describe("getFilesToSearch", () => {
     vi.mocked(fg).mockResolvedValue([]);
 
     await getFilesToSearch({
-      MIND_MAPS_DIR: "/path/to/mind-maps",
-      FILES_TO_SEARCH: "*.smmx"
+      mindMapsDir: "/path/to/mind-maps",
+      filesToSearch: "*.smmx"
     });
 
     expect(fg).toHaveBeenCalledWith("*.smmx", {
@@ -57,8 +57,8 @@ describe("getFilesToSearch", () => {
     vi.mocked(fs.stat).mockResolvedValue(mockStats as never);
 
     const result = await getFilesToSearch({
-      MIND_MAPS_DIR: "~/Documents/Mind Maps",
-      FILES_TO_SEARCH: "**/*.smmx"
+      mindMapsDir: "~/Documents/Mind Maps",
+      filesToSearch: "**/*.smmx"
     });
 
     expect(result).toEqual([
@@ -80,8 +80,8 @@ describe("getFilesToSearch", () => {
     vi.mocked(fg).mockResolvedValue([]);
 
     const result = await getFilesToSearch({
-      MIND_MAPS_DIR: "~/Documents/Mind Maps",
-      FILES_TO_SEARCH: "**/*.smmx"
+      mindMapsDir: "~/Documents/Mind Maps",
+      filesToSearch: "**/*.smmx"
     });
 
     expect(result).toEqual([]);
@@ -94,8 +94,8 @@ describe("getFilesToSearch", () => {
     ]);
 
     await getFilesToSearch({
-      MIND_MAPS_DIR: "~/Documents/Mind Maps",
-      FILES_TO_SEARCH: "**/My Project*.smmx"
+      mindMapsDir: "~/Documents/Mind Maps",
+      filesToSearch: "**/My Project*.smmx"
     });
 
     expect(fg).toHaveBeenCalledWith("**/My Project*.smmx", {
@@ -109,8 +109,8 @@ describe("getFilesToSearch", () => {
     vi.mocked(fg).mockResolvedValue([]);
 
     await getFilesToSearch({
-      MIND_MAPS_DIR: "/absolute/path/to/mind-maps",
-      FILES_TO_SEARCH: "**/*.smmx"
+      mindMapsDir: "/absolute/path/to/mind-maps",
+      filesToSearch: "**/*.smmx"
     });
 
     expect(fg).toHaveBeenCalledWith("**/*.smmx", {

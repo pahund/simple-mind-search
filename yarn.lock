@@ -703,6 +703,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/js-yaml@npm:^4.0.9":
+  version: 4.0.9
+  resolution: "@types/js-yaml@npm:4.0.9"
+  checksum: 10c0/24de857aa8d61526bbfbbaa383aa538283ad17363fcd5bb5148e2c7f604547db36646440e739d78241ed008702a8920665d1add5618687b6743858fae00da211
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:^7.0.15":
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
@@ -1233,13 +1240,6 @@ __metadata:
   version: 4.0.2
   resolution: "diff@npm:4.0.2"
   checksum: 10c0/81b91f9d39c4eaca068eb0c1eb0e4afbdc5bb2941d197f513dd596b820b956fef43485876226d65d497bebc15666aa2aa82c679e84f65d5f2bfbf14ee46e32c1
-  languageName: node
-  linkType: hard
-
-"dotenv@npm:^17.2.3":
-  version: 17.2.3
-  resolution: "dotenv@npm:17.2.3"
-  checksum: 10c0/c884403209f713214a1b64d4d1defa4934c2aa5b0002f5a670ae298a51e3c3ad3ba79dfee2f8df49f01ae74290fcd9acdb1ab1d09c7bfb42b539036108bb2ba0
   languageName: node
   linkType: hard
 
@@ -2507,15 +2507,16 @@ __metadata:
     "@eslint/js": "npm:^9.39.2"
     "@types/adm-zip": "npm:^0.5.7"
     "@types/eslint__js": "npm:^9.14.0"
+    "@types/js-yaml": "npm:^4.0.9"
     "@types/node": "npm:^25.0.3"
     "@vitest/coverage-v8": "npm:4.0.16"
     "@vitest/ui": "npm:^4.0.16"
     adm-zip: "npm:^0.5.16"
     commander: "npm:^14.0.2"
-    dotenv: "npm:^17.2.3"
     eslint: "npm:^9.39.2"
     fast-glob: "npm:^3.3.3"
     fast-xml-parser: "npm:^5.3.3"
+    js-yaml: "npm:^4.1.1"
     prettier: "npm:^3.7.4"
     ts-node: "npm:^10.9.2"
     typescript: "npm:^5.9.3"

@@ -14,16 +14,16 @@ npm install -g simple-mind-search
 
 ## Configuration
 
-Run the command `simple-mind-search` without any arguments. When you do this for the first time, the program will create a configuration file _.simple-mind-search_ in your home directory for you.
+Run the command `simple-mind-search` without any arguments. When you do this for the first time, the programme will create a configuration file _.simple-mind-search.yml_ in your home directory for you.
 
 Adjust according to your requirements:
 
-```
+```yaml
 # Path to the directory with your mind maps
-MIND_MAPS_DIR="~/Documents/Mind Maps"
+mindMapsDir: "~/Documents/Mind Maps"
 
 # Glob pattern for finding files to include in search
-FILES_TO_SEARCH="**/*.smmx"
+filesToSearch: "**/*.smmx"
 ```
 
 ## Usage

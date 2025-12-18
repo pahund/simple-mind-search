@@ -19,10 +19,10 @@ describe("validate", () => {
 
     await expect(
       validate({
-        MIND_MAPS_DIR: "~/Documents/Mind Maps",
-        FILES_TO_SEARCH: "**/*.smmx"
+        mindMapsDir: "~/Documents/Mind Maps",
+        filesToSearch: "**/*.smmx"
       })
-    ).rejects.toThrow("MIND_MAPS_DIR does not exist: ~/Documents/Mind Maps");
+    ).rejects.toThrow("mindMapsDir does not exist: ~/Documents/Mind Maps");
   });
 
   it("should throw error when no files found matching pattern", async () => {
@@ -32,8 +32,8 @@ describe("validate", () => {
 
     await expect(
       validate({
-        MIND_MAPS_DIR: "~/Documents/Mind Maps",
-        FILES_TO_SEARCH: "**/*.smmx"
+        mindMapsDir: "~/Documents/Mind Maps",
+        filesToSearch: "**/*.smmx"
       })
     ).rejects.toThrow(
       'No files found matching pattern "**/*.smmx" in ~/Documents/Mind Maps'
@@ -53,8 +53,8 @@ describe("validate", () => {
 
     await expect(
       validate({
-        MIND_MAPS_DIR: "~/Documents/Mind Maps",
-        FILES_TO_SEARCH: "**/*.smmx"
+        mindMapsDir: "~/Documents/Mind Maps",
+        filesToSearch: "**/*.smmx"
       })
     ).resolves.toBeUndefined();
   });
@@ -71,8 +71,8 @@ describe("validate", () => {
     ]);
 
     await validate({
-      MIND_MAPS_DIR: "~/Documents/Mind Maps",
-      FILES_TO_SEARCH: "**/*.smmx"
+      mindMapsDir: "~/Documents/Mind Maps",
+      filesToSearch: "**/*.smmx"
     });
 
     expect(fs.existsSync).toHaveBeenCalledWith(
