@@ -3,6 +3,12 @@ import { Config } from "./configure";
 import { getFilesToSearch } from "./getFilesToSearch";
 import { unpack } from "./unpack";
 
+interface Topic {
+  "@_text"?: string;
+  topic?: Topic | Topic[];
+  [key: string]: unknown;
+}
+
 export async function search(
   config: Config,
   searchString: string
@@ -22,14 +28,14 @@ export async function search(
       continue;
     }
 
-    const parsed = parser.parse(xmlString);
+    const parsed = parser.parse(xmlString) as Topic;
     const topics = extractTopics(parsed);
     let numberOfMatches = 0;
     const matchedTexts: string[] = [];
 
     for (const topic of topics) {
       const text = topic["@_text"];
-      if (text && text.includes(searchString)) {
+      if (typeof text === "string" && text.includes(searchString)) {
         const matches = text.match(new RegExp(searchString, "g"));
         numberOfMatches += matches ? matches.length : 0;
         matchedTexts.push(text);
@@ -50,10 +56,10 @@ export async function search(
   console.log(`Total matches found: ${totalMatches}`);
 }
 
-function extractTopics(obj: any): any[] {
-  const topics: any[] = [];
+function extractTopics(obj: Topic): Topic[] {
+  const topics: Topic[] = [];
 
-  function traverse(node: any) {
+  function traverse(node: Topic): void {
     if (typeof node !== "object" || node === null) return;
 
     if (node.topic) {
@@ -65,8 +71,8 @@ function extractTopics(obj: any): any[] {
     }
 
     for (const key in node) {
-      if (key !== "topic") {
-        traverse(node[key]);
+      if (key !== "topic" && typeof node[key] === "object" && node[key] !== null) {
+        traverse(node[key] as Topic);
       }
     }
   }

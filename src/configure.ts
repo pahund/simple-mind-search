@@ -46,7 +46,7 @@ export function configure(): Config {
   for (const key of Object.keys(config)) {
     if (process.env[key]) {
       console.log(`Overriding ${key} with environment variable`);
-      config[key as keyof Config] = process.env[key] as string;
+      config[key as keyof Config] = process.env[key];
     }
   }
 
