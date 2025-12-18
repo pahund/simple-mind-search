@@ -1,0 +1,103 @@
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import * as os from "os";
+import fg from "fast-glob";
+import { getFilesToSearch } from "./getFilesToSearch";
+
+vi.mock("os");
+vi.mock("fast-glob");
+
+describe("getFilesToSearch", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should expand tilde in MIND_MAPS_DIR", async () => {
+    vi.mocked(os.homedir).mockReturnValue("/home/user");
+    vi.mocked(fg).mockResolvedValue([]);
+
+    await getFilesToSearch({
+      MIND_MAPS_DIR: "~/Documents/Mind Maps",
+      FILES_TO_SEARCH: "**/*.smmx"
+    });
+
+    expect(fg).toHaveBeenCalledWith("**/*.smmx", {
+      cwd: "/home/user/Documents/Mind Maps",
+      absolute: true
+    });
+  });
+
+  it("should call fast-glob with correct parameters", async () => {
+    vi.mocked(os.homedir).mockReturnValue("/home/user");
+    vi.mocked(fg).mockResolvedValue([]);
+
+    await getFilesToSearch({
+      MIND_MAPS_DIR: "/path/to/mind-maps",
+      FILES_TO_SEARCH: "*.smmx"
+    });
+
+    expect(fg).toHaveBeenCalledWith("*.smmx", {
+      cwd: "/path/to/mind-maps",
+      absolute: true
+    });
+  });
+
+  it("should return files found by fast-glob", async () => {
+    const mockFiles = [
+      "/home/user/Documents/Mind Maps/file1.smmx",
+      "/home/user/Documents/Mind Maps/file2.smmx"
+    ];
+    vi.mocked(os.homedir).mockReturnValue("/home/user");
+    vi.mocked(fg).mockResolvedValue(mockFiles);
+
+    const result = await getFilesToSearch({
+      MIND_MAPS_DIR: "~/Documents/Mind Maps",
+      FILES_TO_SEARCH: "**/*.smmx"
+    });
+
+    expect(result).toEqual(mockFiles);
+  });
+
+  it("should return empty array when no files found", async () => {
+    vi.mocked(os.homedir).mockReturnValue("/home/user");
+    vi.mocked(fg).mockResolvedValue([]);
+
+    const result = await getFilesToSearch({
+      MIND_MAPS_DIR: "~/Documents/Mind Maps",
+      FILES_TO_SEARCH: "**/*.smmx"
+    });
+
+    expect(result).toEqual([]);
+  });
+
+  it("should handle complex glob patterns", async () => {
+    vi.mocked(os.homedir).mockReturnValue("/home/user");
+    vi.mocked(fg).mockResolvedValue([
+      "/home/user/Documents/Mind Maps/test.smmx"
+    ]);
+
+    await getFilesToSearch({
+      MIND_MAPS_DIR: "~/Documents/Mind Maps",
+      FILES_TO_SEARCH: "**/My Project*.smmx"
+    });
+
+    expect(fg).toHaveBeenCalledWith("**/My Project*.smmx", {
+      cwd: "/home/user/Documents/Mind Maps",
+      absolute: true
+    });
+  });
+
+  it("should not modify MIND_MAPS_DIR without tilde", async () => {
+    vi.mocked(os.homedir).mockReturnValue("/home/user");
+    vi.mocked(fg).mockResolvedValue([]);
+
+    await getFilesToSearch({
+      MIND_MAPS_DIR: "/absolute/path/to/mind-maps",
+      FILES_TO_SEARCH: "**/*.smmx"
+    });
+
+    expect(fg).toHaveBeenCalledWith("**/*.smmx", {
+      cwd: "/absolute/path/to/mind-maps",
+      absolute: true
+    });
+  });
+});

@@ -35,6 +35,18 @@ yarn lint
 
 # Format code with Prettier
 yarn format
+
+# Run tests once
+yarn test
+
+# Run tests in watch mode
+yarn test:watch
+
+# Run tests with interactive UI
+yarn test:ui
+
+# Run tests with coverage report
+yarn test:coverage
 ```
 
 ### Project Structure
