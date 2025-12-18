@@ -1,5 +1,5 @@
 import { XMLParser } from "fast-xml-parser";
-import { Config } from "./configure";
+import type { Config } from "./configure";
 import { extractTopics } from "./extractTopics";
 import { getFilesToSearch } from "./getFilesToSearch";
 import { unpack } from "./unpack";
@@ -20,7 +20,7 @@ export async function search(
   let totalMatches = 0;
   const parser = new XMLParser({ ignoreAttributes: false });
 
-  for (const file of files) {
+  for (const { path: file } of files) {
     let xmlString: string;
     try {
       xmlString = unpack(config, file);

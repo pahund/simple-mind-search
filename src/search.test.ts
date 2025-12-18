@@ -28,7 +28,13 @@ describe("search", () => {
   });
 
   it("should search and find matches in files", async () => {
-    vi.mocked(getFilesToSearch).mockResolvedValue(["/path/to/file.smmx"]);
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
     vi.mocked(unpack).mockReturnValue("<xml></xml>");
     vi.mocked(extractTopics).mockReturnValue([
       { "@_text": "This is a test" },
@@ -47,7 +53,13 @@ describe("search", () => {
   });
 
   it("should handle multiple matches in single text", async () => {
-    vi.mocked(getFilesToSearch).mockResolvedValue(["/path/to/file.smmx"]);
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
     vi.mocked(unpack).mockReturnValue("<xml></xml>");
     vi.mocked(extractTopics).mockReturnValue([{ "@_text": "test test test" }]);
 
@@ -60,7 +72,13 @@ describe("search", () => {
   });
 
   it("should handle no matches found", async () => {
-    vi.mocked(getFilesToSearch).mockResolvedValue(["/path/to/file.smmx"]);
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
     vi.mocked(unpack).mockReturnValue("<xml></xml>");
     vi.mocked(extractTopics).mockReturnValue([{ "@_text": "No match here" }]);
 
@@ -75,8 +93,16 @@ describe("search", () => {
 
   it("should search multiple files", async () => {
     vi.mocked(getFilesToSearch).mockResolvedValue([
-      "/path/to/file1.smmx",
-      "/path/to/file2.smmx"
+      {
+        path: "/path/to/file1.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      },
+      {
+        path: "/path/to/file2.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
     ]);
     vi.mocked(unpack).mockReturnValue("<xml></xml>");
     vi.mocked(extractTopics).mockReturnValue([{ "@_text": "found here" }]);
@@ -94,10 +120,18 @@ describe("search", () => {
 
   it("should handle unpack errors and continue", async () => {
     vi.mocked(getFilesToSearch).mockResolvedValue([
-      "/path/to/bad.smmx",
-      "/path/to/good.smmx"
+      {
+        path: "/path/to/bad.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      },
+      {
+        path: "/path/to/good.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
     ]);
-    vi.mocked(unpack).mockImplementation((config, file) => {
+    vi.mocked(unpack).mockImplementation((_config, file) => {
       if (file === "/path/to/bad.smmx") {
         throw new Error("Invalid file");
       }
@@ -115,7 +149,13 @@ describe("search", () => {
   });
 
   it("should replace newline characters in output", async () => {
-    vi.mocked(getFilesToSearch).mockResolvedValue(["/path/to/file.smmx"]);
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
     vi.mocked(unpack).mockReturnValue("<xml></xml>");
     vi.mocked(extractTopics).mockReturnValue([
       { "@_text": "Line one\\NLine two" }
@@ -127,7 +167,13 @@ describe("search", () => {
   });
 
   it("should handle topics without @_text", async () => {
-    vi.mocked(getFilesToSearch).mockResolvedValue(["/path/to/file.smmx"]);
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
     vi.mocked(unpack).mockReturnValue("<xml></xml>");
     vi.mocked(extractTopics).mockReturnValue([
       { someOtherProp: "value" },

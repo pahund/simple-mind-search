@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as os from "os";
-import { Config } from "./configure";
+import type { Config } from "./configure";
 import { getFilesToSearch } from "./getFilesToSearch";
 
 export async function validate(config: Config): Promise<void> {

@@ -44,7 +44,11 @@ describe("validate", () => {
     vi.mocked(os.homedir).mockReturnValue("/home/user");
     vi.mocked(fs.existsSync).mockReturnValue(true);
     vi.mocked(getFilesToSearch).mockResolvedValue([
-      "/home/user/Documents/Mind Maps/file1.smmx"
+      {
+        path: "/home/user/Documents/Mind Maps/file1.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
     ]);
 
     await expect(
@@ -58,7 +62,13 @@ describe("validate", () => {
   it("should expand tilde in directory path", async () => {
     vi.mocked(os.homedir).mockReturnValue("/home/user");
     vi.mocked(fs.existsSync).mockReturnValue(true);
-    vi.mocked(getFilesToSearch).mockResolvedValue(["file1.smmx"]);
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "file1.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
 
     await validate({
       MIND_MAPS_DIR: "~/Documents/Mind Maps",

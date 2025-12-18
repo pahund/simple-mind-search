@@ -1,9 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import * as os from "os";
+import * as fs from "fs/promises";
 import fg from "fast-glob";
 import { getFilesToSearch } from "./getFilesToSearch";
 
 vi.mock("os");
+vi.mock("fs/promises");
 vi.mock("fast-glob");
 
 describe("getFilesToSearch", () => {
@@ -41,20 +43,36 @@ describe("getFilesToSearch", () => {
     });
   });
 
-  it("should return files found by fast-glob", async () => {
+  it("should return files found by fast-glob with metadata", async () => {
     const mockFiles = [
       "/home/user/Documents/Mind Maps/file1.smmx",
       "/home/user/Documents/Mind Maps/file2.smmx"
     ];
+    const mockStats = {
+      birthtime: new Date("2024-01-01"),
+      mtime: new Date("2024-01-02")
+    };
     vi.mocked(os.homedir).mockReturnValue("/home/user");
     vi.mocked(fg).mockResolvedValue(mockFiles);
+    vi.mocked(fs.stat).mockResolvedValue(mockStats as never);
 
     const result = await getFilesToSearch({
       MIND_MAPS_DIR: "~/Documents/Mind Maps",
       FILES_TO_SEARCH: "**/*.smmx"
     });
 
-    expect(result).toEqual(mockFiles);
+    expect(result).toEqual([
+      {
+        path: "/home/user/Documents/Mind Maps/file1.smmx",
+        createdAt: mockStats.birthtime,
+        modifiedAt: mockStats.mtime
+      },
+      {
+        path: "/home/user/Documents/Mind Maps/file2.smmx",
+        createdAt: mockStats.birthtime,
+        modifiedAt: mockStats.mtime
+      }
+    ]);
   });
 
   it("should return empty array when no files found", async () => {
