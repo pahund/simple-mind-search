@@ -1,2 +1,5 @@
+# Path to the directory with your mind maps
 MIND_MAPS_DIR="~/Documents/Mind Maps"
+
+# Glob pattern for finding files to include in search
 FILES_TO_SEARCH="**/*.smmx"
