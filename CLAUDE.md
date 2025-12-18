@@ -74,7 +74,8 @@
 
 4.5 Code coverage does not have to be 100%, around 80% (for the whole project) is OK
 
-# General rules
+5. General rules
 
-- use British English for naming things in the code
-- use British English for writing documentation
+5.1 use British English for naming things in the code
+
+5.2 use British English for writing documentation
