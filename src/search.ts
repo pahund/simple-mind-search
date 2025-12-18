@@ -20,7 +20,7 @@ export async function search(
   let totalMatches = 0;
   const parser = new XMLParser({ ignoreAttributes: false });
 
-  for (const { path: file } of files) {
+  for (const { path: file, createdAt, modifiedAt } of files) {
     let xmlString: string;
     try {
       xmlString = unpack(config, file);
@@ -47,6 +47,9 @@ export async function search(
       totalMatches += numberOfMatches;
       console.log(
         `File ${file} contains search string "${searchString}" ${numberOfMatches} times`
+      );
+      console.log(
+        `  Created: ${createdAt.toISOString()}, Modified: ${modifiedAt.toISOString()}`
       );
       for (const text of matchedTexts) {
         console.log(`  - ${text.replace(/\\N/g, " ")}`);

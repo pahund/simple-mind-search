@@ -47,6 +47,9 @@ describe("search", () => {
     expect(console.log).toHaveBeenCalledWith(
       'File /path/to/file.smmx contains search string "test" 2 times'
     );
+    expect(console.log).toHaveBeenCalledWith(
+      "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
+    );
     expect(console.log).toHaveBeenCalledWith("  - This is a test");
     expect(console.log).toHaveBeenCalledWith("  - Another test here");
     expect(console.log).toHaveBeenCalledWith("Total matches found: 2");
@@ -67,6 +70,9 @@ describe("search", () => {
 
     expect(console.log).toHaveBeenCalledWith(
       'File /path/to/file.smmx contains search string "test" 3 times'
+    );
+    expect(console.log).toHaveBeenCalledWith(
+      "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
     expect(console.log).toHaveBeenCalledWith("Total matches found: 3");
   });
@@ -113,6 +119,9 @@ describe("search", () => {
       'File /path/to/file1.smmx contains search string "found" 1 times'
     );
     expect(console.log).toHaveBeenCalledWith(
+      "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
+    );
+    expect(console.log).toHaveBeenCalledWith(
       'File /path/to/file2.smmx contains search string "found" 1 times'
     );
     expect(console.log).toHaveBeenCalledWith("Total matches found: 2");
@@ -145,6 +154,9 @@ describe("search", () => {
     expect(console.log).toHaveBeenCalledWith(
       'File /path/to/good.smmx contains search string "test" 1 times'
     );
+    expect(console.log).toHaveBeenCalledWith(
+      "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
+    );
     expect(console.log).toHaveBeenCalledWith("Total matches found: 1");
   });
 
@@ -163,6 +175,9 @@ describe("search", () => {
 
     await search(mockConfig, "Line");
 
+    expect(console.log).toHaveBeenCalledWith(
+      "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
+    );
     expect(console.log).toHaveBeenCalledWith("  - Line one Line two");
   });
 
@@ -182,6 +197,9 @@ describe("search", () => {
 
     await search(mockConfig, "found");
 
+    expect(console.log).toHaveBeenCalledWith(
+      "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
+    );
     expect(console.log).toHaveBeenCalledWith("Total matches found: 1");
   });
 
