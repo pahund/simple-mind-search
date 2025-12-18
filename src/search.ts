@@ -4,7 +4,7 @@ import { extractTopics } from "./extractTopics";
 import { getFilesToSearch } from "./getFilesToSearch";
 import { unpack } from "./unpack";
 import { findMatches, type Topic } from "./findMatches";
-import { printResults } from "./printResults";
+import { printResults, type SearchResult } from "./printResults";
 
 export interface SearchParams {
   config: Config;
@@ -22,8 +22,8 @@ export async function search({
   console.log(`Searching for: ${searchString}`);
 
   const files = await getFilesToSearch(config);
-  let totalMatches = 0;
   const parser = new XMLParser({ ignoreAttributes: false });
+  const results: SearchResult[] = [];
 
   for (const { path: file, createdAt, modifiedAt } of files) {
     let xmlString: string;
@@ -36,25 +36,23 @@ export async function search({
 
     const parsed = parser.parse(xmlString) as Topic;
     const topics = extractTopics(parsed);
-    const { matchedTexts, numberOfMatches } = findMatches({
+    const { matchedTexts } = findMatches({
       topics,
       searchString,
       ignoreCase,
       exactPhrase
     });
 
-    if (numberOfMatches > 0) {
-      totalMatches += numberOfMatches;
-      printResults({
+    for (const matchedText of matchedTexts) {
+      results.push({
         file,
-        searchString,
-        numberOfMatches,
         createdAt,
         modifiedAt,
-        matchedTexts
+        matchedText
       });
     }
   }
+  console.log(JSON.stringify(results, null, 2));
 
-  console.log(`Total matches found: ${totalMatches}`);
+  printResults({ results });
 }

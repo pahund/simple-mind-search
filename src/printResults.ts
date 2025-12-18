@@ -1,30 +1,24 @@
 import type { MatchedText } from "./findMatches";
 
-export interface PrintResultsParams {
+export interface SearchResult {
   file: string;
-  searchString: string;
-  numberOfMatches: number;
   createdAt: Date;
   modifiedAt: Date;
-  matchedTexts: MatchedText[];
+  matchedText: MatchedText;
 }
 
-export function printResults({
-  file,
-  searchString,
-  numberOfMatches,
-  createdAt,
-  modifiedAt,
-  matchedTexts
-}: PrintResultsParams): void {
-  console.log(
-    `File ${file} contains search string "${searchString}" ${numberOfMatches} times`
-  );
-  console.log(
-    `  Created: ${createdAt.toISOString()}, Modified: ${modifiedAt.toISOString()}`
-  );
-  for (const match of matchedTexts) {
-    console.log(`  - ${match.text.replace(/\\N/g, " ")}`);
+export interface PrintResultsParams {
+  results: SearchResult[];
+}
+
+export function printResults({ results }: PrintResultsParams): void {
+  for (const result of results) {
+    console.log(`File: ${result.file}`);
+    console.log(
+      `  Created: ${result.createdAt.toISOString()}, Modified: ${result.modifiedAt.toISOString()}`
+    );
+    console.log(`  - ${result.matchedText.text.replace(/\\N/g, " ")}`);
+    const match = result.matchedText;
     if (match.url) {
       console.log(`    URL: ${match.url}`);
     }

@@ -44,15 +44,12 @@ describe("search", () => {
     await search({ config: mockConfig, searchString: "test" });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
-    expect(console.log).toHaveBeenCalledWith(
-      'File /path/to/file.smmx contains search string "test" 2 times'
-    );
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
     expect(console.log).toHaveBeenCalledWith("  - This is a test");
     expect(console.log).toHaveBeenCalledWith("  - Another test here");
-    expect(console.log).toHaveBeenCalledWith("Total matches found: 2");
   });
 
   it("should search in notes and find matches", async () => {
@@ -75,13 +72,10 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "test" });
 
-    expect(console.log).toHaveBeenCalledWith(
-      'File /path/to/file.smmx contains search string "test" 1 times'
-    );
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith("  - Topic with notes");
     expect(console.log).toHaveBeenCalledWith("    Notes:");
     expect(console.log).toHaveBeenCalledWith("    - This is a test note");
-    expect(console.log).toHaveBeenCalledWith("Total matches found: 1");
   });
 
   it("should display all notes for matched topics even without matches in notes", async () => {
@@ -123,13 +117,10 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "test" });
 
-    expect(console.log).toHaveBeenCalledWith(
-      'File /path/to/file.smmx contains search string "test" 3 times'
-    );
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
-    expect(console.log).toHaveBeenCalledWith("Total matches found: 3");
   });
 
   it("should handle no matches found", async () => {
@@ -146,9 +137,8 @@ describe("search", () => {
     await search({ config: mockConfig, searchString: "missing" });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: missing");
-    expect(console.log).toHaveBeenCalledWith("Total matches found: 0");
     expect(console.log).not.toHaveBeenCalledWith(
-      expect.stringContaining("contains search string")
+      expect.stringContaining("File:")
     );
   });
 
@@ -170,16 +160,11 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "found" });
 
-    expect(console.log).toHaveBeenCalledWith(
-      'File /path/to/file1.smmx contains search string "found" 1 times'
-    );
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file1.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
-    expect(console.log).toHaveBeenCalledWith(
-      'File /path/to/file2.smmx contains search string "found" 1 times'
-    );
-    expect(console.log).toHaveBeenCalledWith("Total matches found: 2");
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file2.smmx");
   });
 
   it("should handle unpack errors and continue", async () => {
@@ -206,13 +191,10 @@ describe("search", () => {
     await search({ config: mockConfig, searchString: "test" });
 
     expect(console.warn).toHaveBeenCalledWith("Invalid file");
-    expect(console.log).toHaveBeenCalledWith(
-      'File /path/to/good.smmx contains search string "test" 1 times'
-    );
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/good.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
-    expect(console.log).toHaveBeenCalledWith("Total matches found: 1");
   });
 
   it("should replace newline characters in output", async () => {
@@ -252,10 +234,10 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "found" });
 
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
-    expect(console.log).toHaveBeenCalledWith("Total matches found: 1");
   });
 
   it("should handle empty file list", async () => {
@@ -264,7 +246,6 @@ describe("search", () => {
     await search({ config: mockConfig, searchString: "test" });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
-    expect(console.log).toHaveBeenCalledWith("Total matches found: 0");
   });
 
   it("should extract and display URL from link node", async () => {
@@ -505,12 +486,9 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "test" });
 
-    expect(console.log).toHaveBeenCalledWith(
-      'File /path/to/file.smmx contains search string "test" 1 times'
-    );
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith("  - Another test here");
     expect(console.log).not.toHaveBeenCalledWith("  - This is a Test");
-    expect(console.log).toHaveBeenCalledWith("Total matches found: 1");
   });
 
   it("should perform case-insensitive search when ignoreCase is true", async () => {
@@ -534,13 +512,10 @@ describe("search", () => {
       ignoreCase: true
     });
 
-    expect(console.log).toHaveBeenCalledWith(
-      'File /path/to/file.smmx contains search string "test" 3 times'
-    );
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith("  - This is a Test");
     expect(console.log).toHaveBeenCalledWith("  - Another test here");
     expect(console.log).toHaveBeenCalledWith("  - TEST in capitals");
-    expect(console.log).toHaveBeenCalledWith("Total matches found: 3");
   });
 
   it("should handle special regex characters in search string", async () => {
@@ -559,11 +534,8 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "$100" });
 
-    expect(console.log).toHaveBeenCalledWith(
-      'File /path/to/file.smmx contains search string "$100" 1 times'
-    );
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith("  - Price: $100 (sale)");
     expect(console.log).not.toHaveBeenCalledWith("  - Regular price: 100");
-    expect(console.log).toHaveBeenCalledWith("Total matches found: 1");
   });
 });

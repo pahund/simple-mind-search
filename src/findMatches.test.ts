@@ -10,7 +10,6 @@ describe("findMatches", () => {
 
     const result = findMatches({ topics, searchString: "test" });
 
-    expect(result.numberOfMatches).toBe(2);
     expect(result.matchedTexts).toHaveLength(2);
     expect(result.matchedTexts[0].text).toBe("This is a test");
     expect(result.matchedTexts[1].text).toBe("Another test here");
@@ -32,7 +31,6 @@ describe("findMatches", () => {
 
     const result = findMatches({ topics, searchString: "test" });
 
-    expect(result.numberOfMatches).toBe(1);
     expect(result.matchedTexts).toHaveLength(1);
     expect(result.matchedTexts[0].text).toBe("Topic with notes");
     expect(result.matchedTexts[0].notes).toEqual(["This is a test note"]);
@@ -50,16 +48,14 @@ describe("findMatches", () => {
       ignoreCase: true
     });
 
-    expect(result.numberOfMatches).toBe(2);
     expect(result.matchedTexts).toHaveLength(2);
   });
 
-  it("should count multiple matches in single text", () => {
+  it("should find topics with multiple matches in single text", () => {
     const topics: Topic[] = [{ "@_text": "test test test" }];
 
     const result = findMatches({ topics, searchString: "test" });
 
-    expect(result.numberOfMatches).toBe(3);
     expect(result.matchedTexts).toHaveLength(1);
   });
 
@@ -111,7 +107,6 @@ describe("findMatches", () => {
 
     const result = findMatches({ topics, searchString: "found" });
 
-    expect(result.numberOfMatches).toBe(1);
     expect(result.matchedTexts).toHaveLength(1);
   });
 
@@ -129,7 +124,7 @@ describe("findMatches", () => {
 
     const result = findMatches({ topics, searchString: "test" });
 
-    expect(result.numberOfMatches).toBe(1);
+    expect(result.matchedTexts).toHaveLength(1);
     expect(result.matchedTexts[0].notes).toEqual([
       "Simple string note with test"
     ]);
@@ -153,7 +148,7 @@ describe("findMatches", () => {
     expect(result.matchedTexts[0].notes).toEqual(["First note", "Second note"]);
   });
 
-  it("should count matches in both text and notes", () => {
+  it("should find matches in both text and notes", () => {
     const topics: Topic[] = [
       {
         "@_text": "Topic with test",
@@ -167,7 +162,7 @@ describe("findMatches", () => {
 
     const result = findMatches({ topics, searchString: "test" });
 
-    expect(result.numberOfMatches).toBe(2);
+    expect(result.matchedTexts).toHaveLength(1);
   });
 
   it("should handle topics with link array", () => {
@@ -194,7 +189,6 @@ describe("findMatches", () => {
 
     const result = findMatches({ topics, searchString: "$100" });
 
-    expect(result.numberOfMatches).toBe(1);
     expect(result.matchedTexts).toHaveLength(1);
     expect(result.matchedTexts[0].text).toBe("Price: $100 (sale)");
   });
@@ -204,7 +198,6 @@ describe("findMatches", () => {
 
     const result = findMatches({ topics, searchString: "missing" });
 
-    expect(result.numberOfMatches).toBe(0);
     expect(result.matchedTexts).toHaveLength(0);
   });
 
@@ -229,7 +222,6 @@ describe("findMatches", () => {
     const result = findMatches({ topics, searchString: "Hello test" });
 
     expect(result.matchedTexts).toHaveLength(1);
-    expect(result.numberOfMatches).toBe(2);
   });
 
   it("should match when tokens are split across text and notes", () => {
@@ -259,7 +251,6 @@ describe("findMatches", () => {
     const result = findMatches({ topics, searchString: "Anna Julia" });
 
     expect(result.matchedTexts).toHaveLength(0);
-    expect(result.numberOfMatches).toBe(0);
   });
 
   it("should handle multiple spaces between tokens", () => {
@@ -284,7 +275,6 @@ describe("findMatches", () => {
     const result = findMatches({ topics, searchString: "" });
 
     expect(result.matchedTexts).toHaveLength(0);
-    expect(result.numberOfMatches).toBe(0);
   });
 
   it("should return empty result for whitespace-only search string", () => {
@@ -293,10 +283,9 @@ describe("findMatches", () => {
     const result = findMatches({ topics, searchString: "   " });
 
     expect(result.matchedTexts).toHaveLength(0);
-    expect(result.numberOfMatches).toBe(0);
   });
 
-  it("should count all token matches in text and notes", () => {
+  it("should find topics with all tokens in text and notes", () => {
     const topics: Topic[] = [
       {
         "@_text": "test test world",
@@ -310,7 +299,7 @@ describe("findMatches", () => {
 
     const result = findMatches({ topics, searchString: "test world" });
 
-    expect(result.numberOfMatches).toBe(6);
+    expect(result.matchedTexts).toHaveLength(1);
   });
 
   it("should handle case-insensitive tokenized search", () => {

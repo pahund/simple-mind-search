@@ -1,4 +1,3 @@
-import { countMatches } from "./countMatches";
 import { extractDate } from "./extractDate";
 import { extractDoneStatus } from "./extractDoneStatus";
 import { extractNotes } from "./extractNotes";
@@ -17,7 +16,6 @@ export interface MatchedText {
 
 export interface FindMatchesResult {
   matchedTexts: MatchedText[];
-  numberOfMatches: number;
 }
 
 export interface FindMatchesParams {
@@ -33,11 +31,10 @@ export function findMatches({
   ignoreCase = false,
   exactPhrase = false
 }: FindMatchesParams): FindMatchesResult {
-  let numberOfMatches = 0;
   const matchedTexts: MatchedText[] = [];
 
   if (searchString.trim().length === 0) {
-    return { matchedTexts, numberOfMatches };
+    return { matchedTexts };
   }
 
   if (exactPhrase) {
@@ -57,16 +54,6 @@ export function findMatches({
       );
 
       if (phraseFound) {
-        numberOfMatches += countMatches({ text, searchString, ignoreCase });
-
-        for (const note of notes) {
-          numberOfMatches += countMatches({
-            text: note,
-            searchString,
-            ignoreCase
-          });
-        }
-
         const url = extractUrl(topic);
         const done = extractDoneStatus(topic);
         const date = extractDate(topic);
@@ -96,22 +83,6 @@ export function findMatches({
       );
 
       if (allTokensFound) {
-        for (const token of tokens) {
-          numberOfMatches += countMatches({
-            text,
-            searchString: token,
-            ignoreCase
-          });
-
-          for (const note of notes) {
-            numberOfMatches += countMatches({
-              text: note,
-              searchString: token,
-              ignoreCase
-            });
-          }
-        }
-
         const url = extractUrl(topic);
         const done = extractDoneStatus(topic);
         const date = extractDate(topic);
@@ -121,5 +92,5 @@ export function findMatches({
     }
   }
 
-  return { matchedTexts, numberOfMatches };
+  return { matchedTexts };
 }
