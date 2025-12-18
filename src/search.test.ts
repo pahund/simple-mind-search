@@ -211,4 +211,75 @@ describe("search", () => {
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
     expect(console.log).toHaveBeenCalledWith("Total matches found: 0");
   });
+
+  it("should extract and display URL from link node", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      {
+        "@_text": "Check this link",
+        link: { "@_urllink": "https://example.com" }
+      }
+    ]);
+
+    await search(mockConfig, "link");
+
+    expect(console.log).toHaveBeenCalledWith("  - Check this link");
+    expect(console.log).toHaveBeenCalledWith("    URL: https://example.com");
+  });
+
+  it("should handle topics with link array", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      {
+        "@_text": "Multiple links",
+        link: [
+          { "@_otherattr": "value" },
+          { "@_urllink": "https://example.org" }
+        ]
+      }
+    ]);
+
+    await search(mockConfig, "links");
+
+    expect(console.log).toHaveBeenCalledWith("  - Multiple links");
+    expect(console.log).toHaveBeenCalledWith("    URL: https://example.org");
+  });
+
+  it("should not display URL when link node has no urllink attribute", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      {
+        "@_text": "No URL here",
+        link: { "@_otherattr": "value" }
+      }
+    ]);
+
+    await search(mockConfig, "URL");
+
+    expect(console.log).toHaveBeenCalledWith("  - No URL here");
+    expect(console.log).not.toHaveBeenCalledWith(
+      expect.stringContaining("URL:")
+    );
+  });
 });

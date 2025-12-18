@@ -7,7 +7,18 @@ import { unpack } from "./unpack";
 interface Topic {
   "@_text"?: string;
   topic?: Topic | Topic[];
+  link?: Link | Link[];
   [key: string]: unknown;
+}
+
+interface Link {
+  "@_urllink"?: string;
+  [key: string]: unknown;
+}
+
+interface MatchedText {
+  text: string;
+  url?: string;
 }
 
 export async function search(
@@ -32,14 +43,33 @@ export async function search(
     const parsed = parser.parse(xmlString) as Topic;
     const topics = extractTopics(parsed);
     let numberOfMatches = 0;
-    const matchedTexts: string[] = [];
+    const matchedTexts: MatchedText[] = [];
 
     for (const topic of topics) {
       const text = topic["@_text"];
       if (typeof text === "string" && text.includes(searchString)) {
         const matches = text.match(new RegExp(searchString, "g"));
         numberOfMatches += matches ? matches.length : 0;
-        matchedTexts.push(text);
+
+        let url: string | undefined;
+        if (topic.link) {
+          const links = Array.isArray(topic.link) ? topic.link : [topic.link];
+          for (const link of links) {
+            if (
+              typeof link === "object" &&
+              link !== null &&
+              "@_urllink" in link
+            ) {
+              const urllink = (link as Link)["@_urllink"];
+              if (typeof urllink === "string") {
+                url = urllink;
+                break;
+              }
+            }
+          }
+        }
+
+        matchedTexts.push({ text, url });
       }
     }
 
@@ -51,8 +81,11 @@ export async function search(
       console.log(
         `  Created: ${createdAt.toISOString()}, Modified: ${modifiedAt.toISOString()}`
       );
-      for (const text of matchedTexts) {
-        console.log(`  - ${text.replace(/\\N/g, " ")}`);
+      for (const match of matchedTexts) {
+        console.log(`  - ${match.text.replace(/\\N/g, " ")}`);
+        if (match.url) {
+          console.log(`    URL: ${match.url}`);
+        }
       }
     }
   }
