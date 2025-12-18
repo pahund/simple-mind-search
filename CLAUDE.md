@@ -36,6 +36,8 @@
 
 2.11 Avoid “magic strings” inside code modules, put them in module _constants.ts_
 
+2.12 If a function has more than two parameters, pass parameters as an object instead which gets destructured; e.g. instead of `function foo(bar, baz, qux)`, write `function foo({ bar, baz, qux })` instead
+
 # 3. Workflow
 
 3.1 When you implement a new function, put it in a separate TypeScript module that has the same name and import it where it is needed from there

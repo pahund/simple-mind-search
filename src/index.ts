@@ -22,7 +22,12 @@ program
     }
     const searchString = searchTerms.join(" ");
     const exactPhrase = searchTerms.length === 1;
-    await search(config, searchString, options.ignoreCase, exactPhrase);
+    await search({
+      config,
+      searchString,
+      ignoreCase: options.ignoreCase,
+      exactPhrase
+    });
   });
 
 program.parse(process.argv);

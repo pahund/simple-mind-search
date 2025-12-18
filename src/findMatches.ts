@@ -1,4 +1,5 @@
 import { countMatches } from "./countMatches";
+import { extractDate } from "./extractDate";
 import { extractDoneStatus } from "./extractDoneStatus";
 import { extractNotes } from "./extractNotes";
 import { extractUrl } from "./extractUrl";
@@ -10,6 +11,7 @@ export interface MatchedText {
   text: string;
   url?: string;
   done?: boolean;
+  date?: Date;
   notes?: string[];
 }
 
@@ -18,12 +20,19 @@ export interface FindMatchesResult {
   numberOfMatches: number;
 }
 
-export function findMatches(
-  topics: Topic[],
-  searchString: string,
+export interface FindMatchesParams {
+  topics: Topic[];
+  searchString: string;
+  ignoreCase?: boolean;
+  exactPhrase?: boolean;
+}
+
+export function findMatches({
+  topics,
+  searchString,
   ignoreCase = false,
   exactPhrase = false
-): FindMatchesResult {
+}: FindMatchesParams): FindMatchesResult {
   let numberOfMatches = 0;
   const matchedTexts: MatchedText[] = [];
 
@@ -48,16 +57,21 @@ export function findMatches(
       );
 
       if (phraseFound) {
-        numberOfMatches += countMatches(text, searchString, ignoreCase);
+        numberOfMatches += countMatches({ text, searchString, ignoreCase });
 
         for (const note of notes) {
-          numberOfMatches += countMatches(note, searchString, ignoreCase);
+          numberOfMatches += countMatches({
+            text: note,
+            searchString,
+            ignoreCase
+          });
         }
 
         const url = extractUrl(topic);
         const done = extractDoneStatus(topic);
+        const date = extractDate(topic);
 
-        matchedTexts.push({ text, url, done, notes });
+        matchedTexts.push({ text, url, done, date, notes });
       }
     }
   } else {
@@ -83,17 +97,26 @@ export function findMatches(
 
       if (allTokensFound) {
         for (const token of tokens) {
-          numberOfMatches += countMatches(text, token, ignoreCase);
+          numberOfMatches += countMatches({
+            text,
+            searchString: token,
+            ignoreCase
+          });
 
           for (const note of notes) {
-            numberOfMatches += countMatches(note, token, ignoreCase);
+            numberOfMatches += countMatches({
+              text: note,
+              searchString: token,
+              ignoreCase
+            });
           }
         }
 
         const url = extractUrl(topic);
         const done = extractDoneStatus(topic);
+        const date = extractDate(topic);
 
-        matchedTexts.push({ text, url, done, notes });
+        matchedTexts.push({ text, url, done, date, notes });
       }
     }
   }

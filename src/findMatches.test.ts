@@ -8,7 +8,7 @@ describe("findMatches", () => {
       { "@_text": "Another test here" }
     ];
 
-    const result = findMatches(topics, "test");
+    const result = findMatches({ topics, searchString: "test" });
 
     expect(result.numberOfMatches).toBe(2);
     expect(result.matchedTexts).toHaveLength(2);
@@ -30,7 +30,7 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "test");
+    const result = findMatches({ topics, searchString: "test" });
 
     expect(result.numberOfMatches).toBe(1);
     expect(result.matchedTexts).toHaveLength(1);
@@ -44,7 +44,11 @@ describe("findMatches", () => {
       { "@_text": "Another TEST here" }
     ];
 
-    const result = findMatches(topics, "test", true);
+    const result = findMatches({
+      topics,
+      searchString: "test",
+      ignoreCase: true
+    });
 
     expect(result.numberOfMatches).toBe(2);
     expect(result.matchedTexts).toHaveLength(2);
@@ -53,7 +57,7 @@ describe("findMatches", () => {
   it("should count multiple matches in single text", () => {
     const topics: Topic[] = [{ "@_text": "test test test" }];
 
-    const result = findMatches(topics, "test");
+    const result = findMatches({ topics, searchString: "test" });
 
     expect(result.numberOfMatches).toBe(3);
     expect(result.matchedTexts).toHaveLength(1);
@@ -67,7 +71,7 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "link");
+    const result = findMatches({ topics, searchString: "link" });
 
     expect(result.matchedTexts[0].url).toBe("https://example.com");
   });
@@ -82,7 +86,7 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "task");
+    const result = findMatches({ topics, searchString: "task" });
 
     expect(result.matchedTexts[0].done).toBe(true);
   });
@@ -97,7 +101,7 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "task");
+    const result = findMatches({ topics, searchString: "task" });
 
     expect(result.matchedTexts[0].done).toBe(false);
   });
@@ -105,7 +109,7 @@ describe("findMatches", () => {
   it("should handle topics without @_text", () => {
     const topics: Topic[] = [{ someOtherProp: "value" }, { "@_text": "found" }];
 
-    const result = findMatches(topics, "found");
+    const result = findMatches({ topics, searchString: "found" });
 
     expect(result.numberOfMatches).toBe(1);
     expect(result.matchedTexts).toHaveLength(1);
@@ -123,7 +127,7 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "test");
+    const result = findMatches({ topics, searchString: "test" });
 
     expect(result.numberOfMatches).toBe(1);
     expect(result.matchedTexts[0].notes).toEqual([
@@ -144,7 +148,7 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "test");
+    const result = findMatches({ topics, searchString: "test" });
 
     expect(result.matchedTexts[0].notes).toEqual(["First note", "Second note"]);
   });
@@ -161,7 +165,7 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "test");
+    const result = findMatches({ topics, searchString: "test" });
 
     expect(result.numberOfMatches).toBe(2);
   });
@@ -177,7 +181,7 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "links");
+    const result = findMatches({ topics, searchString: "links" });
 
     expect(result.matchedTexts[0].url).toBe("https://example.org");
   });
@@ -188,7 +192,7 @@ describe("findMatches", () => {
       { "@_text": "Regular price: 100" }
     ];
 
-    const result = findMatches(topics, "$100");
+    const result = findMatches({ topics, searchString: "$100" });
 
     expect(result.numberOfMatches).toBe(1);
     expect(result.matchedTexts).toHaveLength(1);
@@ -198,7 +202,7 @@ describe("findMatches", () => {
   it("should return empty result when no matches found", () => {
     const topics: Topic[] = [{ "@_text": "No match here" }];
 
-    const result = findMatches(topics, "missing");
+    const result = findMatches({ topics, searchString: "missing" });
 
     expect(result.numberOfMatches).toBe(0);
     expect(result.matchedTexts).toHaveLength(0);
@@ -214,7 +218,7 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "checkbox");
+    const result = findMatches({ topics, searchString: "checkbox" });
 
     expect(result.matchedTexts[0].done).toBeUndefined();
   });
@@ -222,7 +226,7 @@ describe("findMatches", () => {
   it("should match when all tokens are found in text", () => {
     const topics: Topic[] = [{ "@_text": "Hello world from test" }];
 
-    const result = findMatches(topics, "Hello test");
+    const result = findMatches({ topics, searchString: "Hello test" });
 
     expect(result.matchedTexts).toHaveLength(1);
     expect(result.numberOfMatches).toBe(2);
@@ -240,7 +244,7 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "Anna Julia");
+    const result = findMatches({ topics, searchString: "Anna Julia" });
 
     expect(result.matchedTexts).toHaveLength(1);
     expect(result.matchedTexts[0].text).toBe("Topic about Anna");
@@ -252,7 +256,7 @@ describe("findMatches", () => {
       { "@_text": "Topic about Julia" }
     ];
 
-    const result = findMatches(topics, "Anna Julia");
+    const result = findMatches({ topics, searchString: "Anna Julia" });
 
     expect(result.matchedTexts).toHaveLength(0);
     expect(result.numberOfMatches).toBe(0);
@@ -261,7 +265,7 @@ describe("findMatches", () => {
   it("should handle multiple spaces between tokens", () => {
     const topics: Topic[] = [{ "@_text": "Hello world from test" }];
 
-    const result = findMatches(topics, "Hello    test");
+    const result = findMatches({ topics, searchString: "Hello    test" });
 
     expect(result.matchedTexts).toHaveLength(1);
   });
@@ -269,7 +273,7 @@ describe("findMatches", () => {
   it("should handle leading and trailing spaces", () => {
     const topics: Topic[] = [{ "@_text": "Hello world from test" }];
 
-    const result = findMatches(topics, "  Hello test  ");
+    const result = findMatches({ topics, searchString: "  Hello test  " });
 
     expect(result.matchedTexts).toHaveLength(1);
   });
@@ -277,7 +281,7 @@ describe("findMatches", () => {
   it("should return empty result for empty search string", () => {
     const topics: Topic[] = [{ "@_text": "Hello world" }];
 
-    const result = findMatches(topics, "");
+    const result = findMatches({ topics, searchString: "" });
 
     expect(result.matchedTexts).toHaveLength(0);
     expect(result.numberOfMatches).toBe(0);
@@ -286,7 +290,7 @@ describe("findMatches", () => {
   it("should return empty result for whitespace-only search string", () => {
     const topics: Topic[] = [{ "@_text": "Hello world" }];
 
-    const result = findMatches(topics, "   ");
+    const result = findMatches({ topics, searchString: "   " });
 
     expect(result.matchedTexts).toHaveLength(0);
     expect(result.numberOfMatches).toBe(0);
@@ -304,7 +308,7 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "test world");
+    const result = findMatches({ topics, searchString: "test world" });
 
     expect(result.numberOfMatches).toBe(6);
   });
@@ -321,7 +325,11 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "anna JULIA", true);
+    const result = findMatches({
+      topics,
+      searchString: "anna JULIA",
+      ignoreCase: true
+    });
 
     expect(result.matchedTexts).toHaveLength(1);
   });
@@ -333,7 +341,12 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "complete phrase", false, true);
+    const result = findMatches({
+      topics,
+      searchString: "complete phrase",
+      ignoreCase: false,
+      exactPhrase: true
+    });
 
     expect(result.matchedTexts).toHaveLength(1);
   });
@@ -350,7 +363,12 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "Anna Julia", false, true);
+    const result = findMatches({
+      topics,
+      searchString: "Anna Julia",
+      ignoreCase: false,
+      exactPhrase: true
+    });
 
     expect(result.matchedTexts).toHaveLength(0);
   });
@@ -367,7 +385,12 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "exact phrase", false, true);
+    const result = findMatches({
+      topics,
+      searchString: "exact phrase",
+      ignoreCase: false,
+      exactPhrase: true
+    });
 
     expect(result.matchedTexts).toHaveLength(1);
   });
@@ -379,7 +402,12 @@ describe("findMatches", () => {
       }
     ];
 
-    const result = findMatches(topics, "exact phrase", true, true);
+    const result = findMatches({
+      topics,
+      searchString: "exact phrase",
+      ignoreCase: true,
+      exactPhrase: true
+    });
 
     expect(result.matchedTexts).toHaveLength(1);
   });
@@ -396,10 +424,50 @@ describe("findMatches", () => {
       }
     ];
 
-    const resultExact = findMatches(topics, "Anna Julia", false, true);
+    const resultExact = findMatches({
+      topics,
+      searchString: "Anna Julia",
+      ignoreCase: false,
+      exactPhrase: true
+    });
     expect(resultExact.matchedTexts).toHaveLength(0);
 
-    const resultTokens = findMatches(topics, "Anna Julia", false, false);
+    const resultTokens = findMatches({
+      topics,
+      searchString: "Anna Julia",
+      ignoreCase: false,
+      exactPhrase: false
+    });
     expect(resultTokens.matchedTexts).toHaveLength(1);
+  });
+
+  it("should extract and include date from topic", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Topic with date",
+        "@_date": "24-12-2025"
+      }
+    ];
+
+    const result = findMatches({ topics, searchString: "date" });
+
+    expect(result.matchedTexts).toHaveLength(1);
+    expect(result.matchedTexts[0].date).toBeInstanceOf(Date);
+    expect(result.matchedTexts[0].date?.getFullYear()).toBe(2025);
+    expect(result.matchedTexts[0].date?.getMonth()).toBe(11);
+    expect(result.matchedTexts[0].date?.getDate()).toBe(24);
+  });
+
+  it("should not include date when topic has no date", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Topic without date"
+      }
+    ];
+
+    const result = findMatches({ topics, searchString: "Topic" });
+
+    expect(result.matchedTexts).toHaveLength(1);
+    expect(result.matchedTexts[0].date).toBeUndefined();
   });
 });

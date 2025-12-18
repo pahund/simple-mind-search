@@ -41,7 +41,7 @@ describe("search", () => {
       { "@_text": "Another test here" }
     ]);
 
-    await search(mockConfig, "test");
+    await search({ config: mockConfig, searchString: "test" });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
     expect(console.log).toHaveBeenCalledWith(
@@ -73,7 +73,7 @@ describe("search", () => {
       }
     ]);
 
-    await search(mockConfig, "test");
+    await search({ config: mockConfig, searchString: "test" });
 
     expect(console.log).toHaveBeenCalledWith(
       'File /path/to/file.smmx contains search string "test" 1 times'
@@ -102,7 +102,7 @@ describe("search", () => {
       }
     ]);
 
-    await search(mockConfig, "test");
+    await search({ config: mockConfig, searchString: "test" });
 
     expect(console.log).toHaveBeenCalledWith("  - Topic with test in text");
     expect(console.log).toHaveBeenCalledWith("    Notes:");
@@ -121,7 +121,7 @@ describe("search", () => {
     vi.mocked(unpack).mockReturnValue("<xml></xml>");
     vi.mocked(extractTopics).mockReturnValue([{ "@_text": "test test test" }]);
 
-    await search(mockConfig, "test");
+    await search({ config: mockConfig, searchString: "test" });
 
     expect(console.log).toHaveBeenCalledWith(
       'File /path/to/file.smmx contains search string "test" 3 times'
@@ -143,7 +143,7 @@ describe("search", () => {
     vi.mocked(unpack).mockReturnValue("<xml></xml>");
     vi.mocked(extractTopics).mockReturnValue([{ "@_text": "No match here" }]);
 
-    await search(mockConfig, "missing");
+    await search({ config: mockConfig, searchString: "missing" });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: missing");
     expect(console.log).toHaveBeenCalledWith("Total matches found: 0");
@@ -168,7 +168,7 @@ describe("search", () => {
     vi.mocked(unpack).mockReturnValue("<xml></xml>");
     vi.mocked(extractTopics).mockReturnValue([{ "@_text": "found here" }]);
 
-    await search(mockConfig, "found");
+    await search({ config: mockConfig, searchString: "found" });
 
     expect(console.log).toHaveBeenCalledWith(
       'File /path/to/file1.smmx contains search string "found" 1 times'
@@ -203,7 +203,7 @@ describe("search", () => {
     });
     vi.mocked(extractTopics).mockReturnValue([{ "@_text": "test content" }]);
 
-    await search(mockConfig, "test");
+    await search({ config: mockConfig, searchString: "test" });
 
     expect(console.warn).toHaveBeenCalledWith("Invalid file");
     expect(console.log).toHaveBeenCalledWith(
@@ -228,7 +228,7 @@ describe("search", () => {
       { "@_text": "Line one\\NLine two" }
     ]);
 
-    await search(mockConfig, "Line");
+    await search({ config: mockConfig, searchString: "Line" });
 
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
@@ -250,7 +250,7 @@ describe("search", () => {
       { "@_text": "found" }
     ]);
 
-    await search(mockConfig, "found");
+    await search({ config: mockConfig, searchString: "found" });
 
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
@@ -261,7 +261,7 @@ describe("search", () => {
   it("should handle empty file list", async () => {
     vi.mocked(getFilesToSearch).mockResolvedValue([]);
 
-    await search(mockConfig, "test");
+    await search({ config: mockConfig, searchString: "test" });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
     expect(console.log).toHaveBeenCalledWith("Total matches found: 0");
@@ -283,7 +283,7 @@ describe("search", () => {
       }
     ]);
 
-    await search(mockConfig, "link");
+    await search({ config: mockConfig, searchString: "link" });
 
     expect(console.log).toHaveBeenCalledWith("  - Check this link");
     expect(console.log).toHaveBeenCalledWith("    URL: https://example.com");
@@ -308,7 +308,7 @@ describe("search", () => {
       }
     ]);
 
-    await search(mockConfig, "links");
+    await search({ config: mockConfig, searchString: "links" });
 
     expect(console.log).toHaveBeenCalledWith("  - Multiple links");
     expect(console.log).toHaveBeenCalledWith("    URL: https://example.org");
@@ -330,7 +330,7 @@ describe("search", () => {
       }
     ]);
 
-    await search(mockConfig, "URL");
+    await search({ config: mockConfig, searchString: "URL" });
 
     expect(console.log).toHaveBeenCalledWith("  - No URL here");
     expect(console.log).not.toHaveBeenCalledWith(
@@ -356,7 +356,7 @@ describe("search", () => {
       }
     ]);
 
-    await search(mockConfig, "task");
+    await search({ config: mockConfig, searchString: "task" });
 
     expect(console.log).toHaveBeenCalledWith("  - Complete task");
     expect(console.log).toHaveBeenCalledWith("    Done: ✓");
@@ -380,7 +380,7 @@ describe("search", () => {
       }
     ]);
 
-    await search(mockConfig, "task");
+    await search({ config: mockConfig, searchString: "task" });
 
     expect(console.log).toHaveBeenCalledWith("  - Incomplete task");
     expect(console.log).toHaveBeenCalledWith("    Done: ✗");
@@ -404,7 +404,7 @@ describe("search", () => {
       }
     ]);
 
-    await search(mockConfig, "checkbox");
+    await search({ config: mockConfig, searchString: "checkbox" });
 
     expect(console.log).toHaveBeenCalledWith("  - Not a checkbox");
     expect(console.log).not.toHaveBeenCalledWith(
@@ -430,7 +430,7 @@ describe("search", () => {
       }
     ]);
 
-    await search(mockConfig, "disabled");
+    await search({ config: mockConfig, searchString: "disabled" });
 
     expect(console.log).toHaveBeenCalledWith("  - Checkbox disabled");
     expect(console.log).not.toHaveBeenCalledWith(
@@ -455,7 +455,7 @@ describe("search", () => {
       }
     ]);
 
-    await search(mockConfig, "progress");
+    await search({ config: mockConfig, searchString: "progress" });
 
     expect(console.log).toHaveBeenCalledWith("  - No progress");
     expect(console.log).not.toHaveBeenCalledWith(
@@ -482,7 +482,7 @@ describe("search", () => {
       }
     ]);
 
-    await search(mockConfig, "Task");
+    await search({ config: mockConfig, searchString: "Task" });
 
     expect(console.log).toHaveBeenCalledWith("  - Task with link");
     expect(console.log).toHaveBeenCalledWith("    URL: https://example.com");
@@ -503,7 +503,7 @@ describe("search", () => {
       { "@_text": "Another test here" }
     ]);
 
-    await search(mockConfig, "test");
+    await search({ config: mockConfig, searchString: "test" });
 
     expect(console.log).toHaveBeenCalledWith(
       'File /path/to/file.smmx contains search string "test" 1 times'
@@ -528,7 +528,11 @@ describe("search", () => {
       { "@_text": "TEST in capitals" }
     ]);
 
-    await search(mockConfig, "test", true);
+    await search({
+      config: mockConfig,
+      searchString: "test",
+      ignoreCase: true
+    });
 
     expect(console.log).toHaveBeenCalledWith(
       'File /path/to/file.smmx contains search string "test" 3 times'
@@ -553,7 +557,7 @@ describe("search", () => {
       { "@_text": "Regular price: 100" }
     ]);
 
-    await search(mockConfig, "$100");
+    await search({ config: mockConfig, searchString: "$100" });
 
     expect(console.log).toHaveBeenCalledWith(
       'File /path/to/file.smmx contains search string "$100" 1 times'

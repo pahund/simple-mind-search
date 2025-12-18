@@ -23,6 +23,7 @@ export interface Topic {
   "@_checkbox-mode"?: string;
   "@_checkbox"?: string;
   "@_progress"?: string;
+  "@_date"?: string;
   topic?: Topic | Topic[];
   link?: Link | Link[];
   children?: Children;
