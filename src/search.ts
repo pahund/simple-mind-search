@@ -25,9 +25,14 @@ interface MatchedText {
   done?: boolean;
 }
 
+function escapeRegExp(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 export async function search(
   config: Config,
-  searchString: string
+  searchString: string,
+  ignoreCase = false
 ): Promise<void> {
   console.log(`Searching for: ${searchString}`);
 
@@ -51,41 +56,49 @@ export async function search(
 
     for (const topic of topics) {
       const text = topic["@_text"];
-      if (typeof text === "string" && text.includes(searchString)) {
-        const matches = text.match(new RegExp(searchString, "g"));
-        numberOfMatches += matches ? matches.length : 0;
+      if (typeof text === "string") {
+        const matchFound = ignoreCase
+          ? text.toLowerCase().includes(searchString.toLowerCase())
+          : text.includes(searchString);
 
-        let url: string | undefined;
-        if (topic.link) {
-          const links = Array.isArray(topic.link) ? topic.link : [topic.link];
-          for (const link of links) {
-            if (
-              typeof link === "object" &&
-              link !== null &&
-              "@_urllink" in link
-            ) {
-              const urllink = (link as Link)["@_urllink"];
-              if (typeof urllink === "string") {
-                url = urllink;
-                break;
+        if (matchFound) {
+          const flags = ignoreCase ? "gi" : "g";
+          const escapedSearchString = escapeRegExp(searchString);
+          const matches = text.match(new RegExp(escapedSearchString, flags));
+          numberOfMatches += matches ? matches.length : 0;
+
+          let url: string | undefined;
+          if (topic.link) {
+            const links = Array.isArray(topic.link) ? topic.link : [topic.link];
+            for (const link of links) {
+              if (
+                typeof link === "object" &&
+                link !== null &&
+                "@_urllink" in link
+              ) {
+                const urllink = (link as Link)["@_urllink"];
+                if (typeof urllink === "string") {
+                  url = urllink;
+                  break;
+                }
               }
             }
           }
-        }
 
-        let done: boolean | undefined;
-        if (
-          topic["@_checkbox-mode"] === "checkbox" &&
-          topic["@_checkbox"] === "true" &&
-          topic["@_progress"]
-        ) {
-          const progress = Number(topic["@_progress"]);
-          if (!isNaN(progress)) {
-            done = progress === 100;
+          let done: boolean | undefined;
+          if (
+            topic["@_checkbox-mode"] === "checkbox" &&
+            topic["@_checkbox"] === "true" &&
+            topic["@_progress"]
+          ) {
+            const progress = Number(topic["@_progress"]);
+            if (!isNaN(progress)) {
+              done = progress === 100;
+            }
           }
-        }
 
-        matchedTexts.push({ text, url, done });
+          matchedTexts.push({ text, url, done });
+        }
       }
     }
 

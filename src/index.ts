@@ -10,7 +10,8 @@ const program = new Command();
 
 program
   .argument("<search-string>", "String to search for")
-  .action(async (searchString: string) => {
+  .option("-i, --ignore-case", "Ignore case when searching", false)
+  .action(async (searchString: string, options: { ignoreCase: boolean }) => {
     printBanner();
     const config = configure();
     try {
@@ -19,7 +20,7 @@ program
       console.error((error as Error).message);
       process.exit(1);
     }
-    await search(config, searchString);
+    await search(config, searchString, options.ignoreCase);
   });
 
 program.parse(process.argv);

@@ -433,4 +433,78 @@ describe("search", () => {
     expect(console.log).toHaveBeenCalledWith("    URL: https://example.com");
     expect(console.log).toHaveBeenCalledWith("    Done: ✓");
   });
+
+  it("should perform case-sensitive search by default", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      { "@_text": "This is a Test" },
+      { "@_text": "Another test here" }
+    ]);
+
+    await search(mockConfig, "test");
+
+    expect(console.log).toHaveBeenCalledWith(
+      'File /path/to/file.smmx contains search string "test" 1 times'
+    );
+    expect(console.log).toHaveBeenCalledWith("  - Another test here");
+    expect(console.log).not.toHaveBeenCalledWith("  - This is a Test");
+    expect(console.log).toHaveBeenCalledWith("Total matches found: 1");
+  });
+
+  it("should perform case-insensitive search when ignoreCase is true", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      { "@_text": "This is a Test" },
+      { "@_text": "Another test here" },
+      { "@_text": "TEST in capitals" }
+    ]);
+
+    await search(mockConfig, "test", true);
+
+    expect(console.log).toHaveBeenCalledWith(
+      'File /path/to/file.smmx contains search string "test" 3 times'
+    );
+    expect(console.log).toHaveBeenCalledWith("  - This is a Test");
+    expect(console.log).toHaveBeenCalledWith("  - Another test here");
+    expect(console.log).toHaveBeenCalledWith("  - TEST in capitals");
+    expect(console.log).toHaveBeenCalledWith("Total matches found: 3");
+  });
+
+  it("should handle special regex characters in search string", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      { "@_text": "Price: $100 (sale)" },
+      { "@_text": "Regular price: 100" }
+    ]);
+
+    await search(mockConfig, "$100");
+
+    expect(console.log).toHaveBeenCalledWith(
+      'File /path/to/file.smmx contains search string "$100" 1 times'
+    );
+    expect(console.log).toHaveBeenCalledWith("  - Price: $100 (sale)");
+    expect(console.log).not.toHaveBeenCalledWith("  - Regular price: 100");
+    expect(console.log).toHaveBeenCalledWith("Total matches found: 1");
+  });
 });
