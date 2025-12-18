@@ -42,7 +42,7 @@ export async function search(
         `File ${file} contains search string "${searchString}" ${numberOfMatches} times`
       );
       for (const text of matchedTexts) {
-        console.log(`  - ${text}`);
+        console.log(`  - ${text.replace(/\\N/g, " ")}`);
       }
     }
   }
