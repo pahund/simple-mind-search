@@ -8,7 +8,8 @@ import { findMatches, type Topic } from "./findMatches";
 export async function search(
   config: Config,
   searchString: string,
-  ignoreCase = false
+  ignoreCase = false,
+  exactPhrase = false
 ): Promise<void> {
   console.log(`Searching for: ${searchString}`);
 
@@ -30,7 +31,8 @@ export async function search(
     const { matchedTexts, numberOfMatches } = findMatches(
       topics,
       searchString,
-      ignoreCase
+      ignoreCase,
+      exactPhrase
     );
 
     if (numberOfMatches > 0) {

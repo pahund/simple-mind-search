@@ -21,7 +21,8 @@ program
       process.exit(1);
     }
     const searchString = searchTerms.join(" ");
-    await search(config, searchString, options.ignoreCase);
+    const exactPhrase = searchTerms.length === 1;
+    await search(config, searchString, options.ignoreCase, exactPhrase);
   });
 
 program.parse(process.argv);

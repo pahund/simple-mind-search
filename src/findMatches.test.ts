@@ -325,4 +325,81 @@ describe("findMatches", () => {
 
     expect(result.matchedTexts).toHaveLength(1);
   });
+
+  it("should match exact phrase when exactPhrase is true", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "This is a complete phrase here"
+      }
+    ];
+
+    const result = findMatches(topics, "complete phrase", false, true);
+
+    expect(result.matchedTexts).toHaveLength(1);
+  });
+
+  it("should not match split tokens as exact phrase", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Topic about Anna",
+        children: {
+          text: {
+            note: { "#text": "Her name is Julia" }
+          }
+        }
+      }
+    ];
+
+    const result = findMatches(topics, "Anna Julia", false, true);
+
+    expect(result.matchedTexts).toHaveLength(0);
+  });
+
+  it("should match exact phrase in notes", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Some topic",
+        children: {
+          text: {
+            note: { "#text": "This contains exact phrase here" }
+          }
+        }
+      }
+    ];
+
+    const result = findMatches(topics, "exact phrase", false, true);
+
+    expect(result.matchedTexts).toHaveLength(1);
+  });
+
+  it("should handle case-insensitive exact phrase search", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "This contains EXACT PHRASE"
+      }
+    ];
+
+    const result = findMatches(topics, "exact phrase", true, true);
+
+    expect(result.matchedTexts).toHaveLength(1);
+  });
+
+  it("should match exact phrase across text but not across text and notes", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Anna is here",
+        children: {
+          text: {
+            note: { "#text": "Julia is there" }
+          }
+        }
+      }
+    ];
+
+    const resultExact = findMatches(topics, "Anna Julia", false, true);
+    expect(resultExact.matchedTexts).toHaveLength(0);
+
+    const resultTokens = findMatches(topics, "Anna Julia", false, false);
+    expect(resultTokens.matchedTexts).toHaveLength(1);
+  });
 });

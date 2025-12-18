@@ -21,48 +21,80 @@ export interface FindMatchesResult {
 export function findMatches(
   topics: Topic[],
   searchString: string,
-  ignoreCase = false
+  ignoreCase = false,
+  exactPhrase = false
 ): FindMatchesResult {
   let numberOfMatches = 0;
   const matchedTexts: MatchedText[] = [];
 
-  const tokens = searchString
-    .trim()
-    .split(/\s+/)
-    .filter((token) => token.length > 0);
-
-  if (tokens.length === 0) {
+  if (searchString.trim().length === 0) {
     return { matchedTexts, numberOfMatches };
   }
 
-  for (const topic of topics) {
-    const text = topic["@_text"];
-    if (typeof text !== "string") {
-      continue;
-    }
-
-    const notes = extractNotes(topic);
-    const allContent = [text, ...notes].join(" ");
-
-    const allTokensFound = tokens.every((token) =>
-      ignoreCase
-        ? allContent.toLowerCase().includes(token.toLowerCase())
-        : allContent.includes(token)
-    );
-
-    if (allTokensFound) {
-      for (const token of tokens) {
-        numberOfMatches += countMatches(text, token, ignoreCase);
-
-        for (const note of notes) {
-          numberOfMatches += countMatches(note, token, ignoreCase);
-        }
+  if (exactPhrase) {
+    for (const topic of topics) {
+      const text = topic["@_text"];
+      if (typeof text !== "string") {
+        continue;
       }
 
-      const url = extractUrl(topic);
-      const done = extractDoneStatus(topic);
+      const notes = extractNotes(topic);
+      const allContent = [text, ...notes];
 
-      matchedTexts.push({ text, url, done, notes });
+      const phraseFound = allContent.some((content) =>
+        ignoreCase
+          ? content.toLowerCase().includes(searchString.toLowerCase())
+          : content.includes(searchString)
+      );
+
+      if (phraseFound) {
+        numberOfMatches += countMatches(text, searchString, ignoreCase);
+
+        for (const note of notes) {
+          numberOfMatches += countMatches(note, searchString, ignoreCase);
+        }
+
+        const url = extractUrl(topic);
+        const done = extractDoneStatus(topic);
+
+        matchedTexts.push({ text, url, done, notes });
+      }
+    }
+  } else {
+    const tokens = searchString
+      .trim()
+      .split(/\s+/)
+      .filter((token) => token.length > 0);
+
+    for (const topic of topics) {
+      const text = topic["@_text"];
+      if (typeof text !== "string") {
+        continue;
+      }
+
+      const notes = extractNotes(topic);
+      const allContent = [text, ...notes].join(" ");
+
+      const allTokensFound = tokens.every((token) =>
+        ignoreCase
+          ? allContent.toLowerCase().includes(token.toLowerCase())
+          : allContent.includes(token)
+      );
+
+      if (allTokensFound) {
+        for (const token of tokens) {
+          numberOfMatches += countMatches(text, token, ignoreCase);
+
+          for (const note of notes) {
+            numberOfMatches += countMatches(note, token, ignoreCase);
+          }
+        }
+
+        const url = extractUrl(topic);
+        const done = extractDoneStatus(topic);
+
+        matchedTexts.push({ text, url, done, notes });
+      }
     }
   }
 
