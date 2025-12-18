@@ -6,6 +6,9 @@ import { unpack } from "./unpack";
 
 interface Topic {
   "@_text"?: string;
+  "@_checkbox-mode"?: string;
+  "@_checkbox"?: string;
+  "@_progress"?: string;
   topic?: Topic | Topic[];
   link?: Link | Link[];
   [key: string]: unknown;
@@ -19,6 +22,7 @@ interface Link {
 interface MatchedText {
   text: string;
   url?: string;
+  done?: boolean;
 }
 
 export async function search(
@@ -69,7 +73,19 @@ export async function search(
           }
         }
 
-        matchedTexts.push({ text, url });
+        let done: boolean | undefined;
+        if (
+          topic["@_checkbox-mode"] === "checkbox" &&
+          topic["@_checkbox"] === "true" &&
+          topic["@_progress"]
+        ) {
+          const progress = Number(topic["@_progress"]);
+          if (!isNaN(progress)) {
+            done = progress === 100;
+          }
+        }
+
+        matchedTexts.push({ text, url, done });
       }
     }
 
@@ -85,6 +101,9 @@ export async function search(
         console.log(`  - ${match.text.replace(/\\N/g, " ")}`);
         if (match.url) {
           console.log(`    URL: ${match.url}`);
+        }
+        if (match.done !== undefined) {
+          console.log(`    Done: ${match.done ? "✓" : "✗"}`);
         }
       }
     }

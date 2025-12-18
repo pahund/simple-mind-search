@@ -282,4 +282,155 @@ describe("search", () => {
       expect.stringContaining("URL:")
     );
   });
+
+  it("should display done status as true when checkbox is complete (progress=100)", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      {
+        "@_text": "Complete task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "100"
+      }
+    ]);
+
+    await search(mockConfig, "task");
+
+    expect(console.log).toHaveBeenCalledWith("  - Complete task");
+    expect(console.log).toHaveBeenCalledWith("    Done: ✓");
+  });
+
+  it("should display done status as false when checkbox is incomplete (progress<100)", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      {
+        "@_text": "Incomplete task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "50"
+      }
+    ]);
+
+    await search(mockConfig, "task");
+
+    expect(console.log).toHaveBeenCalledWith("  - Incomplete task");
+    expect(console.log).toHaveBeenCalledWith("    Done: ✗");
+  });
+
+  it("should not display done status when checkbox-mode is not checkbox", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      {
+        "@_text": "Not a checkbox",
+        "@_checkbox-mode": "other",
+        "@_checkbox": "true",
+        "@_progress": "100"
+      }
+    ]);
+
+    await search(mockConfig, "checkbox");
+
+    expect(console.log).toHaveBeenCalledWith("  - Not a checkbox");
+    expect(console.log).not.toHaveBeenCalledWith(
+      expect.stringContaining("Done:")
+    );
+  });
+
+  it("should not display done status when checkbox is false", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      {
+        "@_text": "Checkbox disabled",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "false",
+        "@_progress": "100"
+      }
+    ]);
+
+    await search(mockConfig, "disabled");
+
+    expect(console.log).toHaveBeenCalledWith("  - Checkbox disabled");
+    expect(console.log).not.toHaveBeenCalledWith(
+      expect.stringContaining("Done:")
+    );
+  });
+
+  it("should not display done status when progress attribute is missing", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      {
+        "@_text": "No progress",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true"
+      }
+    ]);
+
+    await search(mockConfig, "progress");
+
+    expect(console.log).toHaveBeenCalledWith("  - No progress");
+    expect(console.log).not.toHaveBeenCalledWith(
+      expect.stringContaining("Done:")
+    );
+  });
+
+  it("should display both URL and done status when both are present", async () => {
+    vi.mocked(getFilesToSearch).mockResolvedValue([
+      {
+        path: "/path/to/file.smmx",
+        createdAt: new Date("2024-01-01"),
+        modifiedAt: new Date("2024-01-02")
+      }
+    ]);
+    vi.mocked(unpack).mockReturnValue("<xml></xml>");
+    vi.mocked(extractTopics).mockReturnValue([
+      {
+        "@_text": "Task with link",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "100",
+        link: { "@_urllink": "https://example.com" }
+      }
+    ]);
+
+    await search(mockConfig, "Task");
+
+    expect(console.log).toHaveBeenCalledWith("  - Task with link");
+    expect(console.log).toHaveBeenCalledWith("    URL: https://example.com");
+    expect(console.log).toHaveBeenCalledWith("    Done: ✓");
+  });
 });
