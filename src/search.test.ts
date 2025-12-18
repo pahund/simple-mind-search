@@ -79,7 +79,8 @@ describe("search", () => {
       'File /path/to/file.smmx contains search string "test" 1 times'
     );
     expect(console.log).toHaveBeenCalledWith("  - Topic with notes");
-    expect(console.log).toHaveBeenCalledWith("    Note: This is a test note");
+    expect(console.log).toHaveBeenCalledWith("    Notes:");
+    expect(console.log).toHaveBeenCalledWith("    - This is a test note");
     expect(console.log).toHaveBeenCalledWith("Total matches found: 1");
   });
 
@@ -104,8 +105,9 @@ describe("search", () => {
     await search(mockConfig, "test");
 
     expect(console.log).toHaveBeenCalledWith("  - Topic with test in text");
-    expect(console.log).toHaveBeenCalledWith("    Note: First note");
-    expect(console.log).toHaveBeenCalledWith("    Note: Second note");
+    expect(console.log).toHaveBeenCalledWith("    Notes:");
+    expect(console.log).toHaveBeenCalledWith("    - First note");
+    expect(console.log).toHaveBeenCalledWith("    - Second note");
   });
 
   it("should handle multiple matches in single text", async () => {
