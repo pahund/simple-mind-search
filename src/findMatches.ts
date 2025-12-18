@@ -26,6 +26,15 @@ export function findMatches(
   let numberOfMatches = 0;
   const matchedTexts: MatchedText[] = [];
 
+  const tokens = searchString
+    .trim()
+    .split(/\s+/)
+    .filter((token) => token.length > 0);
+
+  if (tokens.length === 0) {
+    return { matchedTexts, numberOfMatches };
+  }
+
   for (const topic of topics) {
     const text = topic["@_text"];
     if (typeof text !== "string") {
@@ -33,29 +42,21 @@ export function findMatches(
     }
 
     const notes = extractNotes(topic);
+    const allContent = [text, ...notes].join(" ");
 
-    const matchFoundInText = ignoreCase
-      ? text.toLowerCase().includes(searchString.toLowerCase())
-      : text.includes(searchString);
+    const allTokensFound = tokens.every((token) =>
+      ignoreCase
+        ? allContent.toLowerCase().includes(token.toLowerCase())
+        : allContent.includes(token)
+    );
 
-    let matchFoundInNotes = false;
-    for (const note of notes) {
-      const noteMatchFound = ignoreCase
-        ? note.toLowerCase().includes(searchString.toLowerCase())
-        : note.includes(searchString);
-      if (noteMatchFound) {
-        matchFoundInNotes = true;
-        break;
-      }
-    }
+    if (allTokensFound) {
+      for (const token of tokens) {
+        numberOfMatches += countMatches(text, token, ignoreCase);
 
-    const matchFound = matchFoundInText || matchFoundInNotes;
-
-    if (matchFound) {
-      numberOfMatches += countMatches(text, searchString, ignoreCase);
-
-      for (const note of notes) {
-        numberOfMatches += countMatches(note, searchString, ignoreCase);
+        for (const note of notes) {
+          numberOfMatches += countMatches(note, token, ignoreCase);
+        }
       }
 
       const url = extractUrl(topic);

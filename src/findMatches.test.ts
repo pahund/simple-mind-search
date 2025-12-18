@@ -218,4 +218,111 @@ describe("findMatches", () => {
 
     expect(result.matchedTexts[0].done).toBeUndefined();
   });
+
+  it("should match when all tokens are found in text", () => {
+    const topics: Topic[] = [{ "@_text": "Hello world from test" }];
+
+    const result = findMatches(topics, "Hello test");
+
+    expect(result.matchedTexts).toHaveLength(1);
+    expect(result.numberOfMatches).toBe(2);
+  });
+
+  it("should match when tokens are split across text and notes", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Topic about Anna",
+        children: {
+          text: {
+            note: { "#text": "Her name is Julia" }
+          }
+        }
+      }
+    ];
+
+    const result = findMatches(topics, "Anna Julia");
+
+    expect(result.matchedTexts).toHaveLength(1);
+    expect(result.matchedTexts[0].text).toBe("Topic about Anna");
+  });
+
+  it("should not match when tokens are in different topics", () => {
+    const topics: Topic[] = [
+      { "@_text": "Topic about Anna" },
+      { "@_text": "Topic about Julia" }
+    ];
+
+    const result = findMatches(topics, "Anna Julia");
+
+    expect(result.matchedTexts).toHaveLength(0);
+    expect(result.numberOfMatches).toBe(0);
+  });
+
+  it("should handle multiple spaces between tokens", () => {
+    const topics: Topic[] = [{ "@_text": "Hello world from test" }];
+
+    const result = findMatches(topics, "Hello    test");
+
+    expect(result.matchedTexts).toHaveLength(1);
+  });
+
+  it("should handle leading and trailing spaces", () => {
+    const topics: Topic[] = [{ "@_text": "Hello world from test" }];
+
+    const result = findMatches(topics, "  Hello test  ");
+
+    expect(result.matchedTexts).toHaveLength(1);
+  });
+
+  it("should return empty result for empty search string", () => {
+    const topics: Topic[] = [{ "@_text": "Hello world" }];
+
+    const result = findMatches(topics, "");
+
+    expect(result.matchedTexts).toHaveLength(0);
+    expect(result.numberOfMatches).toBe(0);
+  });
+
+  it("should return empty result for whitespace-only search string", () => {
+    const topics: Topic[] = [{ "@_text": "Hello world" }];
+
+    const result = findMatches(topics, "   ");
+
+    expect(result.matchedTexts).toHaveLength(0);
+    expect(result.numberOfMatches).toBe(0);
+  });
+
+  it("should count all token matches in text and notes", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "test test world",
+        children: {
+          text: {
+            note: { "#text": "test world world" }
+          }
+        }
+      }
+    ];
+
+    const result = findMatches(topics, "test world");
+
+    expect(result.numberOfMatches).toBe(6);
+  });
+
+  it("should handle case-insensitive tokenized search", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Topic about ANNA",
+        children: {
+          text: {
+            note: { "#text": "Her name is julia" }
+          }
+        }
+      }
+    ];
+
+    const result = findMatches(topics, "anna JULIA", true);
+
+    expect(result.matchedTexts).toHaveLength(1);
+  });
 });

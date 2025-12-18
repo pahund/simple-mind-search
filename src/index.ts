@@ -9,9 +9,9 @@ import { search } from "./search";
 const program = new Command();
 
 program
-  .argument("<search-string>", "String to search for")
+  .argument("<search-terms...>", "Terms to search for (space-separated)")
   .option("-i, --ignore-case", "Ignore case when searching", false)
-  .action(async (searchString: string, options: { ignoreCase: boolean }) => {
+  .action(async (searchTerms: string[], options: { ignoreCase: boolean }) => {
     printBanner();
     const config = configure();
     try {
@@ -20,6 +20,7 @@ program
       console.error((error as Error).message);
       process.exit(1);
     }
+    const searchString = searchTerms.join(" ");
     await search(config, searchString, options.ignoreCase);
   });
 
