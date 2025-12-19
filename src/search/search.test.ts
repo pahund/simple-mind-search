@@ -18,7 +18,8 @@ vi.mock("fast-xml-parser", () => ({
 describe("search", () => {
   const mockConfig = {
     mindMapsDir: "~/Documents/Mind Maps",
-    filesToSearch: "**/*.smmx"
+    filesToSearch: "**/*.smmx",
+    locale: "en-GB"
   };
 
   beforeEach(() => {
@@ -46,7 +47,7 @@ describe("search", () => {
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
     expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
-      "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
+      "  Created: 01/01/2024, 01:00:00, Modified: 02/01/2024, 01:00:00"
     );
     expect(console.log).toHaveBeenCalledWith("  - This is a test");
     expect(console.log).toHaveBeenCalledWith("  - Another test here");
@@ -119,7 +120,7 @@ describe("search", () => {
 
     expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
-      "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
+      "  Created: 01/01/2024, 01:00:00, Modified: 02/01/2024, 01:00:00"
     );
   });
 
@@ -162,7 +163,7 @@ describe("search", () => {
 
     expect(console.log).toHaveBeenCalledWith("File: /path/to/file1.smmx");
     expect(console.log).toHaveBeenCalledWith(
-      "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
+      "  Created: 01/01/2024, 01:00:00, Modified: 02/01/2024, 01:00:00"
     );
   });
 
@@ -192,7 +193,7 @@ describe("search", () => {
     expect(console.warn).toHaveBeenCalledWith("Invalid file");
     expect(console.log).toHaveBeenCalledWith("File: /path/to/good.smmx");
     expect(console.log).toHaveBeenCalledWith(
-      "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
+      "  Created: 01/01/2024, 01:00:00, Modified: 02/01/2024, 01:00:00"
     );
   });
 
@@ -213,7 +214,7 @@ describe("search", () => {
 
     expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
-      "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
+      "  Created: 01/01/2024, 01:00:00, Modified: 02/01/2024, 01:00:00"
     );
     expect(console.log).toHaveBeenCalledWith("  - Line one Line two");
   });
@@ -236,7 +237,7 @@ describe("search", () => {
 
     expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
-      "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
+      "  Created: 01/01/2024, 01:00:00, Modified: 02/01/2024, 01:00:00"
     );
   });
 

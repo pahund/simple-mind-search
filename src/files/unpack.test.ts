@@ -12,7 +12,8 @@ vi.mock("adm-zip", () => {
 describe("unpack", () => {
   const mockConfig = {
     mindMapsDir: "~/Documents/Mind Maps",
-    filesToSearch: "**/*.smmx"
+    filesToSearch: "**/*.smmx",
+    locale: "en-GB"
   };
 
   beforeEach(() => {

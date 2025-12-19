@@ -54,5 +54,5 @@ export async function search({
   }
 
   const deduplicated = deduplicate(results);
-  printResults(deduplicated);
+  printResults({ results: deduplicated, locale: config.locale });
 }

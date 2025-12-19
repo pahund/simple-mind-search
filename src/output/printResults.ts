@@ -8,11 +8,17 @@ export interface SearchResult {
   match: Match;
 }
 
-export function printResults(results: DeduplicatedResult[]): void {
+export function printResults({
+  results,
+  locale
+}: {
+  results: DeduplicatedResult[];
+  locale: string;
+}): void {
   for (const result of results) {
     console.log(`File: ${result.file}`);
     console.log(
-      `  Created: ${result.createdAt.toISOString()}, Modified: ${result.modifiedAt.toISOString()}`
+      `  Created: ${result.createdAt.toLocaleString(locale)}, Modified: ${result.modifiedAt.toLocaleString(locale)}`
     );
     console.log(`  - ${result.text.replace(/\\N/g, " ")}`);
     if (result.url) {
@@ -22,7 +28,7 @@ export function printResults(results: DeduplicatedResult[]): void {
       console.log(`    Done: ${result.done ? "✓" : "✗"}`);
     }
     if (result.date instanceof Date) {
-      console.log(`    Date: ${result.date.toLocaleDateString()}`);
+      console.log(`    Date: ${result.date.toLocaleDateString(locale)}`);
     }
     if (result.notes && result.notes.length > 0) {
       console.log("    Notes:");

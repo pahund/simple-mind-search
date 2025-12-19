@@ -7,6 +7,7 @@ import { CONFIG_FILE_NAME, DEFAULT_CONFIG_FILE_NAME } from "../constants";
 export interface Config {
   mindMapsDir: string;
   filesToSearch: string;
+  locale: string;
 }
 
 export function configure(): Config {
@@ -15,7 +16,7 @@ export function configure(): Config {
   if (!fs.existsSync(configPath)) {
     const defaultConfigPath = path.join(
       __dirname,
-      "..",
+      "../..",
       DEFAULT_CONFIG_FILE_NAME
     );
 
@@ -31,7 +32,11 @@ export function configure(): Config {
   const configString = fs.readFileSync(configPath, "utf-8");
   const config = yaml.load(configString) as Config;
 
-  const requiredKeys: Array<keyof Config> = ["mindMapsDir", "filesToSearch"];
+  const requiredKeys: Array<keyof Config> = [
+    "mindMapsDir",
+    "filesToSearch",
+    "locale"
+  ];
 
   for (const key of requiredKeys) {
     if (!config[key]) {

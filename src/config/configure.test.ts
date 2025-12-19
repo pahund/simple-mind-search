@@ -12,7 +12,7 @@ describe("configure", () => {
   const mockHomedir = "/home/user";
   const mockConfigPath = "/home/user/.simple-mind-search.yml";
   const mockConfigContent =
-    "mindMapsDir: ~/Documents/Mind Maps\nfilesToSearch: '**/*.smmx'";
+    "mindMapsDir: ~/Documents/Mind Maps\nfilesToSearch: '**/*.smmx'\nlocale: 'en-GB'";
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -37,7 +37,8 @@ describe("configure", () => {
 
     expect(config).toEqual({
       mindMapsDir: "~/Documents/Mind Maps",
-      filesToSearch: "**/*.smmx"
+      filesToSearch: "**/*.smmx",
+      locale: "en-GB"
     });
     expect(fs.existsSync).toHaveBeenCalledWith(mockConfigPath);
     expect(fs.readFileSync).toHaveBeenCalledWith(mockConfigPath, "utf-8");
@@ -61,7 +62,8 @@ describe("configure", () => {
     );
     expect(config).toEqual({
       mindMapsDir: "~/Documents/Mind Maps",
-      filesToSearch: "**/*.smmx"
+      filesToSearch: "**/*.smmx",
+      locale: "en-GB"
     });
   });
 
