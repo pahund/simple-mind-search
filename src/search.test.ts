@@ -44,7 +44,6 @@ describe("search", () => {
     await search({ config: mockConfig, searchString: "test" });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
@@ -72,7 +71,6 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "test" });
 
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith("  - Topic with notes");
     expect(console.log).toHaveBeenCalledWith("    Notes:");
     expect(console.log).toHaveBeenCalledWith("    - This is a test note");
@@ -117,7 +115,6 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "test" });
 
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
@@ -160,11 +157,9 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "found" });
 
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file1.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file2.smmx");
   });
 
   it("should handle unpack errors and continue", async () => {
@@ -191,7 +186,6 @@ describe("search", () => {
     await search({ config: mockConfig, searchString: "test" });
 
     expect(console.warn).toHaveBeenCalledWith("Invalid file");
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/good.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
@@ -234,7 +228,6 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "found" });
 
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
@@ -486,7 +479,6 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "test" });
 
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith("  - Another test here");
     expect(console.log).not.toHaveBeenCalledWith("  - This is a Test");
   });
@@ -512,7 +504,6 @@ describe("search", () => {
       ignoreCase: true
     });
 
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith("  - This is a Test");
     expect(console.log).toHaveBeenCalledWith("  - Another test here");
     expect(console.log).toHaveBeenCalledWith("  - TEST in capitals");
@@ -534,7 +525,6 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "$100" });
 
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith("  - Price: $100 (sale)");
     expect(console.log).not.toHaveBeenCalledWith("  - Regular price: 100");
   });

@@ -1,4 +1,5 @@
 import type { Match } from "./findMatches";
+import type { DeduplicatedResult } from "./deduplicate";
 
 export interface SearchResult {
   file: string;
@@ -7,26 +8,24 @@ export interface SearchResult {
   match: Match;
 }
 
-export function printResults(results: SearchResult[]): void {
+export function printResults(results: DeduplicatedResult[]): void {
   for (const result of results) {
-    console.log(`File: ${result.file}`);
     console.log(
       `  Created: ${result.createdAt.toISOString()}, Modified: ${result.modifiedAt.toISOString()}`
     );
-    console.log(`  - ${result.match.text.replace(/\\N/g, " ")}`);
-    const match = result.match;
-    if (match.url) {
-      console.log(`    URL: ${match.url}`);
+    console.log(`  - ${result.text.replace(/\\N/g, " ")}`);
+    if (result.url) {
+      console.log(`    URL: ${result.url}`);
     }
-    if (match.done !== undefined) {
-      console.log(`    Done: ${match.done ? "✓" : "✗"}`);
+    if (result.done !== undefined) {
+      console.log(`    Done: ${result.done ? "✓" : "✗"}`);
     }
-    if (match.date instanceof Date) {
-      console.log(`    Date: ${match.date.toLocaleDateString()}`);
+    if (result.date instanceof Date) {
+      console.log(`    Date: ${result.date.toLocaleDateString()}`);
     }
-    if (match.notes && match.notes.length > 0) {
+    if (result.notes && result.notes.length > 0) {
       console.log("    Notes:");
-      for (const note of match.notes) {
+      for (const note of result.notes) {
         console.log(`    - ${note.replace(/\n/g, " ")}`);
       }
     }

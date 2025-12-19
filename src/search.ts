@@ -5,6 +5,7 @@ import { getFilesToSearch } from "./getFilesToSearch";
 import { unpack } from "./unpack";
 import { findMatches, type Topic } from "./findMatches";
 import { printResults, type SearchResult } from "./printResults";
+import { deduplicate } from "./deduplicate";
 
 export interface SearchParams {
   config: Config;
@@ -53,5 +54,6 @@ export async function search({
     }
   }
 
-  printResults(results);
+  const deduplicated = deduplicate(results);
+  printResults(deduplicated);
 }
