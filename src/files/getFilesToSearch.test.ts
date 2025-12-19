@@ -20,7 +20,8 @@ describe("getFilesToSearch", () => {
     await getFilesToSearch({
       mindMapsDir: "~/Documents/Mind Maps",
       filesToSearch: "**/*.smmx",
-      locale: "en-GB"
+      locale: "en-GB",
+      timeZone: "CET"
     });
 
     expect(fg).toHaveBeenCalledWith("**/*.smmx", {
@@ -36,7 +37,8 @@ describe("getFilesToSearch", () => {
     await getFilesToSearch({
       mindMapsDir: "/path/to/mind-maps",
       filesToSearch: "*.smmx",
-      locale: "en-GB"
+      locale: "en-GB",
+      timeZone: "CET"
     });
 
     expect(fg).toHaveBeenCalledWith("*.smmx", {
@@ -61,7 +63,8 @@ describe("getFilesToSearch", () => {
     const result = await getFilesToSearch({
       mindMapsDir: "~/Documents/Mind Maps",
       filesToSearch: "**/*.smmx",
-      locale: "en-GB"
+      locale: "en-GB",
+      timeZone: "CET"
     });
 
     expect(result).toEqual([
@@ -85,7 +88,8 @@ describe("getFilesToSearch", () => {
     const result = await getFilesToSearch({
       mindMapsDir: "~/Documents/Mind Maps",
       filesToSearch: "**/*.smmx",
-      locale: "en-GB"
+      locale: "en-GB",
+      timeZone: "CET"
     });
 
     expect(result).toEqual([]);
@@ -100,7 +104,8 @@ describe("getFilesToSearch", () => {
     await getFilesToSearch({
       mindMapsDir: "~/Documents/Mind Maps",
       filesToSearch: "**/My Project*.smmx",
-      locale: "en-GB"
+      locale: "en-GB",
+      timeZone: "CET"
     });
 
     expect(fg).toHaveBeenCalledWith("**/My Project*.smmx", {
@@ -116,7 +121,8 @@ describe("getFilesToSearch", () => {
     await getFilesToSearch({
       mindMapsDir: "/absolute/path/to/mind-maps",
       filesToSearch: "**/*.smmx",
-      locale: "en-GB"
+      locale: "en-GB",
+      timeZone: "CET"
     });
 
     expect(fg).toHaveBeenCalledWith("**/*.smmx", {

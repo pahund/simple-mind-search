@@ -8,6 +8,7 @@ export interface Config {
   mindMapsDir: string;
   filesToSearch: string;
   locale: string;
+  timeZone: string;
 }
 
 export function configure(): Config {
@@ -35,7 +36,8 @@ export function configure(): Config {
   const requiredKeys: Array<keyof Config> = [
     "mindMapsDir",
     "filesToSearch",
-    "locale"
+    "locale",
+    "timeZone"
   ];
 
   for (const key of requiredKeys) {

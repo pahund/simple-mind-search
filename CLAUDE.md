@@ -56,6 +56,8 @@
 
 3.9 Format the code (cf. section 1.2)
 
+3.10 Make sure any new or changed features or configuration options are documented in the README.md file
+
 # 4. Testing
 
 4.1 Each TypeScript module must have a unit test module to accompany it (e.g. module _search.ts_ has test module _search.test.ts_)
@@ -72,9 +74,9 @@
 
 4.4 Avoid snapshot testing
 
-4.5 Code coverage does not have to be 100%, around 80% (for the whole project) is OK
+4.5 Code coverage does not have to be 100%, around 90% (for the whole project) is OK
 
-5. General rules
+# 5. General rules
 
 5.1 use British English for naming things in the code
 

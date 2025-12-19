@@ -19,7 +19,8 @@ describe("search", () => {
   const mockConfig = {
     mindMapsDir: "~/Documents/Mind Maps",
     filesToSearch: "**/*.smmx",
-    locale: "en-GB"
+    locale: "en-GB",
+    timeZone: "CET"
   };
 
   beforeEach(() => {

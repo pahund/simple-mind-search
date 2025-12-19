@@ -21,7 +21,8 @@ describe("validate", () => {
       validate({
         mindMapsDir: "~/Documents/Mind Maps",
         filesToSearch: "**/*.smmx",
-        locale: "en-GB"
+        locale: "en-GB",
+        timeZone: "CET"
       })
     ).rejects.toThrow("mindMapsDir does not exist: ~/Documents/Mind Maps");
   });
@@ -35,7 +36,8 @@ describe("validate", () => {
       validate({
         mindMapsDir: "~/Documents/Mind Maps",
         filesToSearch: "**/*.smmx",
-        locale: "en-GB"
+        locale: "en-GB",
+        timeZone: "CET"
       })
     ).rejects.toThrow(
       'No files found matching pattern "**/*.smmx" in ~/Documents/Mind Maps'
@@ -57,7 +59,8 @@ describe("validate", () => {
       validate({
         mindMapsDir: "~/Documents/Mind Maps",
         filesToSearch: "**/*.smmx",
-        locale: "en-GB"
+        locale: "en-GB",
+        timeZone: "CET"
       })
     ).resolves.toBeUndefined();
   });
@@ -76,7 +79,8 @@ describe("validate", () => {
     await validate({
       mindMapsDir: "~/Documents/Mind Maps",
       filesToSearch: "**/*.smmx",
-      locale: "en-GB"
+      locale: "en-GB",
+      timeZone: "CET"
     });
 
     expect(fs.existsSync).toHaveBeenCalledWith(

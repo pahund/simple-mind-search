@@ -10,15 +10,17 @@ export interface SearchResult {
 
 export function printResults({
   results,
-  locale
+  locale,
+  timeZone
 }: {
   results: DeduplicatedResult[];
   locale: string;
+  timeZone: string;
 }): void {
   for (const result of results) {
     console.log(`File: ${result.file}`);
     console.log(
-      `  Created: ${result.createdAt.toLocaleString(locale)}, Modified: ${result.modifiedAt.toLocaleString(locale)}`
+      `  Created: ${result.createdAt.toLocaleString(locale, { timeZone })}, Modified: ${result.modifiedAt.toLocaleString(locale, { timeZone })}`
     );
     console.log(`  - ${result.text.replace(/\\N/g, " ")}`);
     if (result.url) {
@@ -28,7 +30,9 @@ export function printResults({
       console.log(`    Done: ${result.done ? "✓" : "✗"}`);
     }
     if (result.date instanceof Date) {
-      console.log(`    Date: ${result.date.toLocaleDateString(locale)}`);
+      console.log(
+        `    Date: ${result.date.toLocaleDateString(locale, { timeZone })}`
+      );
     }
     if (result.notes && result.notes.length > 0) {
       console.log("    Notes:");

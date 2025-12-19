@@ -54,5 +54,9 @@ export async function search({
   }
 
   const deduplicated = deduplicate(results);
-  printResults({ results: deduplicated, locale: config.locale });
+  printResults({
+    results: deduplicated,
+    locale: config.locale,
+    timeZone: config.timeZone
+  });
 }

@@ -27,6 +27,9 @@ filesToSearch: "**/*.smmx"
 
 # Locale for date formatting
 locale: en-GB
+
+# Time zone for date formatting
+timeZone: CET
 ```
 
 ## Usage
