@@ -43,12 +43,12 @@ export async function search({
       exactPhrase
     });
 
-    for (const matchedText of matches) {
+    for (const match of matches) {
       results.push({
         file,
         createdAt,
         modifiedAt,
-        matchedText
+        match
       });
     }
   }
