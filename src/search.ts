@@ -53,5 +53,5 @@ export async function search({
     }
   }
 
-  printResults({ results });
+  printResults(results);
 }

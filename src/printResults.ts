@@ -7,11 +7,7 @@ export interface SearchResult {
   match: Match;
 }
 
-export interface PrintResultsParams {
-  results: SearchResult[];
-}
-
-export function printResults({ results }: PrintResultsParams): void {
+export function printResults(results: SearchResult[]): void {
   for (const result of results) {
     console.log(`File: ${result.file}`);
     console.log(
