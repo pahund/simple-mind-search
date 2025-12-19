@@ -24,6 +24,9 @@ mindMapsDir: "~/Documents/Mind Maps"
 
 # Glob pattern for finding files to include in search
 filesToSearch: "**/*.smmx"
+
+# Locale for date formatting
+locale: en-GB
 ```
 
 ## Usage
