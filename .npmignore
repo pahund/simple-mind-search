@@ -1,0 +1,30 @@
+# Source files (only dist is needed)
+src/
+
+# Test files
+*.test.ts
+*.test.js
+coverage/
+vitest.config.mts
+
+# Development files
+.claude/
+.git/
+.yarn/
+.yarnrc.yml
+.editorconfig
+.gitattributes
+.gitignore
+.nvmrc
+.prettierrc
+CLAUDE.md
+eslint.config.mjs
+tsconfig.json
+
+# Build artifacts
+node_modules/
+yarn.lock
+.DS_Store
+
+# Development configuration
+.simple-mind-search.yml
