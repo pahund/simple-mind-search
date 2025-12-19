@@ -1,2 +1,2 @@
 export { printBanner } from "./printBanner";
-export { printResults, type SearchResult } from "./printResults";
+export { printResultsYaml, type SearchResult } from "./printResultsYaml";

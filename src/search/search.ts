@@ -3,7 +3,7 @@ import type { Config } from "../config";
 import { extractTopics } from "../extraction";
 import { getFilesToSearch, unpack } from "../files";
 import { findMatches, type Topic } from "./findMatches";
-import { printResults, type SearchResult } from "../output";
+import { printResultsYaml, type SearchResult } from "../output";
 import { deduplicate } from "../deduplication";
 
 export interface SearchParams {
@@ -67,7 +67,7 @@ export async function search({
     console.log(`Reduced to ${deduplicated.length} by deduplication`);
   }
 
-  printResults({
+  printResultsYaml({
     results: deduplicated,
     locale: config.locale,
     timeZone: config.timeZone
