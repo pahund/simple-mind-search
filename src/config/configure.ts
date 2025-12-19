@@ -27,7 +27,9 @@ export function configure(verbose = false): Config {
     }
 
     fs.copyFileSync(defaultConfigPath, configPath);
-    console.log(`Created new configuration file: ${configPath}`);
+    if (verbose) {
+      console.log(`Created new configuration file: ${configPath}`);
+    }
   }
 
   const configString = fs.readFileSync(configPath, "utf-8");

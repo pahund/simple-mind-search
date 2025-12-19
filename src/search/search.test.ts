@@ -43,7 +43,12 @@ describe("search", () => {
       { "@_text": "Another test here" }
     ]);
 
-    await search({ config: mockConfig, searchString: "test", verbose: true });
+    await search({
+      config: mockConfig,
+      searchString: "test",
+      verbose: true,
+      format: "yaml"
+    });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
     expect(console.log).toHaveBeenCalledWith("- text: This is a test");
@@ -255,7 +260,12 @@ describe("search", () => {
   it("should handle empty file list", async () => {
     vi.mocked(getFilesToSearch).mockResolvedValue([]);
 
-    await search({ config: mockConfig, searchString: "test", verbose: true });
+    await search({
+      config: mockConfig,
+      searchString: "test",
+      verbose: true,
+      format: "yaml"
+    });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
   });

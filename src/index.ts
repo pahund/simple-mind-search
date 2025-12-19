@@ -11,10 +11,11 @@ program
   .argument("<search-terms...>", "Terms to search for (space-separated)")
   .option("-i, --ignore-case", "Ignore case when searching", false)
   .option("-v, --verbose", "Enable verbose output", false)
+  .option("-f, --format <format>", "Output format (yaml or json)", "yaml")
   .action(
     async (
       searchTerms: string[],
-      options: { ignoreCase: boolean; verbose: boolean }
+      options: { ignoreCase: boolean; verbose: boolean; format: string }
     ) => {
       if (options.verbose) {
         printBanner();
@@ -26,6 +27,10 @@ program
         console.error((error as Error).message);
         process.exit(1);
       }
+      if (options.format !== "yaml" && options.format !== "json") {
+        console.error("Invalid format. Must be 'yaml' or 'json'.");
+        process.exit(1);
+      }
       const searchString = searchTerms.join(" ");
       const exactPhrase = searchTerms.length === 1;
       await search({
@@ -33,7 +38,8 @@ program
         searchString,
         ignoreCase: options.ignoreCase,
         exactPhrase,
-        verbose: options.verbose
+        verbose: options.verbose,
+        format: options.format
       });
     }
   );

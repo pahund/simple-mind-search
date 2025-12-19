@@ -58,9 +58,6 @@ describe("configure", () => {
     const config = configure();
 
     expect(fs.copyFileSync).toHaveBeenCalled();
-    expect(console.log).toHaveBeenCalledWith(
-      expect.stringContaining("Created new configuration file:")
-    );
     expect(config).toEqual({
       mindMapsDir: "~/Documents/Mind Maps",
       filesToSearch: "**/*.smmx",

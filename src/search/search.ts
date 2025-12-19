@@ -3,7 +3,7 @@ import type { Config } from "../config";
 import { extractTopics } from "../extraction";
 import { getFilesToSearch, unpack } from "../files";
 import { findMatches, type Topic } from "./findMatches";
-import { printResultsYaml } from "../output";
+import { printResultsYaml, printResultsJson } from "../output";
 import type { SearchResult } from "../types";
 import { deduplicate } from "../deduplication";
 
@@ -13,6 +13,7 @@ export interface SearchParams {
   ignoreCase?: boolean;
   exactPhrase?: boolean;
   verbose?: boolean;
+  format?: string;
 }
 
 export async function search({
@@ -20,7 +21,8 @@ export async function search({
   searchString,
   ignoreCase = false,
   exactPhrase = false,
-  verbose = false
+  verbose = false,
+  format = "yaml"
 }: SearchParams): Promise<void> {
   if (verbose) {
     console.log(`Searching for: ${searchString}`);
@@ -68,8 +70,14 @@ export async function search({
     console.log(`Reduced to ${deduplicated.length} by deduplication`);
   }
 
-  printResultsYaml({
-    results: deduplicated,
-    config
-  });
+  if (format === "json") {
+    printResultsJson({
+      results: deduplicated
+    });
+  } else {
+    printResultsYaml({
+      results: deduplicated,
+      config
+    });
+  }
 }
