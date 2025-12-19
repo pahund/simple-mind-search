@@ -1,18 +1,12 @@
 import type { Match } from "../search";
 import type { DeduplicatedResult } from "../deduplication";
+import { escapeYamlString } from "../utils";
 
 export interface SearchResult {
   file: string;
   createdAt: Date;
   modifiedAt: Date;
   match: Match;
-}
-
-function escapeYamlString(str: string): string {
-  if (str.includes(":") || str.includes("#") || str.includes("'")) {
-    return `"${str.replace(/"/g, '\\"')}"`;
-  }
-  return str;
 }
 
 export function printResultsYaml({
