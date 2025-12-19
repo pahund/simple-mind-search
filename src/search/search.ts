@@ -6,6 +6,7 @@ import { findMatches, type Topic } from "./findMatches";
 import { printResultsYaml, printResultsJson } from "../output";
 import type { SearchResult } from "../types";
 import { deduplicate } from "../deduplication";
+import { sort } from "../sort";
 
 export interface SearchParams {
   config: Config;
@@ -70,13 +71,15 @@ export async function search({
     console.log(`Reduced to ${deduplicated.length} by deduplication`);
   }
 
+  const sorted = sort(deduplicated);
+
   if (format === "json") {
     printResultsJson({
-      results: deduplicated
+      results: sorted
     });
   } else {
     printResultsYaml({
-      results: deduplicated,
+      results: sorted,
       config
     });
   }
