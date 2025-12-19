@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { areItemsEqual } from "./areItemsEqual";
-import type { SearchResult } from "../output/printResultsYaml";
+import type { SearchResult } from "../types";
 
 describe("areItemsEqual", () => {
   it("should return true when items have same text, notes and url", () => {

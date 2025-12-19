@@ -1,23 +1,15 @@
-import type { Match } from "../search";
 import type { DeduplicatedResult } from "../deduplication";
+import type { Config } from "../config";
 import { escapeYamlString } from "../utils";
-
-export interface SearchResult {
-  file: string;
-  createdAt: Date;
-  modifiedAt: Date;
-  match: Match;
-}
 
 export function printResultsYaml({
   results,
-  locale,
-  timeZone
+  config
 }: {
   results: DeduplicatedResult[];
-  locale: string;
-  timeZone: string;
+  config: Config;
 }): void {
+  const { locale, timeZone } = config;
   for (const result of results) {
     console.log(
       `- text: ${escapeYamlString(result.text.replace(/\\N/g, " "))}`

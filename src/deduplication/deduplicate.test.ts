@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { deduplicate } from "./deduplicate";
-import type { SearchResult } from "../output/printResultsYaml";
+import type { SearchResult } from "../types";
 
 describe("deduplicate", () => {
   it("should return empty array for empty input", () => {

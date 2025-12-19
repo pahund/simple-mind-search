@@ -29,3 +29,16 @@ export interface Topic {
   children?: Children;
   [key: string]: unknown;
 }
+
+export interface SearchResult {
+  file: string;
+  createdAt: Date;
+  modifiedAt: Date;
+  match: {
+    text: string;
+    notes?: string[];
+    url?: string;
+    done?: boolean;
+    date?: Date;
+  };
+}

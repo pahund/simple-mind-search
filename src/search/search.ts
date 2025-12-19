@@ -3,7 +3,8 @@ import type { Config } from "../config";
 import { extractTopics } from "../extraction";
 import { getFilesToSearch, unpack } from "../files";
 import { findMatches, type Topic } from "./findMatches";
-import { printResultsYaml, type SearchResult } from "../output";
+import { printResultsYaml } from "../output";
+import type { SearchResult } from "../types";
 import { deduplicate } from "../deduplication";
 
 export interface SearchParams {
@@ -32,7 +33,7 @@ export async function search({
   for (const { path: file, createdAt, modifiedAt } of files) {
     let xmlString: string;
     try {
-      xmlString = unpack(config, file);
+      xmlString = unpack(file);
     } catch (error) {
       console.warn((error as Error).message);
       continue;
@@ -69,7 +70,6 @@ export async function search({
 
   printResultsYaml({
     results: deduplicated,
-    locale: config.locale,
-    timeZone: config.timeZone
+    config
   });
 }

@@ -10,13 +10,6 @@ vi.mock("adm-zip", () => {
 });
 
 describe("unpack", () => {
-  const mockConfig = {
-    mindMapsDir: "~/Documents/Mind Maps",
-    filesToSearch: "**/*.smmx",
-    locale: "en-GB",
-    timeZone: "CET"
-  };
-
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -33,7 +26,7 @@ describe("unpack", () => {
       return mockZip as unknown as AdmZip;
     });
 
-    const result = unpack(mockConfig, "/path/to/file.smmx");
+    const result = unpack("/path/to/file.smmx");
 
     expect(AdmZip).toHaveBeenCalledWith("/path/to/file.smmx");
     expect(mockZip.getEntry).toHaveBeenCalledWith(MINDMAP_XML_PATH);
@@ -51,7 +44,7 @@ describe("unpack", () => {
       return mockZip as unknown as AdmZip;
     });
 
-    expect(() => unpack(mockConfig, "/path/to/invalid.smmx")).toThrow(
+    expect(() => unpack("/path/to/invalid.smmx")).toThrow(
       "This does not seem to be a SimpleMind file: /path/to/invalid.smmx"
     );
 
@@ -72,7 +65,7 @@ describe("unpack", () => {
     });
 
     const filePath = "/Users/test/Documents/Mind Maps/My Mind Map.smmx";
-    unpack(mockConfig, filePath);
+    unpack(filePath);
 
     expect(AdmZip).toHaveBeenCalledWith(filePath);
   });

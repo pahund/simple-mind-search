@@ -188,7 +188,7 @@ describe("search", () => {
         modifiedAt: new Date("2024-01-02")
       }
     ]);
-    vi.mocked(unpack).mockImplementation((_config, file) => {
+    vi.mocked(unpack).mockImplementation((file) => {
       if (file === "/path/to/bad.smmx") {
         throw new Error("Invalid file");
       }
