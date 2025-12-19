@@ -10,7 +10,8 @@ export interface FileMetadata {
 }
 
 export async function getFilesToSearch(
-  config: Config
+  config: Config,
+  verbose = false
 ): Promise<FileMetadata[]> {
   const mindMapsDir = config.mindMapsDir.replace(/^~/, os.homedir());
 
@@ -29,6 +30,10 @@ export async function getFilesToSearch(
       };
     })
   );
+
+  if (verbose) {
+    console.log(`Found ${filesWithMetadata.length} files to search`);
+  }
 
   return filesWithMetadata;
 }

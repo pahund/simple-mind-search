@@ -11,7 +11,7 @@ export interface Config {
   timeZone: string;
 }
 
-export function configure(): Config {
+export function configure(verbose = false): Config {
   const configPath = path.join(os.homedir(), CONFIG_FILE_NAME);
 
   if (!fs.existsSync(configPath)) {
@@ -47,8 +47,10 @@ export function configure(): Config {
     }
   }
 
-  console.log("Using configuration:");
-  console.log(config);
+  if (verbose) {
+    console.log("Using configuration:");
+    console.log(config);
+  }
 
   return config;
 }

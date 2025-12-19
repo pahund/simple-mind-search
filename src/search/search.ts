@@ -11,17 +11,21 @@ export interface SearchParams {
   searchString: string;
   ignoreCase?: boolean;
   exactPhrase?: boolean;
+  verbose?: boolean;
 }
 
 export async function search({
   config,
   searchString,
   ignoreCase = false,
-  exactPhrase = false
+  exactPhrase = false,
+  verbose = false
 }: SearchParams): Promise<void> {
-  console.log(`Searching for: ${searchString}`);
+  if (verbose) {
+    console.log(`Searching for: ${searchString}`);
+  }
 
-  const files = await getFilesToSearch(config);
+  const files = await getFilesToSearch(config, verbose);
   const parser = new XMLParser({ ignoreAttributes: false });
   const results: SearchResult[] = [];
 
@@ -53,7 +57,16 @@ export async function search({
     }
   }
 
+  if (verbose) {
+    console.log(`Found ${results.length} matches`);
+  }
+
   const deduplicated = deduplicate(results);
+
+  if (verbose) {
+    console.log(`Reduced to ${deduplicated.length} by deduplication`);
+  }
+
   printResults({
     results: deduplicated,
     locale: config.locale,

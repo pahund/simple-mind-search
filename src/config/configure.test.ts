@@ -94,7 +94,7 @@ describe("configure", () => {
     vi.mocked(fs.existsSync).mockReturnValue(true);
     vi.mocked(fs.readFileSync).mockReturnValue(mockConfigContent);
 
-    const config = configure();
+    const config = configure(true);
 
     expect(console.log).toHaveBeenCalledWith("Using configuration:");
     expect(console.log).toHaveBeenCalledWith(config);

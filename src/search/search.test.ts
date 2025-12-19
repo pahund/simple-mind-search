@@ -43,7 +43,7 @@ describe("search", () => {
       { "@_text": "Another test here" }
     ]);
 
-    await search({ config: mockConfig, searchString: "test" });
+    await search({ config: mockConfig, searchString: "test", verbose: true });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
     expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
@@ -136,7 +136,11 @@ describe("search", () => {
     vi.mocked(unpack).mockReturnValue("<xml></xml>");
     vi.mocked(extractTopics).mockReturnValue([{ "@_text": "No match here" }]);
 
-    await search({ config: mockConfig, searchString: "missing" });
+    await search({
+      config: mockConfig,
+      searchString: "missing",
+      verbose: true
+    });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: missing");
     expect(console.log).not.toHaveBeenCalledWith(
@@ -245,7 +249,7 @@ describe("search", () => {
   it("should handle empty file list", async () => {
     vi.mocked(getFilesToSearch).mockResolvedValue([]);
 
-    await search({ config: mockConfig, searchString: "test" });
+    await search({ config: mockConfig, searchString: "test", verbose: true });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
   });

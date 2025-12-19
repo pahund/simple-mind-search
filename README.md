@@ -45,6 +45,7 @@ Replace `<SEARCH_TERM>` with the text you want to search for in your _SimpleMind
 ### Options
 
 - `-i` / `--ignore-case`: do a case insensitive search
+- `-v` / `--verbose`: enable verbose output
 
 ## Development
 

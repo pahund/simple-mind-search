@@ -130,4 +130,34 @@ describe("getFilesToSearch", () => {
       absolute: true
     });
   });
+
+  it("should log file count in verbose mode", async () => {
+    const mockFiles = [
+      "/home/user/Documents/Mind Maps/file1.smmx",
+      "/home/user/Documents/Mind Maps/file2.smmx",
+      "/home/user/Documents/Mind Maps/file3.smmx"
+    ];
+    const mockStats = {
+      birthtime: new Date("2024-01-01"),
+      mtime: new Date("2024-01-02")
+    };
+    vi.mocked(os.homedir).mockReturnValue("/home/user");
+    vi.mocked(fg).mockResolvedValue(mockFiles);
+    vi.mocked(fs.stat).mockResolvedValue(mockStats as never);
+
+    const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+
+    await getFilesToSearch(
+      {
+        mindMapsDir: "~/Documents/Mind Maps",
+        filesToSearch: "**/*.smmx",
+        locale: "en-GB",
+        timeZone: "CET"
+      },
+      true
+    );
+
+    expect(consoleLogSpy).toHaveBeenCalledWith("Found 3 files to search");
+    consoleLogSpy.mockRestore();
+  });
 });
