@@ -86,7 +86,7 @@ describe("search", () => {
     expect(console.log).toHaveBeenCalledWith("  file: /path/to/file.smmx");
   });
 
-  it("should display all notes for matched topics even without matches in notes", async () => {
+  it("should only display notes that contain search terms", async () => {
     vi.mocked(getFilesToSearch).mockResolvedValue([
       {
         path: "/path/to/file.smmx",
@@ -99,7 +99,7 @@ describe("search", () => {
       {
         "@_text": "Topic with test in text",
         children: {
-          text: [{ note: "First note" }, { note: "Second note" }]
+          text: [{ note: "Note without match" }, { note: "Note with test" }]
         }
       }
     ]);
@@ -108,8 +108,8 @@ describe("search", () => {
 
     expect(console.log).toHaveBeenCalledWith("- text: Topic with test in text");
     expect(console.log).toHaveBeenCalledWith("  notes:");
-    expect(console.log).toHaveBeenCalledWith("    - First note");
-    expect(console.log).toHaveBeenCalledWith("    - Second note");
+    expect(console.log).toHaveBeenCalledWith("    - Note with test");
+    expect(console.log).not.toHaveBeenCalledWith("    - Note without match");
   });
 
   it("should handle multiple matches in single text", async () => {

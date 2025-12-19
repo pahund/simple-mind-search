@@ -128,14 +128,15 @@ describe("findMatches", () => {
     expect(result[0].notes).toEqual(["Simple string note with test"]);
   });
 
-  it("should handle multiple notes in array", () => {
+  it("should only include notes that match search terms", () => {
     const topics: Topic[] = [
       {
         "@_text": "Topic with test in text",
         children: {
           text: [
-            { note: { "#text": "First note" } },
-            { note: { "#text": "Second note" } }
+            { note: { "#text": "First note with test" } },
+            { note: { "#text": "Second note without match" } },
+            { note: { "#text": "Third note with test" } }
           ]
         }
       }
@@ -143,7 +144,10 @@ describe("findMatches", () => {
 
     const result = findMatches({ topics, searchString: "test" });
 
-    expect(result[0].notes).toEqual(["First note", "Second note"]);
+    expect(result[0].notes).toEqual([
+      "First note with test",
+      "Third note with test"
+    ]);
   });
 
   it("should find matches in both text and notes", () => {

@@ -56,7 +56,19 @@ export function findMatches({
         const done = extractDoneStatus(topic);
         const date = extractDate(topic);
 
-        matches.push({ text, url, done, date, notes });
+        const matchingNotes = notes.filter((note) =>
+          ignoreCase
+            ? note.toLowerCase().includes(searchString.toLowerCase())
+            : note.includes(searchString)
+        );
+
+        matches.push({
+          text,
+          url,
+          done,
+          date,
+          notes: matchingNotes.length > 0 ? matchingNotes : undefined
+        });
       }
     }
   } else {
@@ -85,7 +97,21 @@ export function findMatches({
         const done = extractDoneStatus(topic);
         const date = extractDate(topic);
 
-        matches.push({ text, url, done, date, notes });
+        const matchingNotes = notes.filter((note) =>
+          tokens.some((token) =>
+            ignoreCase
+              ? note.toLowerCase().includes(token.toLowerCase())
+              : note.includes(token)
+          )
+        );
+
+        matches.push({
+          text,
+          url,
+          done,
+          date,
+          notes: matchingNotes.length > 0 ? matchingNotes : undefined
+        });
       }
     }
   }
