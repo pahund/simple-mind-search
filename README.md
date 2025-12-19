@@ -39,6 +39,10 @@ simple-mind-search <SEARCH_TERM>
 
 Replace `<SEARCH_TERM>` with the text you want to search for in your _SimpleMind_ mind maps.
 
+### Options
+
+- `-i` / `--ignore-case`: do a case insensitive search
+
 ## Development
 
 ### Prerequisites
