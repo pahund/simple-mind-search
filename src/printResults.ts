@@ -4,7 +4,7 @@ export interface SearchResult {
   file: string;
   createdAt: Date;
   modifiedAt: Date;
-  matchedText: Match;
+  match: Match;
 }
 
 export interface PrintResultsParams {
@@ -17,8 +17,8 @@ export function printResults({ results }: PrintResultsParams): void {
     console.log(
       `  Created: ${result.createdAt.toISOString()}, Modified: ${result.modifiedAt.toISOString()}`
     );
-    console.log(`  - ${result.matchedText.text.replace(/\\N/g, " ")}`);
-    const match = result.matchedText;
+    console.log(`  - ${result.match.text.replace(/\\N/g, " ")}`);
+    const match = result.match;
     if (match.url) {
       console.log(`    URL: ${match.url}`);
     }
