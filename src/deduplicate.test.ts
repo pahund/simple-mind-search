@@ -33,6 +33,7 @@ describe("deduplicate", () => {
         done: true,
         date: new Date("2024-01-03"),
         notes: ["Note 1"],
+        file: "file1.mm",
         createdAt: new Date("2024-01-01"),
         modifiedAt: new Date("2024-01-02")
       }
@@ -73,6 +74,7 @@ describe("deduplicate", () => {
       url: "https://example.com",
       done: true,
       notes: ["Note 1"],
+      file: "file2.mm",
       createdAt: new Date("2024-01-01"),
       modifiedAt: new Date("2024-01-10"),
       date: undefined
@@ -102,6 +104,7 @@ describe("deduplicate", () => {
     const result = deduplicate(results);
 
     expect(result[0].createdAt).toEqual(new Date("2024-01-05"));
+    expect(result[0].file).toEqual("file2.mm");
   });
 
   it("should keep latest modification date", () => {
@@ -127,6 +130,7 @@ describe("deduplicate", () => {
     const result = deduplicate(results);
 
     expect(result[0].modifiedAt).toEqual(new Date("2024-01-20"));
+    expect(result[0].file).toEqual("file2.mm");
   });
 
   it("should use done status from file with latest modification date", () => {
@@ -154,6 +158,7 @@ describe("deduplicate", () => {
     const result = deduplicate(results);
 
     expect(result[0].done).toBe(true);
+    expect(result[0].file).toEqual("file2.mm");
   });
 
   it("should use date from file with latest modification date", () => {
@@ -181,6 +186,7 @@ describe("deduplicate", () => {
     const result = deduplicate(results);
 
     expect(result[0].date).toEqual(new Date("2024-03-01"));
+    expect(result[0].file).toEqual("file2.mm");
   });
 
   it("should not deduplicate items with different text", () => {
@@ -374,5 +380,6 @@ describe("deduplicate", () => {
     expect(result).toHaveLength(1);
     expect(result[0].createdAt).toEqual(new Date("2024-01-01"));
     expect(result[0].modifiedAt).toEqual(new Date("2024-01-15"));
+    expect(result[0].file).toEqual("file3.mm");
   });
 });

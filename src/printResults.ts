@@ -10,6 +10,7 @@ export interface SearchResult {
 
 export function printResults(results: DeduplicatedResult[]): void {
   for (const result of results) {
+    console.log(`File: ${result.file}`);
     console.log(
       `  Created: ${result.createdAt.toISOString()}, Modified: ${result.modifiedAt.toISOString()}`
     );

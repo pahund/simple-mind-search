@@ -44,6 +44,7 @@ describe("search", () => {
     await search({ config: mockConfig, searchString: "test" });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
@@ -71,6 +72,7 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "test" });
 
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith("  - Topic with notes");
     expect(console.log).toHaveBeenCalledWith("    Notes:");
     expect(console.log).toHaveBeenCalledWith("    - This is a test note");
@@ -115,6 +117,7 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "test" });
 
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
@@ -157,6 +160,7 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "found" });
 
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file1.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
@@ -186,6 +190,7 @@ describe("search", () => {
     await search({ config: mockConfig, searchString: "test" });
 
     expect(console.warn).toHaveBeenCalledWith("Invalid file");
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/good.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
@@ -206,6 +211,7 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "Line" });
 
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );
@@ -228,6 +234,7 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "found" });
 
+    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
     expect(console.log).toHaveBeenCalledWith(
       "  Created: 2024-01-01T00:00:00.000Z, Modified: 2024-01-02T00:00:00.000Z"
     );

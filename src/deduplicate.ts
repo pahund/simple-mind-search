@@ -4,6 +4,7 @@ export interface DeduplicatedResult {
   text: string;
   notes?: string[];
   url?: string;
+  file: string;
   createdAt: Date;
   modifiedAt: Date;
   done?: boolean;
@@ -44,7 +45,7 @@ export function deduplicate(results: SearchResult[]): DeduplicatedResult[] {
 
     for (const [key, dedupResult] of deduplicatedMap.entries()) {
       const existingResult: SearchResult = {
-        file: "",
+        file: dedupResult.file,
         createdAt: dedupResult.createdAt,
         modifiedAt: dedupResult.modifiedAt,
         match: {
@@ -85,6 +86,7 @@ export function deduplicate(results: SearchResult[]): DeduplicatedResult[] {
         text: result.match.text,
         notes: result.match.notes,
         url: result.match.url,
+        file: useCurrentResult ? result.file : existing.file,
         createdAt: oldestCreatedAt,
         modifiedAt: latestModifiedAt,
         done: useCurrentResult ? result.match.done : existing.done,
@@ -95,6 +97,7 @@ export function deduplicate(results: SearchResult[]): DeduplicatedResult[] {
         text: result.match.text,
         notes: result.match.notes,
         url: result.match.url,
+        file: result.file,
         createdAt: result.createdAt,
         modifiedAt: result.modifiedAt,
         done: result.match.done,
