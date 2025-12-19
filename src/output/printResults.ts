@@ -8,6 +8,13 @@ export interface SearchResult {
   match: Match;
 }
 
+function escapeYamlString(str: string): string {
+  if (str.includes(":") || str.includes("#") || str.includes("'")) {
+    return `"${str.replace(/"/g, '\\"')}"`;
+  }
+  return str;
+}
+
 export function printResults({
   results,
   locale,
@@ -18,27 +25,32 @@ export function printResults({
   timeZone: string;
 }): void {
   for (const result of results) {
-    console.log(`File: ${result.file}`);
     console.log(
-      `  Created: ${result.createdAt.toLocaleString(locale, { timeZone })}, Modified: ${result.modifiedAt.toLocaleString(locale, { timeZone })}`
+      `- text: ${escapeYamlString(result.text.replace(/\\N/g, " "))}`
     );
-    console.log(`  - ${result.text.replace(/\\N/g, " ")}`);
+    if (result.notes && result.notes.length > 0) {
+      console.log("  notes:");
+      for (const note of result.notes) {
+        console.log(`    - ${escapeYamlString(note.replace(/\n/g, " "))}`);
+      }
+    }
+    console.log(`  file: ${escapeYamlString(result.file)}`);
+    console.log(
+      `  created: ${result.createdAt.toLocaleString(locale, { timeZone })}`
+    );
+    console.log(
+      `  modified: ${result.modifiedAt.toLocaleString(locale, { timeZone })}`
+    );
     if (result.url) {
-      console.log(`    URL: ${result.url}`);
+      console.log(`  url: ${escapeYamlString(result.url)}`);
     }
     if (result.done !== undefined) {
-      console.log(`    Done: ${result.done ? "✓" : "✗"}`);
+      console.log(`  done: ${result.done}`);
     }
     if (result.date instanceof Date) {
       console.log(
-        `    Date: ${result.date.toLocaleDateString(locale, { timeZone })}`
+        `  date: ${result.date.toLocaleDateString(locale, { timeZone })}`
       );
-    }
-    if (result.notes && result.notes.length > 0) {
-      console.log("    Notes:");
-      for (const note of result.notes) {
-        console.log(`    - ${note.replace(/\n/g, " ")}`);
-      }
     }
   }
 }

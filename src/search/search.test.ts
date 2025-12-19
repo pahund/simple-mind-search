@@ -46,12 +46,13 @@ describe("search", () => {
     await search({ config: mockConfig, searchString: "test", verbose: true });
 
     expect(console.log).toHaveBeenCalledWith("Searching for: test");
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
+    expect(console.log).toHaveBeenCalledWith("- text: This is a test");
+    expect(console.log).toHaveBeenCalledWith("- text: Another test here");
+    expect(console.log).toHaveBeenCalledWith("  file: /path/to/file.smmx");
+    expect(console.log).toHaveBeenCalledWith("  created: 01/01/2024, 01:00:00");
     expect(console.log).toHaveBeenCalledWith(
-      "  Created: 01/01/2024, 01:00:00, Modified: 02/01/2024, 01:00:00"
+      "  modified: 02/01/2024, 01:00:00"
     );
-    expect(console.log).toHaveBeenCalledWith("  - This is a test");
-    expect(console.log).toHaveBeenCalledWith("  - Another test here");
   });
 
   it("should search in notes and find matches", async () => {
@@ -74,10 +75,10 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "test" });
 
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
-    expect(console.log).toHaveBeenCalledWith("  - Topic with notes");
-    expect(console.log).toHaveBeenCalledWith("    Notes:");
+    expect(console.log).toHaveBeenCalledWith("- text: Topic with notes");
+    expect(console.log).toHaveBeenCalledWith("  notes:");
     expect(console.log).toHaveBeenCalledWith("    - This is a test note");
+    expect(console.log).toHaveBeenCalledWith("  file: /path/to/file.smmx");
   });
 
   it("should display all notes for matched topics even without matches in notes", async () => {
@@ -100,8 +101,8 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "test" });
 
-    expect(console.log).toHaveBeenCalledWith("  - Topic with test in text");
-    expect(console.log).toHaveBeenCalledWith("    Notes:");
+    expect(console.log).toHaveBeenCalledWith("- text: Topic with test in text");
+    expect(console.log).toHaveBeenCalledWith("  notes:");
     expect(console.log).toHaveBeenCalledWith("    - First note");
     expect(console.log).toHaveBeenCalledWith("    - Second note");
   });
@@ -119,9 +120,10 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "test" });
 
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
+    expect(console.log).toHaveBeenCalledWith("  file: /path/to/file.smmx");
+    expect(console.log).toHaveBeenCalledWith("  created: 01/01/2024, 01:00:00");
     expect(console.log).toHaveBeenCalledWith(
-      "  Created: 01/01/2024, 01:00:00, Modified: 02/01/2024, 01:00:00"
+      "  modified: 02/01/2024, 01:00:00"
     );
   });
 
@@ -144,7 +146,7 @@ describe("search", () => {
 
     expect(console.log).toHaveBeenCalledWith("Searching for: missing");
     expect(console.log).not.toHaveBeenCalledWith(
-      expect.stringContaining("File:")
+      expect.stringContaining("file:")
     );
   });
 
@@ -166,9 +168,10 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "found" });
 
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file1.smmx");
+    expect(console.log).toHaveBeenCalledWith("  file: /path/to/file1.smmx");
+    expect(console.log).toHaveBeenCalledWith("  created: 01/01/2024, 01:00:00");
     expect(console.log).toHaveBeenCalledWith(
-      "  Created: 01/01/2024, 01:00:00, Modified: 02/01/2024, 01:00:00"
+      "  modified: 02/01/2024, 01:00:00"
     );
   });
 
@@ -196,9 +199,10 @@ describe("search", () => {
     await search({ config: mockConfig, searchString: "test" });
 
     expect(console.warn).toHaveBeenCalledWith("Invalid file");
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/good.smmx");
+    expect(console.log).toHaveBeenCalledWith("  file: /path/to/good.smmx");
+    expect(console.log).toHaveBeenCalledWith("  created: 01/01/2024, 01:00:00");
     expect(console.log).toHaveBeenCalledWith(
-      "  Created: 01/01/2024, 01:00:00, Modified: 02/01/2024, 01:00:00"
+      "  modified: 02/01/2024, 01:00:00"
     );
   });
 
@@ -217,11 +221,12 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "Line" });
 
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
+    expect(console.log).toHaveBeenCalledWith("- text: Line one Line two");
+    expect(console.log).toHaveBeenCalledWith("  file: /path/to/file.smmx");
+    expect(console.log).toHaveBeenCalledWith("  created: 01/01/2024, 01:00:00");
     expect(console.log).toHaveBeenCalledWith(
-      "  Created: 01/01/2024, 01:00:00, Modified: 02/01/2024, 01:00:00"
+      "  modified: 02/01/2024, 01:00:00"
     );
-    expect(console.log).toHaveBeenCalledWith("  - Line one Line two");
   });
 
   it("should handle topics without @_text", async () => {
@@ -240,9 +245,10 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "found" });
 
-    expect(console.log).toHaveBeenCalledWith("File: /path/to/file.smmx");
+    expect(console.log).toHaveBeenCalledWith("  file: /path/to/file.smmx");
+    expect(console.log).toHaveBeenCalledWith("  created: 01/01/2024, 01:00:00");
     expect(console.log).toHaveBeenCalledWith(
-      "  Created: 01/01/2024, 01:00:00, Modified: 02/01/2024, 01:00:00"
+      "  modified: 02/01/2024, 01:00:00"
     );
   });
 
@@ -272,8 +278,8 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "link" });
 
-    expect(console.log).toHaveBeenCalledWith("  - Check this link");
-    expect(console.log).toHaveBeenCalledWith("    URL: https://example.com");
+    expect(console.log).toHaveBeenCalledWith("- text: Check this link");
+    expect(console.log).toHaveBeenCalledWith('  url: "https://example.com"');
   });
 
   it("should handle topics with link array", async () => {
@@ -297,8 +303,8 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "links" });
 
-    expect(console.log).toHaveBeenCalledWith("  - Multiple links");
-    expect(console.log).toHaveBeenCalledWith("    URL: https://example.org");
+    expect(console.log).toHaveBeenCalledWith("- text: Multiple links");
+    expect(console.log).toHaveBeenCalledWith('  url: "https://example.org"');
   });
 
   it("should not display URL when link node has no urllink attribute", async () => {
@@ -319,9 +325,9 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "URL" });
 
-    expect(console.log).toHaveBeenCalledWith("  - No URL here");
+    expect(console.log).toHaveBeenCalledWith("- text: No URL here");
     expect(console.log).not.toHaveBeenCalledWith(
-      expect.stringContaining("URL:")
+      expect.stringContaining("url:")
     );
   });
 
@@ -345,8 +351,8 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "task" });
 
-    expect(console.log).toHaveBeenCalledWith("  - Complete task");
-    expect(console.log).toHaveBeenCalledWith("    Done: ✓");
+    expect(console.log).toHaveBeenCalledWith("- text: Complete task");
+    expect(console.log).toHaveBeenCalledWith("  done: true");
   });
 
   it("should display done status as false when checkbox is incomplete (progress<100)", async () => {
@@ -369,8 +375,8 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "task" });
 
-    expect(console.log).toHaveBeenCalledWith("  - Incomplete task");
-    expect(console.log).toHaveBeenCalledWith("    Done: ✗");
+    expect(console.log).toHaveBeenCalledWith("- text: Incomplete task");
+    expect(console.log).toHaveBeenCalledWith("  done: false");
   });
 
   it("should not display done status when checkbox-mode is not checkbox", async () => {
@@ -393,9 +399,9 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "checkbox" });
 
-    expect(console.log).toHaveBeenCalledWith("  - Not a checkbox");
+    expect(console.log).toHaveBeenCalledWith("- text: Not a checkbox");
     expect(console.log).not.toHaveBeenCalledWith(
-      expect.stringContaining("Done:")
+      expect.stringContaining("done:")
     );
   });
 
@@ -419,9 +425,9 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "disabled" });
 
-    expect(console.log).toHaveBeenCalledWith("  - Checkbox disabled");
+    expect(console.log).toHaveBeenCalledWith("- text: Checkbox disabled");
     expect(console.log).not.toHaveBeenCalledWith(
-      expect.stringContaining("Done:")
+      expect.stringContaining("done:")
     );
   });
 
@@ -444,9 +450,9 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "progress" });
 
-    expect(console.log).toHaveBeenCalledWith("  - No progress");
+    expect(console.log).toHaveBeenCalledWith("- text: No progress");
     expect(console.log).not.toHaveBeenCalledWith(
-      expect.stringContaining("Done:")
+      expect.stringContaining("done:")
     );
   });
 
@@ -471,9 +477,9 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "Task" });
 
-    expect(console.log).toHaveBeenCalledWith("  - Task with link");
-    expect(console.log).toHaveBeenCalledWith("    URL: https://example.com");
-    expect(console.log).toHaveBeenCalledWith("    Done: ✓");
+    expect(console.log).toHaveBeenCalledWith("- text: Task with link");
+    expect(console.log).toHaveBeenCalledWith('  url: "https://example.com"');
+    expect(console.log).toHaveBeenCalledWith("  done: true");
   });
 
   it("should perform case-sensitive search by default", async () => {
@@ -492,8 +498,8 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "test" });
 
-    expect(console.log).toHaveBeenCalledWith("  - Another test here");
-    expect(console.log).not.toHaveBeenCalledWith("  - This is a Test");
+    expect(console.log).toHaveBeenCalledWith("- text: Another test here");
+    expect(console.log).not.toHaveBeenCalledWith("- text: This is a Test");
   });
 
   it("should perform case-insensitive search when ignoreCase is true", async () => {
@@ -517,9 +523,9 @@ describe("search", () => {
       ignoreCase: true
     });
 
-    expect(console.log).toHaveBeenCalledWith("  - This is a Test");
-    expect(console.log).toHaveBeenCalledWith("  - Another test here");
-    expect(console.log).toHaveBeenCalledWith("  - TEST in capitals");
+    expect(console.log).toHaveBeenCalledWith("- text: This is a Test");
+    expect(console.log).toHaveBeenCalledWith("- text: Another test here");
+    expect(console.log).toHaveBeenCalledWith("- text: TEST in capitals");
   });
 
   it("should handle special regex characters in search string", async () => {
@@ -538,7 +544,9 @@ describe("search", () => {
 
     await search({ config: mockConfig, searchString: "$100" });
 
-    expect(console.log).toHaveBeenCalledWith("  - Price: $100 (sale)");
-    expect(console.log).not.toHaveBeenCalledWith("  - Regular price: 100");
+    expect(console.log).toHaveBeenCalledWith('- text: "Price: $100 (sale)"');
+    expect(console.log).not.toHaveBeenCalledWith(
+      '- text: "Regular price: 100"'
+    );
   });
 });
