@@ -34,7 +34,7 @@ timeZone: CET
 
 ## Usage
 
-Run the `simple-mind` from the command line:
+Run the `simple-mind-search` from the command line:
 
 ```bash
 simple-mind-search <SEARCH_TERM>
