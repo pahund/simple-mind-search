@@ -6,16 +6,12 @@ import type { Topic } from "./types";
 
 export type { Topic } from "./types";
 
-export interface MatchedText {
+export interface Match {
   text: string;
   url?: string;
   done?: boolean;
   date?: Date;
   notes?: string[];
-}
-
-export interface FindMatchesResult {
-  matchedTexts: MatchedText[];
 }
 
 export interface FindMatchesParams {
@@ -30,11 +26,11 @@ export function findMatches({
   searchString,
   ignoreCase = false,
   exactPhrase = false
-}: FindMatchesParams): FindMatchesResult {
-  const matchedTexts: MatchedText[] = [];
+}: FindMatchesParams): Match[] {
+  const matches: Match[] = [];
 
   if (searchString.trim().length === 0) {
-    return { matchedTexts };
+    return matches;
   }
 
   if (exactPhrase) {
@@ -58,7 +54,7 @@ export function findMatches({
         const done = extractDoneStatus(topic);
         const date = extractDate(topic);
 
-        matchedTexts.push({ text, url, done, date, notes });
+        matches.push({ text, url, done, date, notes });
       }
     }
   } else {
@@ -87,10 +83,10 @@ export function findMatches({
         const done = extractDoneStatus(topic);
         const date = extractDate(topic);
 
-        matchedTexts.push({ text, url, done, date, notes });
+        matches.push({ text, url, done, date, notes });
       }
     }
   }
 
-  return { matchedTexts };
+  return matches;
 }

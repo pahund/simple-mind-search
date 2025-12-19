@@ -1,10 +1,10 @@
-import type { MatchedText } from "./findMatches";
+import type { Match } from "./findMatches";
 
 export interface SearchResult {
   file: string;
   createdAt: Date;
   modifiedAt: Date;
-  matchedText: MatchedText;
+  matchedText: Match;
 }
 
 export interface PrintResultsParams {

@@ -36,14 +36,14 @@ export async function search({
 
     const parsed = parser.parse(xmlString) as Topic;
     const topics = extractTopics(parsed);
-    const { matchedTexts } = findMatches({
+    const matches = findMatches({
       topics,
       searchString,
       ignoreCase,
       exactPhrase
     });
 
-    for (const matchedText of matchedTexts) {
+    for (const matchedText of matches) {
       results.push({
         file,
         createdAt,
@@ -52,7 +52,6 @@ export async function search({
       });
     }
   }
-  console.log(JSON.stringify(results, null, 2));
 
   printResults({ results });
 }
