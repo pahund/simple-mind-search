@@ -1,4 +1,5 @@
 import type { SearchResult } from "./printResults";
+import { areItemsEqual } from "./areItemsEqual";
 
 export interface DeduplicatedResult {
   text: string;
@@ -9,32 +10,6 @@ export interface DeduplicatedResult {
   modifiedAt: Date;
   done?: boolean;
   date?: Date;
-}
-
-function areNotesEqual(
-  notes1: string[] | undefined,
-  notes2: string[] | undefined
-): boolean {
-  const array1 = notes1 ?? [];
-  const array2 = notes2 ?? [];
-
-  if (array1.length !== array2.length) {
-    return false;
-  }
-  for (let i = 0; i < array1.length; i++) {
-    if (array1[i] !== array2[i]) {
-      return false;
-    }
-  }
-  return true;
-}
-
-function areItemsEqual(item1: SearchResult, item2: SearchResult): boolean {
-  return (
-    item1.match.text === item2.match.text &&
-    areNotesEqual(item1.match.notes, item2.match.notes) &&
-    item1.match.url === item2.match.url
-  );
 }
 
 export function deduplicate(results: SearchResult[]): DeduplicatedResult[] {
