@@ -10,3 +10,5 @@ dist
 .pnp.*
 coverage
 example*.xml
+.claude
+.git
