@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
 import * as yaml from "js-yaml";
-import { CONFIG_FILE_NAME, DEFAULT_CONFIG_FILE_NAME } from "./constants";
+import { CONFIG_FILE_NAME, DEFAULT_CONFIG_FILE_NAME } from "../constants";
 
 export interface Config {
   mindMapsDir: string;

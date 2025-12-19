@@ -1,11 +1,10 @@
 import { XMLParser } from "fast-xml-parser";
-import type { Config } from "./configure";
-import { extractTopics } from "./extractTopics";
-import { getFilesToSearch } from "./getFilesToSearch";
-import { unpack } from "./unpack";
+import type { Config } from "../config";
+import { extractTopics } from "../extraction";
+import { getFilesToSearch, unpack } from "../files";
 import { findMatches, type Topic } from "./findMatches";
-import { printResults, type SearchResult } from "./printResults";
-import { deduplicate } from "./deduplicate";
+import { printResults, type SearchResult } from "../output";
+import { deduplicate } from "../deduplication";
 
 export interface SearchParams {
   config: Config;

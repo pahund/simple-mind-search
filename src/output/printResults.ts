@@ -1,5 +1,5 @@
-import type { Match } from "./findMatches";
-import type { DeduplicatedResult } from "./deduplicate";
+import type { Match } from "../search";
+import type { DeduplicatedResult } from "../deduplication";
 
 export interface SearchResult {
   file: string;

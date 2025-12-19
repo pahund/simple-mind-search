@@ -1,4 +1,4 @@
-import { escapeRegExp } from "./escapeRegExp";
+import { escapeRegExp } from "../utils";
 
 export interface CountMatchesParams {
   text: string;

@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { search } from "./search";
-import { getFilesToSearch } from "./getFilesToSearch";
-import { unpack } from "./unpack";
-import { extractTopics } from "./extractTopics";
+import { getFilesToSearch } from "../files/getFilesToSearch";
+import { unpack } from "../files/unpack";
+import { extractTopics } from "../extraction/extractTopics";
 
-vi.mock("./getFilesToSearch");
-vi.mock("./unpack");
-vi.mock("./extractTopics");
+vi.mock("../files/getFilesToSearch");
+vi.mock("../files/unpack");
+vi.mock("../extraction/extractTopics");
 vi.mock("fast-xml-parser", () => ({
   XMLParser: vi.fn(function (this: unknown) {
     return {

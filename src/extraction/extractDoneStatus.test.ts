@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { extractDoneStatus } from "./extractDoneStatus";
-import type { Topic } from "./types";
+import type { Topic } from "../types";
 
 describe("extractDoneStatus", () => {
   it("should return true when checkbox is complete (progress=100)", () => {

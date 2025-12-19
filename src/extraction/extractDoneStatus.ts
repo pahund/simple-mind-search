@@ -1,4 +1,4 @@
-import type { Topic } from "./types";
+import type { Topic } from "../types";
 
 export function extractDoneStatus(topic: Topic): boolean | undefined {
   if (

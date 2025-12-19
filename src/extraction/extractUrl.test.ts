@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { extractUrl } from "./extractUrl";
-import type { Topic } from "./types";
+import type { Topic } from "../types";
 
 describe("extractUrl", () => {
   it("should extract URL from single link", () => {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { extractDate } from "./extractDate";
-import type { Topic } from "./types";
+import type { Topic } from "../types";
 
 describe("extractDate", () => {
   it("should extract valid date in DD-MM-YYYY format", () => {

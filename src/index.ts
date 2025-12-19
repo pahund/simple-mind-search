@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-import { printBanner } from "./printBanner";
-import { configure } from "./configure";
-import { validate } from "./validate";
+import { printBanner } from "./output";
+import { configure, validate } from "./config";
 import { search } from "./search";
 
 const program = new Command();

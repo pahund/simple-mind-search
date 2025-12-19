@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { extractNotes } from "./extractNotes";
-import type { Topic } from "./types";
+import type { Topic } from "../types";
 
 describe("extractNotes", () => {
   it("should extract note from single text node with object note", () => {

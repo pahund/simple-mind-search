@@ -1,4 +1,4 @@
-import type { SearchResult } from "./printResults";
+import type { SearchResult } from "../output";
 import { areItemsEqual } from "./areItemsEqual";
 
 export interface DeduplicatedResult {

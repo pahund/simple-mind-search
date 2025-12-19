@@ -1,4 +1,4 @@
-import type { SearchResult } from "./printResults";
+import type { SearchResult } from "../output";
 import { areNotesEqual } from "./areNotesEqual";
 
 export function areItemsEqual(

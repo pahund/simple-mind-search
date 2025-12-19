@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import AdmZip from "adm-zip";
 import { unpack } from "./unpack";
-import { MINDMAP_XML_PATH } from "./constants";
+import { MINDMAP_XML_PATH } from "../constants";
 
 vi.mock("adm-zip", () => {
   return {

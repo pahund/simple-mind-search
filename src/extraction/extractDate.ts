@@ -1,4 +1,4 @@
-import type { Topic } from "./types";
+import type { Topic } from "../types";
 
 export function extractDate(topic: Topic): Date | undefined {
   if (!topic["@_date"]) {

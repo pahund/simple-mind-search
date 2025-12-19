@@ -1,7 +1,7 @@
 import * as os from "os";
 import * as fs from "fs/promises";
 import fg from "fast-glob";
-import type { Config } from "./configure";
+import type { Config } from "../config";
 
 export interface FileMetadata {
   path: string;

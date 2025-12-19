@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as os from "os";
 import type { Config } from "./configure";
-import { getFilesToSearch } from "./getFilesToSearch";
+import { getFilesToSearch } from "../files";
 
 export async function validate(config: Config): Promise<void> {
   const mindMapsDir = config.mindMapsDir.replace(/^~/, os.homedir());

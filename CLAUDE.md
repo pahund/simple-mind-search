@@ -79,3 +79,5 @@
 5.1 use British English for naming things in the code
 
 5.2 use British English for writing documentation
+
+5.3 use British English in the Claude Code chat

@@ -1,6 +1,6 @@
 import AdmZip from "adm-zip";
-import { Config } from "./configure";
-import { MINDMAP_XML_PATH } from "./constants";
+import { Config } from "../config";
+import { MINDMAP_XML_PATH } from "../constants";
 
 export function unpack(config: Config, filePath: string): string {
   const zip = new AdmZip(filePath);

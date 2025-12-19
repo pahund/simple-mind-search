@@ -2,11 +2,11 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import * as fs from "fs";
 import * as os from "os";
 import { validate } from "./validate";
-import { getFilesToSearch } from "./getFilesToSearch";
+import { getFilesToSearch } from "../files/getFilesToSearch";
 
 vi.mock("fs");
 vi.mock("os");
-vi.mock("./getFilesToSearch");
+vi.mock("../files/getFilesToSearch");
 
 describe("validate", () => {
   beforeEach(() => {

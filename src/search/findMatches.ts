@@ -1,10 +1,12 @@
-import { extractDate } from "./extractDate";
-import { extractDoneStatus } from "./extractDoneStatus";
-import { extractNotes } from "./extractNotes";
-import { extractUrl } from "./extractUrl";
-import type { Topic } from "./types";
+import {
+  extractDate,
+  extractDoneStatus,
+  extractNotes,
+  extractUrl
+} from "../extraction";
+import type { Topic } from "../types";
 
-export type { Topic } from "./types";
+export type { Topic } from "../types";
 
 export interface Match {
   text: string;
