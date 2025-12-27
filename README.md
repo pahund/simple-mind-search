@@ -177,6 +177,15 @@ yarn test:ui
 yarn test:coverage
 ```
 
+### Debugging
+
+The project uses the [debug](https://github.com/debug-js/debug#readme) library to generate some useful console output.
+
+```bash
+# View the XML code of the mind map files being searched:
+DEBUG=xml yarn dev <SEARCH_TERM>
+```
+
 ### Project Structure
 
 - `src/` - TypeScript source files
