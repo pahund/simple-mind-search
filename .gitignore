@@ -12,3 +12,4 @@ coverage
 example*.xml
 .claude
 .git
+package.tgz

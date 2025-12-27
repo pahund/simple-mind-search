@@ -39,6 +39,7 @@ describe("printResultsJson", () => {
       [
         {
           text: "Task 1",
+          textWithBreaks: "Task 1",
           file: "file1.mm",
           created: "2024-01-01T10:00:00.000Z",
           modified: "2024-01-02T15:30:00.000Z",
@@ -71,6 +72,7 @@ describe("printResultsJson", () => {
       [
         {
           text: "Task 1",
+          textWithBreaks: "Task 1",
           file: "file1.mm",
           created: "2024-01-01T10:00:00.000Z",
           modified: "2024-01-02T15:30:00.000Z"
@@ -107,6 +109,7 @@ describe("printResultsJson", () => {
       [
         {
           text: "Task 1",
+          textWithBreaks: "Task 1",
           file: "file1.mm",
           created: "2024-01-01T10:00:00.000Z",
           modified: "2024-01-02T15:30:00.000Z",
@@ -114,6 +117,7 @@ describe("printResultsJson", () => {
         },
         {
           text: "Task 2",
+          textWithBreaks: "Task 2",
           file: "file2.mm",
           created: "2024-01-05T10:00:00.000Z",
           modified: "2024-01-06T15:30:00.000Z",
@@ -141,6 +145,24 @@ describe("printResultsJson", () => {
 
     expect(consoleLogSpy).toHaveBeenCalledWith(
       expect.stringContaining('"text": "Task 1"')
+    );
+  });
+
+  it("should include textWithBreaks in the output with %BREAK%", () => {
+    const results: DeduplicatedResult[] = [
+      {
+        text: "Task\\N1",
+        notes: [],
+        file: "file1.mm",
+        createdAt: new Date("2024-01-01T10:00:00.000Z"),
+        modifiedAt: new Date("2024-01-02T15:30:00.000Z")
+      }
+    ];
+
+    printResultsJson({ results });
+
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      expect.stringContaining('"textWithBreaks": "Task%BREAK%1"')
     );
   });
 

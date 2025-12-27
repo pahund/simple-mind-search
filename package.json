@@ -1,6 +1,6 @@
 {
   "name": "simple-mind-search",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A CLI tool to search across all your SimpleMind mind maps at once",
   "keywords": [
     "simplemind",
@@ -44,10 +44,11 @@
     "test:coverage": "vitest run --coverage",
     "prepublishOnly": "yarn test && yarn build"
   },
-  "packageManager": "yarn@4.2.2",
+  "packageManager": "yarn@4.12.0",
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@types/adm-zip": "^0.5.7",
+    "@types/debug": "^4",
     "@types/eslint__js": "^9.14.0",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.0.3",
@@ -63,6 +64,7 @@
   "dependencies": {
     "adm-zip": "^0.5.16",
     "commander": "^14.0.2",
+    "debug": "^4.4.3",
     "fast-glob": "^3.3.3",
     "fast-xml-parser": "^5.3.3",
     "js-yaml": "^4.1.1"

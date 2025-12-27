@@ -113,6 +113,7 @@ simple-mind-search -v project
 [
   {
     "text": "Project planning meeting",
+    "textWithBreaks": "Project planning%BREAK%meeting",
     "file": "/path/to/mindmap.smmx",
     "created": "2024-12-01T10:30:00.000Z",
     "modified": "2024-12-15T14:20:00.000Z",
@@ -175,6 +176,15 @@ yarn test:ui
 
 # Run tests with coverage report
 yarn test:coverage
+```
+
+### Debugging
+
+The project uses the [debug](https://github.com/debug-js/debug#readme) library to generate some useful console output.
+
+```bash
+# View the XML code of the mind map files being searched:
+DEBUG=xml yarn dev <SEARCH_TERM>
 ```
 
 ### Project Structure
