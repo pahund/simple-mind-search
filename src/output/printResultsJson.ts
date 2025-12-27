@@ -7,7 +7,15 @@ export function printResultsJson({
 }): void {
   const jsonResults = results.map((result) => {
     const jsonResult: Record<string, unknown> = {
+      // SimpleMind has a weird way of storing line breaks (only
+      // in topics, not in notes) - we replace them with newlines
+      // to have a value we can paste into the search field in
+      // SimpleMind; yes, you actually have to enter line breaks in
+      // the search field to find topics that have line breaks, and
+      // line breaks get added automatically when the text in a topic
+      // is wrapped
       text: result.text.replace(/\\N/g, " "),
+      textWithBreaks: result.text.replace(/\\N/g, "\n"),
       file: result.file,
       created: result.createdAt.toJSON(),
       modified: result.modifiedAt.toJSON()

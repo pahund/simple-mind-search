@@ -9,6 +9,12 @@ vi.mock("adm-zip", () => {
   };
 });
 
+vi.mock("debug", () => {
+  return {
+    default: vi.fn(() => vi.fn())
+  };
+});
+
 describe("unpack", () => {
   beforeEach(() => {
     vi.clearAllMocks();

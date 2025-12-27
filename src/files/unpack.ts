@@ -1,5 +1,9 @@
 import AdmZip from "adm-zip";
+import createDebug from "debug";
 import { MINDMAP_XML_PATH } from "../constants";
+
+// intentionally not prefixed with "simple-mind-search" to avoid cluttering the output
+const debugXml = createDebug("xml");
 
 export function unpack(filePath: string): string {
   const zip = new AdmZip(filePath);
@@ -9,5 +13,7 @@ export function unpack(filePath: string): string {
     throw new Error(`This does not seem to be a SimpleMind file: ${filePath}`);
   }
 
-  return zip.readAsText(entry);
+  const xmlString = zip.readAsText(entry);
+  debugXml("Unpacked XML string: %s", xmlString);
+  return xmlString;
 }
