@@ -113,6 +113,7 @@ simple-mind-search -v project
 [
   {
     "text": "Project planning meeting",
+    "textWithBreaks": "Project planning\nmeeting",
     "file": "/path/to/mindmap.smmx",
     "created": "2024-12-01T10:30:00.000Z",
     "modified": "2024-12-15T14:20:00.000Z",
