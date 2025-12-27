@@ -15,7 +15,7 @@ export function printResultsJson({
       // line breaks get added automatically when the text in a topic
       // is wrapped
       text: result.text.replace(/\\N/g, " "),
-      textWithBreaks: result.text.replace(/\\N/g, "\n"),
+      textWithBreaks: result.text.replace(/\\N/g, "%BREAK%"),
       file: result.file,
       created: result.createdAt.toJSON(),
       modified: result.modifiedAt.toJSON()

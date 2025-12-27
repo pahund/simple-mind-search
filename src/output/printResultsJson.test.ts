@@ -148,7 +148,7 @@ describe("printResultsJson", () => {
     );
   });
 
-  it("should include textWithBreaks in the output with newlines", () => {
+  it("should include textWithBreaks in the output with %BREAK%", () => {
     const results: DeduplicatedResult[] = [
       {
         text: "Task\\N1",
@@ -162,7 +162,7 @@ describe("printResultsJson", () => {
     printResultsJson({ results });
 
     expect(consoleLogSpy).toHaveBeenCalledWith(
-      expect.stringContaining('"textWithBreaks": "Task\\n1"')
+      expect.stringContaining('"textWithBreaks": "Task%BREAK%1"')
     );
   });
 
