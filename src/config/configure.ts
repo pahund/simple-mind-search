@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as os from "os";
 import * as yaml from "js-yaml";
-import { CONFIG_FILE_NAME, DEFAULT_CONFIG_FILE_NAME } from "../constants";
+import { DEFAULT_CONFIG_FILE_NAME } from "../constants";
+import { getConfigPath } from "./getConfigPath";
 
 export interface Config {
   mindMapsDir: string;
@@ -12,7 +12,7 @@ export interface Config {
 }
 
 export function configure(verbose = false): Config {
-  const configPath = path.join(os.homedir(), CONFIG_FILE_NAME);
+  const configPath = getConfigPath();
 
   if (!fs.existsSync(configPath)) {
     const defaultConfigPath = path.join(
