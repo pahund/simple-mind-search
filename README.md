@@ -176,6 +176,9 @@ yarn test:ui
 
 # Run tests with coverage report
 yarn test:coverage
+
+# Run integration tests (src/__test__)
+yarn test:integration
 ```
 
 ### Debugging
@@ -184,7 +187,24 @@ The project uses the [debug](https://github.com/debug-js/debug#readme) library t
 
 ```bash
 # View the XML code of the mind map files being searched:
+DEBUG=simple-mind-search* yarn dev <SEARCH_TERM>
+```
+
+There is a special logger called `xml` to view the XML code of the SimpleMind files being processed. This logger's name is *not* prefixed with `simple-mind-search`, because its output is extremely verbose:
+
+```bash
+# View the XML code of the mind map files being searched:
 DEBUG=xml yarn dev <SEARCH_TERM>
+```
+
+When running tests, console output is suppressed (standard vitest behaviour). To see debug output from tests, pipe the stderr to a log file:
+
+```bash
+# run tests with log output
+DEBUG=simple-mind-search* yarn test 2>> test.log
+
+# run integration tests with log output
+DEBUG=simple-mind-search* yarn test:integration 2>> integration.log
 ```
 
 ### Project Structure

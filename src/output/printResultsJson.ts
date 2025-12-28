@@ -1,4 +1,7 @@
 import type { DeduplicatedResult } from "../deduplication";
+import createDebug from "debug";
+
+const debug = createDebug("simple-mind-search:output:printResultsJson");
 
 export function printResultsJson({
   results
@@ -35,5 +38,6 @@ export function printResultsJson({
     return jsonResult;
   });
 
+  debug("jsonResults: %O", jsonResults);
   console.log(JSON.stringify(jsonResults, null, 2));
 }
