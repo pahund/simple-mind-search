@@ -38,6 +38,6 @@ export function printResultsJson({
     return jsonResult;
   });
 
-  debug("jsonResults: %O", jsonResults);
+  debug("jsonResults: %o", jsonResults);
   console.log(JSON.stringify(jsonResults, null, 2));
 }

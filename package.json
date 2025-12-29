@@ -39,7 +39,13 @@
     "lint": "eslint src",
     "ts:check": "tsc --noEmit",
     "test": "vitest run",
+    "test:watch": "vitest run --watch",
+    "test:ui": "vitest run --ui",
+    "test:coverage": "vitest run --coverage",
     "test:integration": "vitest run --config=vitest.integration.config.mts",
+    "test:integration:watch": "vitest run --config=vitest.integration.config.mts --watch",
+    "test:integration:ui": "vitest run --config=vitest.integration.config.mts --ui",
+    "test:integration:coverage": "vitest run --config=vitest.integration.config.mts --coverage",
     "prepublishOnly": "yarn test && yarn build"
   },
   "packageManager": "yarn@4.12.0",

@@ -7,7 +7,6 @@ import * as fs from "fs";
 const debug = createDebug("simple-mind-search:tests:teardown");
 
 export function teardown() {
-  debug("\n\n*** TEARDOWN ***\n\n");
   const configPath = path.join(os.homedir(), CONFIG_FILE_NAME);
   const backupConfigPath = `${configPath}.bak`;
   debug("configPath: %s", configPath);

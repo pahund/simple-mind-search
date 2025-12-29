@@ -13,7 +13,6 @@ const testConfigBase = {
 };
 
 export function setup() {
-  debug("\n\n*** SETUP ***\n\n");
   const configPath = getConfigPath();
   const fixturesPath = path.join(__dirname, "fixtures");
   debug("configPath: %s", configPath);
@@ -26,9 +25,8 @@ export function setup() {
     debug("no existing config file");
   }
   const testConfig: Config = { ...testConfigBase, mindMapsDir: fixturesPath };
-  debug("testConfig: %j", testConfig);
+  debug("testConfig: %o", testConfig);
   const testConfigYaml = yaml.dump(testConfig);
-  debug("testConfigYaml: %s", testConfigYaml);
   fs.writeFileSync(configPath, testConfigYaml);
   debug("wrote test config file to %s", configPath);
   return testConfig;

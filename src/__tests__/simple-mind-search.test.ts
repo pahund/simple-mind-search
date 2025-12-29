@@ -3,46 +3,123 @@ import { teardown } from "./teardown";
 import {
   beforeAll,
   afterAll,
-  expect,
   it,
   describe,
   vi,
   beforeEach,
-  afterEach
+  afterEach,
+  expect
 } from "vitest";
 import { search } from "../actions";
 import createDebug from "debug";
 
+const numberOfTopics = 3;
 const debug = createDebug("simple-mind-search:tests");
 
-beforeAll(setup);
+beforeAll(() => {
+  debug("==================== TEST RUN START ====================");
+  setup();
+});
 
-describe("simple-mind-search", () => {
+describe("the search command", () => {
   let consoleLogSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
     consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    debug("consoleLogSpy: %o", consoleLogSpy);
   });
 
-  describe("the search command", () => {
-    describe("when the search term matches one topic", () => {
-      it("should find the topic", async () => {
-        debug("\n\n*** TEST CASE 1 ***\n\n");
-        await search(["test"], {
+  describe("when searching for a single term", () => {
+    describe("when the search term matches one topic (test case 1)", () => {
+      it("should find only the matching topic", async () => {
+        debug("-------------------- TEST CASE 1 --------------------");
+        await search(["search_term_1"], {
           ignoreCase: true,
           verbose: false,
           format: "json"
         });
-        expect(consoleLogSpy).toHaveBeenCalledWith(
-          expect.stringContaining("TEST_TOPIC_1")
-        );
+        validateSearchResult({
+          expectedMatchingTopics: [1]
+        });
+      });
+    });
+    describe("when the search term matches no topic", () => {
+      it("should not find any matching topic (test case 2)", async () => {
+        debug("-------------------- TEST CASE 2 --------------------");
+        await search(["no_match_anywhere"], {
+          ignoreCase: true,
+          verbose: false,
+          format: "json"
+        });
+        validateSearchResult({
+          expectedMatchingTopics: []
+        });
       });
     });
   });
-
+  describe("when searching for multiple terms", () => {
+    describe("when the search terms matches one topic (test case 3)", () => {
+      it("should find only the matching topic", async () => {
+        debug("-------------------- TEST CASE 3 --------------------");
+        await search(["search_term_2a", "search_term_2b"], {
+          ignoreCase: true,
+          verbose: false,
+          format: "json"
+        });
+        validateSearchResult({
+          expectedMatchingTopics: [2]
+        });
+      });
+    });
+    describe("when the search terms are not next to each other", () => {
+      it("should find the matching topic (test case 4)", async () => {
+        debug("-------------------- TEST CASE 4 --------------------");
+        await search(["search_term_3a", "search_term_3c"], {
+          ignoreCase: true,
+          verbose: false,
+          format: "json"
+        });
+        validateSearchResult({
+          expectedMatchingTopics: [3]
+        });
+      });
+      describe("and the search terms are joined with quotes", () => {
+        it("should not find the matching topic (test case 5)", async () => {
+          debug("-------------------- TEST CASE 5 --------------------");
+          await search(['"search_term_3a search_term_3c"'], {
+            ignoreCase: true,
+            verbose: false,
+            format: "json"
+          });
+          validateSearchResult({
+            expectedMatchingTopics: []
+          });
+        });
+      });
+    });
+  });
   afterEach(() => {
     vi.restoreAllMocks();
   });
+
+  function validateSearchResult({
+    expectedMatchingTopics
+  }: {
+    expectedMatchingTopics: number[];
+  }) {
+    for (let i = 0; i < numberOfTopics; i++) {
+      if (expectedMatchingTopics.includes(i)) {
+        expect(consoleLogSpy).toBeDefined();
+        expect(consoleLogSpy).toHaveBeenCalledWith(
+          expect.stringContaining(`TEST_TOPIC_${i}`)
+        );
+      } else {
+        expect(consoleLogSpy).not.toHaveBeenCalledWith(
+          expect.stringContaining(`TEST_TOPIC_${i}`)
+        );
+      }
+    }
+  }
 });
 
 afterAll(teardown);
