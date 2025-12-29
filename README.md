@@ -207,6 +207,13 @@ DEBUG=simple-mind-search* yarn test 2>> test.log
 DEBUG=simple-mind-search* yarn test:integration 2>> integration.log
 ```
 
+If you want to view the log file with [lnav](https://docs.lnav.org/), you can install the [custom format in the resources dir](resources/simple_mind_search.json) like so:
+
+
+```bash
+lnav -i resources/simple_mind_search.json
+```
+
 ### Project Structure
 
 - `src/` - TypeScript source files

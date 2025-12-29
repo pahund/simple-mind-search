@@ -4,7 +4,7 @@ import * as path from "path";
 import createDebug from "debug";
 import { getConfigPath, type Config } from "../config";
 
-const debug = createDebug("simple-mind-search:e2e:setup");
+const debug = createDebug("simple-mind-search:tests:setup");
 
 const testConfigBase = {
   filesToSearch: "**/*.smmx",

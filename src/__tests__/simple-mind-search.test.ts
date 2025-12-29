@@ -13,9 +13,7 @@ import {
 import { search } from "../actions";
 import createDebug from "debug";
 
-const debug = createDebug(
-  "simple-mind-search:__tests__:simple-mind-search.test"
-);
+const debug = createDebug("simple-mind-search:tests");
 
 beforeAll(setup);
 
@@ -26,17 +24,19 @@ describe("simple-mind-search", () => {
     consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
   });
 
-  describe("search", () => {
-    it("for a single term that matches one topic", async () => {
-      debug("\n\n*** TEST CASE 1 ***\n\n");
-      await search(["test"], {
-        ignoreCase: true,
-        verbose: false,
-        format: "json"
+  describe("the search command", () => {
+    describe("when the search term matches one topic", () => {
+      it("should find the topic", async () => {
+        debug("\n\n*** TEST CASE 1 ***\n\n");
+        await search(["test"], {
+          ignoreCase: true,
+          verbose: false,
+          format: "json"
+        });
+        expect(consoleLogSpy).toHaveBeenCalledWith(
+          expect.stringContaining("TEST_TOPIC_1")
+        );
       });
-      expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining("TEST_TOPIC_1")
-      );
     });
   });
 

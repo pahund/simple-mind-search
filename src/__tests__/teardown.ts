@@ -4,7 +4,7 @@ import * as path from "path";
 import * as os from "os";
 import * as fs from "fs";
 
-const debug = createDebug("simple-mind-search:e2e:teardown");
+const debug = createDebug("simple-mind-search:tests:teardown");
 
 export function teardown() {
   debug("\n\n*** TEARDOWN ***\n\n");

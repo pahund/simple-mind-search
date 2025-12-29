@@ -1,0 +1,47 @@
+{
+    "$schema": "https://lnav.org/schemas/format-v1.schema.json",
+    "simple_mind_search_log": {
+        "title": "Simple Mind Search Log",
+        "description": "Log format for simple-mind-search application with debug namespace logging",
+        "regex": {
+            "standard": {
+                "pattern": "^(?<timestamp>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z) (?<module>[\\w:\\-\\.]+)(?<body>.*)$"
+            }
+        },
+        "timestamp-format": [
+            "%Y-%m-%dT%H:%M:%S.%LZ"
+        ],
+        "multiline": true,
+        "body-field": "body",
+        "value": {
+            "module": {
+                "kind": "string",
+                "identifier": true
+            },
+            "body": {
+                "kind": "string"
+            }
+        },
+        "highlights": {
+            "timestamp": {
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z",
+                "color": "#00CDCD",
+                "background-color": "#000000"
+            }
+        },
+        "sample": [
+            {
+                "line": "2025-12-28T09:02:39.109Z simple-mind-search:e2e:setup"
+            },
+            {
+                "line": "2025-12-28T09:02:39.110Z simple-mind-search:e2e:setup configPath: /Users/patrickhund/.simple-mind-search.yml"
+            },
+            {
+                "line": "2025-12-28T09:02:39.112Z simple-mind-search:__tests__:simple-mind-search.test"
+            },
+            {
+                "line": "2025-12-28T09:02:39.119Z simple-mind-search:output:printResultsJson jsonResults: ["
+            }
+        ]
+    }
+}
