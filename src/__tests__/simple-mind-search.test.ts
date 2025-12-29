@@ -7,11 +7,11 @@ import {
   describe,
   vi,
   beforeEach,
-  afterEach,
-  expect
+  afterEach
 } from "vitest";
 import { search } from "../actions";
 import createDebug from "debug";
+import { validateSearchResult, createConsoleLogSpy } from "./utils";
 
 const numberOfTopics = 3;
 const debug = createDebug("simple-mind-search:tests");
@@ -22,11 +22,10 @@ beforeAll(() => {
 });
 
 describe("the search command", () => {
-  let consoleLogSpy: ReturnType<typeof vi.spyOn>;
+  let consoleLogSpy: ReturnType<typeof createConsoleLogSpy>;
 
   beforeEach(() => {
-    consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    debug("consoleLogSpy: %o", consoleLogSpy);
+    consoleLogSpy = createConsoleLogSpy();
   });
 
   describe("when searching for a single term", () => {
@@ -39,6 +38,8 @@ describe("the search command", () => {
           format: "json"
         });
         validateSearchResult({
+          consoleLogSpy,
+          numberOfTopics,
           expectedMatchingTopics: [1]
         });
       });
@@ -52,6 +53,8 @@ describe("the search command", () => {
           format: "json"
         });
         validateSearchResult({
+          consoleLogSpy,
+          numberOfTopics,
           expectedMatchingTopics: []
         });
       });
@@ -67,6 +70,8 @@ describe("the search command", () => {
           format: "json"
         });
         validateSearchResult({
+          consoleLogSpy,
+          numberOfTopics,
           expectedMatchingTopics: [2]
         });
       });
@@ -80,6 +85,8 @@ describe("the search command", () => {
           format: "json"
         });
         validateSearchResult({
+          consoleLogSpy,
+          numberOfTopics,
           expectedMatchingTopics: [3]
         });
       });
@@ -92,6 +99,8 @@ describe("the search command", () => {
             format: "json"
           });
           validateSearchResult({
+            consoleLogSpy,
+            numberOfTopics,
             expectedMatchingTopics: []
           });
         });
@@ -101,25 +110,6 @@ describe("the search command", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
-
-  function validateSearchResult({
-    expectedMatchingTopics
-  }: {
-    expectedMatchingTopics: number[];
-  }) {
-    for (let i = 0; i < numberOfTopics; i++) {
-      if (expectedMatchingTopics.includes(i)) {
-        expect(consoleLogSpy).toBeDefined();
-        expect(consoleLogSpy).toHaveBeenCalledWith(
-          expect.stringContaining(`TEST_TOPIC_${i}`)
-        );
-      } else {
-        expect(consoleLogSpy).not.toHaveBeenCalledWith(
-          expect.stringContaining(`TEST_TOPIC_${i}`)
-        );
-      }
-    }
-  }
 });
 
 afterAll(teardown);
