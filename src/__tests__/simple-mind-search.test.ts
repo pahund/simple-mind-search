@@ -106,6 +106,24 @@ describe("the search command", () => {
         });
       });
     });
+
+    describe("when the search terms are next to each other", () => {
+      describe("and the search terms are joined with quotes", () => {
+        it("should find the matching topic (test case 6)", async () => {
+          debug("-------------------- TEST CASE 6 --------------------");
+          await search(["search_term_3a", "search_term_3b"], {
+            ignoreCase: true,
+            verbose: false,
+            format: "json"
+          });
+          validateSearchResult({
+            consoleLogSpy,
+            numberOfTopics,
+            expectedMatchingTopics: [3]
+          });
+        });
+      });
+    });
   });
   afterEach(() => {
     vi.restoreAllMocks();

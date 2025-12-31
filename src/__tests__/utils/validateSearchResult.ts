@@ -1,10 +1,5 @@
 import { expect } from "vitest";
 import { createConsoleLogSpy } from "./createConsoleLogSpy";
-import createDebug from "debug";
-
-const debug = createDebug(
-  "simple-mind-search:tests:utils:validateSearchResult"
-);
 
 export function validateSearchResult({
   consoleLogSpy,
@@ -15,9 +10,6 @@ export function validateSearchResult({
   numberOfTopics: number;
   expectedMatchingTopics: number[];
 }) {
-  debug("consoleLogSpy: %o", consoleLogSpy);
-  debug("numberOfTopics: %o", numberOfTopics);
-  debug("expectedMatchingTopics: %o", expectedMatchingTopics);
   for (let i = 0; i < numberOfTopics; i++) {
     if (expectedMatchingTopics.includes(i)) {
       expect(consoleLogSpy).toHaveBeenCalledWith(
