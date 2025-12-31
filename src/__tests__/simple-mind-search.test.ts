@@ -13,7 +13,7 @@ import { search } from "../actions";
 import createDebug from "debug";
 import { validateSearchResult, createConsoleLogSpy } from "./utils";
 
-const numberOfTopics = 3;
+const numberOfTopics = 5;
 const debug = createDebug("simple-mind-search:tests");
 
 beforeAll(() => {
@@ -136,6 +136,66 @@ describe("the search command", () => {
           consoleLogSpy,
           numberOfTopics,
           expectedMatchingTopics: []
+        });
+      });
+    });
+    describe("and both search terms are in the same topic, one in the text and one in a label on top", () => {
+      it("should find the matching topic (test case 8)", async () => {
+        debug("-------------------- TEST CASE 8 --------------------");
+        await search(["search_term_4a", "search_term_4b"], {
+          ignoreCase: true,
+          verbose: false,
+          format: "json"
+        });
+        validateSearchResult({
+          consoleLogSpy,
+          numberOfTopics,
+          expectedMatchingTopics: [4]
+        });
+      });
+      describe("and the search terms are joined with quotes", () => {
+        it("should not find the matching topic (test case 9)", async () => {
+          debug("-------------------- TEST CASE 9 --------------------");
+          await search(['"search_term_4a search_term_4b"'], {
+            ignoreCase: true,
+            verbose: false,
+            format: "json"
+          });
+          validateSearchResult({
+            consoleLogSpy,
+            numberOfTopics,
+            expectedMatchingTopics: []
+          });
+        });
+      });
+    });
+    describe("and both search terms are in the same topic, one in the text and one in a label embedded in the topic", () => {
+      it("should find the matching topic (test case 10)", async () => {
+        debug("-------------------- TEST CASE 10 --------------------");
+        await search(["search_term_5a", "search_term_5b"], {
+          ignoreCase: true,
+          verbose: false,
+          format: "json"
+        });
+        validateSearchResult({
+          consoleLogSpy,
+          numberOfTopics,
+          expectedMatchingTopics: [5]
+        });
+      });
+      describe("and the search terms are joined with quotes", () => {
+        it("should not find the matching topic (test case 11)", async () => {
+          debug("-------------------- TEST CASE 11 --------------------");
+          await search(['"search_term_5a search_term_5b"'], {
+            ignoreCase: true,
+            verbose: false,
+            format: "json"
+          });
+          validateSearchResult({
+            consoleLogSpy,
+            numberOfTopics,
+            expectedMatchingTopics: []
+          });
         });
       });
     });
