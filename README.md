@@ -227,6 +227,16 @@ lnav -i resources/simple_mind_search.json
   - `utils/` - Utility functions
 - `dist/` - Compiled JavaScript output
 
+## Acknowledgements
+
+This tool is built on top of excellent open source libraries:
+
+- [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser) – Fast and efficient XML parsing for processing SimpleMind mind map files
+- [adm-zip](https://github.com/cthackers/adm-zip) – ZIP file handling for extracting .smmx archives
+- [commander](https://github.com/tj/commander.js) – Command-line interface framework
+- [js-yaml](https://github.com/nodeca/js-yaml) – YAML parser for configuration files
+- [fast-glob](https://github.com/mrmlnc/fast-glob) – Fast file system glob matching
+
 ## License
 
 MIT © Patrick Hund
