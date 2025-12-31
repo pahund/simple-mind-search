@@ -12,6 +12,8 @@
 
 1.6 `yarn test:coverage`: Measure code coverage
 
+1.7 `yarn test:integration`: Run integration tests with Vitest once, i.e. not in watch mode
+
 # 2. Code style
 
 2.1 Use TypeScript
@@ -48,11 +50,13 @@
 
 3.4 Run the unit tests (cf. section 1.5), make sure no tests fail, fix failing tests, if any
 
+3.5 Run the integration tests (cf. sections 1.7 and 4.6), make sure no tests fail, fix failing tests, if any
+
 3.6 Lint the code (cf. section 1.3)
 
 3.7 Check the code for TS errors (cf. section 1.4)
 
-3.8 Make sure the overall code coverage is over 80% (cf. sections 1.6, 4.8)
+3.8 Make sure the overall code coverage is over 80% (cf. sections 1.6, 4.5)
 
 3.9 Format the code (cf. section 1.2)
 
@@ -75,6 +79,8 @@
 4.4 Avoid snapshot testing
 
 4.5 Code coverage does not have to be 100%, around 90% (for the whole project) is OK
+
+4.6 Do not add or change any integration tests; for now, you have to leave this to the humans, because it involves editing the fixture files in the SimpleMind Pro macOS app, which is something you are not capable of
 
 # 5. General rules
 
