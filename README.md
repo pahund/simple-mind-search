@@ -181,6 +181,10 @@ yarn test:coverage
 yarn test:integration
 ```
 
+# Run integration tests in watch mode
+yarn test:integration:watch
+```
+
 ### Debugging
 
 The project uses the [debug](https://github.com/debug-js/debug#readme) library to generate some useful console output.
@@ -203,12 +207,14 @@ When running tests, console output is suppressed (standard vitest behaviour). To
 # run tests with log output
 DEBUG=simple-mind-search* yarn test 2>> test.log
 
-# run integration tests with log output
+# run tests in watch mode with log output
+DEBUG=simple-mind-search* yarn test:watch 2>> test.log
+
+# run integration tests in watch mode with log output
 DEBUG=simple-mind-search* yarn test:integration 2>> integration.log
 ```
 
 If you want to view the log file with [lnav](https://docs.lnav.org/), you can install the [custom format in the resources dir](resources/simple_mind_search.json) like so:
-
 
 ```bash
 lnav -i resources/simple_mind_search.json
