@@ -1,0 +1,37 @@
+{
+  "image": "docker.mobint.io/mo/claude-container-base:latest",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/dev/workspace,type=bind,consistency=delegated",
+  "workspaceFolder": "/home/dev/workspace",
+  "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+  "remoteUser": "dev",
+  "features": {},
+  "mounts": [
+    "source=${localEnv:HOME}/.mde-devcontainer/.aws,target=/home/dev/.aws,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.mde-devcontainer/.claude/,target=/home/dev/.claude,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.mde-devcontainer/.claude.json,target=/home/dev/.claude.json,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.mde-devcontainer/.github,target=/home/dev/.github,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.mde-devcontainer/.jira,target=/home/dev/.jira,type=bind,consistency=cached"
+  ],
+  "customizations": {
+    "jetbrains": {
+      "plugins": ["com.anthropic.code.plugin"]
+    },
+    "vscode": {
+      "extensions": ["anthropic.claude-code"],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/bin/zsh",
+            "args": ["-i"]
+          },
+          "bash": {
+            "path": "/bin/bash",
+            "args": ["-i"],
+            "icon": "terminal-bash"
+          }
+        }
+      }
+    }
+  }
+}
