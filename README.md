@@ -83,6 +83,12 @@ simple-mind-search -f json deadline
 
 # Verbose output with search statistics
 simple-mind-search -v project
+
+# Show only unchecked to-do items
+simple-mind-search --todo task
+
+# Combine with other options
+simple-mind-search --todo -i urgent
 ```
 
 ### Options
@@ -90,6 +96,7 @@ simple-mind-search -v project
 - `-i, --ignore-case` – Perform case-insensitive search
 - `-v, --verbose` – Show verbose output with search statistics (files searched, matches found, etc.)
 - `-f, --format <format>` – Output format: `yaml` (default) or `json`
+- `--todo` – Only show topics with unchecked checkboxes (excludes completed tasks and topics without checkboxes)
 
 ### Output Formats
 

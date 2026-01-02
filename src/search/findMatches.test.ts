@@ -461,4 +461,99 @@ describe("findMatches", () => {
     expect(result).toHaveLength(1);
     expect(result[0].date).toBeUndefined();
   });
+
+  it("should filter to only unchecked todos when todo flag is true", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Unchecked task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "50"
+      },
+      {
+        "@_text": "Checked task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "100"
+      },
+      {
+        "@_text": "No checkbox task"
+      }
+    ];
+
+    const result = findMatches({ topics, searchString: "task", todo: true });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].text).toBe("Unchecked task");
+    expect(result[0].done).toBe(false);
+  });
+
+  it("should include all matching topics when todo flag is false", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Unchecked task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "50"
+      },
+      {
+        "@_text": "Checked task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "100"
+      },
+      {
+        "@_text": "No checkbox task"
+      }
+    ];
+
+    const result = findMatches({ topics, searchString: "task", todo: false });
+
+    expect(result).toHaveLength(3);
+  });
+
+  it("should filter to only unchecked todos with exact phrase", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Unchecked task with exact phrase",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "0"
+      },
+      {
+        "@_text": "Checked task with exact phrase",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "100"
+      }
+    ];
+
+    const result = findMatches({
+      topics,
+      searchString: "exact phrase",
+      todo: true,
+      exactPhrase: true
+    });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].text).toBe("Unchecked task with exact phrase");
+  });
+
+  it("should return empty result when no unchecked todos match", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Checked task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "100"
+      },
+      {
+        "@_text": "No checkbox task"
+      }
+    ];
+
+    const result = findMatches({ topics, searchString: "task", todo: true });
+
+    expect(result).toHaveLength(0);
+  });
 });

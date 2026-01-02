@@ -5,7 +5,12 @@ import { search as searchFunction } from "../search";
 
 export async function search(
   searchTerms: string[],
-  options: { ignoreCase: boolean; verbose: boolean; format: string }
+  options: {
+    ignoreCase: boolean;
+    verbose: boolean;
+    format: string;
+    todo?: boolean;
+  }
 ) {
   if (options.verbose) {
     printBanner();
@@ -29,6 +34,7 @@ export async function search(
     ignoreCase: options.ignoreCase,
     exactPhrase,
     verbose: options.verbose,
-    format: options.format
+    format: options.format,
+    todo: options.todo ?? false
   });
 }

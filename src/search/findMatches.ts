@@ -21,13 +21,15 @@ export interface FindMatchesParams {
   searchString: string;
   ignoreCase?: boolean;
   exactPhrase?: boolean;
+  todo?: boolean;
 }
 
 export function findMatches({
   topics,
   searchString,
   ignoreCase = false,
-  exactPhrase = false
+  exactPhrase = false,
+  todo = false
 }: FindMatchesParams): Match[] {
   const matches: Match[] = [];
 
@@ -55,6 +57,11 @@ export function findMatches({
         const url = extractUrl(topic);
         const done = extractDoneStatus(topic);
         const date = extractDate(topic);
+
+        // If todo flag is set, only include topics with unchecked checkboxes
+        if (todo && done !== false) {
+          continue;
+        }
 
         const matchingNotes = notes.filter((note) =>
           ignoreCase
@@ -96,6 +103,11 @@ export function findMatches({
         const url = extractUrl(topic);
         const done = extractDoneStatus(topic);
         const date = extractDate(topic);
+
+        // If todo flag is set, only include topics with unchecked checkboxes
+        if (todo && done !== false) {
+          continue;
+        }
 
         const matchingNotes = notes.filter((note) =>
           tokens.some((token) =>
