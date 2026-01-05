@@ -46,7 +46,7 @@
     "test:integration:watch": "vitest run --config=vitest.integration.config.mts --watch",
     "test:integration:ui": "vitest run --config=vitest.integration.config.mts --ui",
     "test:integration:coverage": "vitest run --config=vitest.integration.config.mts --coverage",
-    "prepublishOnly": "yarn test && yarn build"
+    "prepublishOnly": "yarn lint && yarn ts:check && yarn test && yarn test:integration && yarn build"
   },
   "packageManager": "yarn@4.12.0",
   "devDependencies": {
