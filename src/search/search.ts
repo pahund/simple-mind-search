@@ -6,6 +6,7 @@ import { findMatches, type Topic } from "./findMatches";
 import { printResultsYaml, printResultsJson } from "../output";
 import type { SearchResult } from "../types";
 import { deduplicate } from "../deduplication";
+import { filterByDate } from "../deduplication/filterByDate";
 import { sort } from "../sort";
 
 export interface SearchParams {
@@ -16,6 +17,7 @@ export interface SearchParams {
   verbose?: boolean;
   format?: string;
   todo?: boolean;
+  date?: string;
 }
 
 export async function search({
@@ -25,7 +27,8 @@ export async function search({
   exactPhrase = false,
   verbose = false,
   format = "yaml",
-  todo = false
+  todo = false,
+  date
 }: SearchParams): Promise<void> {
   if (verbose) {
     console.log(`Searching for: ${searchString}`);
@@ -68,10 +71,24 @@ export async function search({
     console.log(`Found ${results.length} matches`);
   }
 
-  const deduplicated = deduplicate(results);
+  let deduplicated = deduplicate(results);
 
   if (verbose) {
     console.log(`Reduced to ${deduplicated.length} by deduplication`);
+  }
+
+  if (date) {
+    try {
+      deduplicated = filterByDate({ results: deduplicated, date });
+      if (verbose) {
+        console.log(
+          `Reduced to ${deduplicated.length} by filtering for date ${date}`
+        );
+      }
+    } catch (error) {
+      console.error((error as Error).message);
+      process.exit(1);
+    }
   }
 
   const sorted = sort(deduplicated);

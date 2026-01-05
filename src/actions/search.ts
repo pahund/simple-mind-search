@@ -10,9 +10,11 @@ export async function search(
     verbose: boolean;
     format: string;
     todo?: boolean;
+    date?: string;
   }
 ) {
   // Validate that search terms are provided when --todo is not used
+  // When using --date without --todo, search terms are required
   if (!options.todo && (!searchTerms || searchTerms.length === 0)) {
     console.error("error: missing required argument 'search-terms'");
     process.exit(1);
@@ -41,6 +43,7 @@ export async function search(
     exactPhrase,
     verbose: options.verbose,
     format: options.format,
-    todo: options.todo ?? false
+    todo: options.todo ?? false,
+    date: options.date
   });
 }

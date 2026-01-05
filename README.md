@@ -15,6 +15,7 @@
 - 🗑️ **Automatic deduplication** – removes duplicate results across mind maps
 - 🔤 **Case-insensitive search** – optional case-insensitive matching
 - 🌍 **Localised dates** – configurable locale and timezone for date formatting
+- 📅 **Search by date** – filter results by a specific date within their lifetime
 
 ## Prerequisites
 
@@ -92,6 +93,15 @@ simple-mind-search --todo task
 
 # Combine with other options
 simple-mind-search --todo -i urgent
+
+# Filter results by date (YYYY-MM-DD format)
+simple-mind-search --date 2025-11-25 project
+
+# Combine date filtering with todo
+simple-mind-search --date 2025-12-16 --todo
+
+# Combine date filtering with case-insensitive search
+simple-mind-search --date 2025-11-25 -i urgent
 ```
 
 ### Options
@@ -100,6 +110,7 @@ simple-mind-search --todo -i urgent
 - `-v, --verbose` – Show verbose output with search statistics (files searched, matches found, etc.)
 - `-f, --format <format>` – Output format: `yaml` (default) or `json`
 - `--todo` – Only show topics with unchecked checkboxes (excludes completed tasks and topics without checkboxes). When used without search terms, shows all unchecked to-do items
+- `--date <date>` – Filter results by a specific date (YYYY-MM-DD format). Only returns results where the specified date falls within the result's lifetime (between creation and last modification). Can be combined with `--todo`. When used without `--todo`, search terms are required
 
 ### Output Formats
 
@@ -139,7 +150,8 @@ simple-mind-search --todo -i urgent
 1. **Search**: The tool searches through all topics and notes in your mind maps
 2. **Filter**: Only notes containing search terms are included in results
 3. **Deduplicate**: Identical topics found across multiple mind maps are merged
-4. **Sort**: Results are sorted by modification date (newest first), with intelligent tie-breaking based on topic lifetime
+4. **Date Filter** (optional): When using `--date`, only results where the specified date falls within the topic's lifetime (between creation and last modification) are included
+5. **Sort**: Results are sorted by modification date (newest first), with intelligent tie-breaking based on topic lifetime
 
 ## Development
 

@@ -14,4 +14,4 @@ example*.xml
 .git
 package.tgz
 *.log
-.devcontainer/tmp
+tmp
