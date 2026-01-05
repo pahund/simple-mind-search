@@ -13,7 +13,7 @@ import { search } from "../actions";
 import createDebug from "debug";
 import { validateSearchResult, createConsoleLogSpy } from "./utils";
 
-const numberOfTopics = 5;
+const numberOfTopics = 11;
 const debug = createDebug("simple-mind-search:tests");
 
 beforeAll(() => {
@@ -196,6 +196,86 @@ describe("the search command", () => {
             numberOfTopics,
             expectedMatchingTopics: []
           });
+        });
+      });
+    });
+  });
+  describe("when using the --todo flag", () => {
+    describe("and no search terms are provided", () => {
+      it("should find all topics with unchecked checkboxes (test case 12)", async () => {
+        debug("-------------------- TEST CASE 12 --------------------");
+        await search([], {
+          ignoreCase: false,
+          verbose: false,
+          format: "json",
+          todo: true
+        });
+        validateSearchResult({
+          consoleLogSpy,
+          numberOfTopics,
+          expectedMatchingTopics: [6, 9]
+        });
+      });
+    });
+    describe("and search terms are provided", () => {
+      it("should find only unchecked topics matching the search term (test case 13)", async () => {
+        debug("-------------------- TEST CASE 13 --------------------");
+        await search(["search_term_todo_a"], {
+          ignoreCase: false,
+          verbose: false,
+          format: "json",
+          todo: true
+        });
+        validateSearchResult({
+          consoleLogSpy,
+          numberOfTopics,
+          expectedMatchingTopics: [9]
+        });
+      });
+      it("should not find topics without checkboxes even if they match the search term (test case 14)", async () => {
+        debug("-------------------- TEST CASE 14 --------------------");
+        await search(["search_term_todo_b"], {
+          ignoreCase: false,
+          verbose: false,
+          format: "json",
+          todo: true
+        });
+        validateSearchResult({
+          consoleLogSpy,
+          numberOfTopics,
+          expectedMatchingTopics: []
+        });
+      });
+    });
+    describe("and topics have completed checkboxes", () => {
+      it("should not find completed topics even if they match search terms (test case 15)", async () => {
+        debug("-------------------- TEST CASE 15 --------------------");
+        await search(["search_term_todo_a"], {
+          ignoreCase: false,
+          verbose: false,
+          format: "json",
+          todo: true
+        });
+        validateSearchResult({
+          consoleLogSpy,
+          numberOfTopics,
+          expectedMatchingTopics: [9]
+        });
+      });
+    });
+    describe("when not using the --todo flag", () => {
+      it("should find all topics matching search terms regardless of checkbox status (test case 16)", async () => {
+        debug("-------------------- TEST CASE 16 --------------------");
+        await search(["search_term_todo_a"], {
+          ignoreCase: false,
+          verbose: false,
+          format: "json",
+          todo: false
+        });
+        validateSearchResult({
+          consoleLogSpy,
+          numberOfTopics,
+          expectedMatchingTopics: [9, 10]
         });
       });
     });

@@ -42,6 +42,8 @@
 
 # 3. Workflow
 
+3.0 Run yarn install
+
 3.1 When you implement a new function, put it in a separate TypeScript module that has the same name and import it where it is needed from there
 
 3.2 When you create a new TypeScript module, and the code is not trivial, create a unit test module with unit tests (cf. section 4)
@@ -89,3 +91,7 @@
 5.2 use British English for writing documentation
 
 5.3 use British English in the Claude Code chat
+
+# 6. Version control
+
+6.1 use conventional commits style for commit messages
