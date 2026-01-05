@@ -12,6 +12,12 @@ export async function search(
     todo?: boolean;
   }
 ) {
+  // Validate that search terms are provided when --todo is not used
+  if (!options.todo && (!searchTerms || searchTerms.length === 0)) {
+    console.error("error: missing required argument 'search-terms'");
+    process.exit(1);
+  }
+
   if (options.verbose) {
     printBanner();
   }
@@ -26,8 +32,8 @@ export async function search(
     console.error("Invalid format. Must be 'yaml' or 'json'.");
     process.exit(1);
   }
-  const searchString = searchTerms.join(" ");
-  const exactPhrase = searchTerms.length === 1;
+  const searchString = searchTerms?.join(" ") ?? "";
+  const exactPhrase = searchTerms?.length === 1;
   await searchFunction({
     config,
     searchString,

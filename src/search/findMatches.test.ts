@@ -556,4 +556,80 @@ describe("findMatches", () => {
 
     expect(result).toHaveLength(0);
   });
+
+  it("should return all unchecked todos when searchString is empty and todo flag is true", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Unchecked task one",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "50"
+      },
+      {
+        "@_text": "Checked task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "100"
+      },
+      {
+        "@_text": "Unchecked task two",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "0"
+      },
+      {
+        "@_text": "No checkbox"
+      }
+    ];
+
+    const result = findMatches({ topics, searchString: "", todo: true });
+
+    expect(result).toHaveLength(2);
+    expect(result[0].text).toBe("Unchecked task one");
+    expect(result[0].done).toBe(false);
+    expect(result[1].text).toBe("Unchecked task two");
+    expect(result[1].done).toBe(false);
+  });
+
+  it("should return empty result when searchString is empty and todo flag is false", () => {
+    const topics: Topic[] = [
+      { "@_text": "Regular topic" },
+      {
+        "@_text": "Unchecked task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "0"
+      }
+    ];
+
+    const result = findMatches({ topics, searchString: "", todo: false });
+
+    expect(result).toHaveLength(0);
+  });
+
+  it("should include url, date, and notes for todos with empty searchString", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Task with metadata",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "25",
+        "@_date": "01-01-2026",
+        link: { "@_urllink": "https://example.com" },
+        children: {
+          text: {
+            note: { "#text": "Important note" }
+          }
+        }
+      }
+    ];
+
+    const result = findMatches({ topics, searchString: "", todo: true });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].text).toBe("Task with metadata");
+    expect(result[0].url).toBe("https://example.com");
+    expect(result[0].date).toBeInstanceOf(Date);
+    expect(result[0].notes).toEqual(["Important note"]);
+  });
 });
