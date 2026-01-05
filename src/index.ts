@@ -18,6 +18,7 @@ program
   .option("-v, --verbose", "Enable verbose output", false)
   .option("-f, --format <format>", "Output format (yaml or json)", "yaml")
   .option("--todo", "Only show topics with unchecked checkboxes", false)
+  .option("--date <date>", "Filter results by date (YYYY-MM-DD)")
   .action(search);
 
 program.parse(process.argv);
