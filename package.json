@@ -1,6 +1,6 @@
 {
   "name": "simple-mind-search",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "A CLI tool to search across all your SimpleMind mind maps at once",
   "keywords": [
     "simplemind",
@@ -46,7 +46,7 @@
     "test:integration:watch": "vitest run --config=vitest.integration.config.mts --watch",
     "test:integration:ui": "vitest run --config=vitest.integration.config.mts --ui",
     "test:integration:coverage": "vitest run --config=vitest.integration.config.mts --coverage",
-    "prepublishOnly": "yarn test && yarn build"
+    "prepublishOnly": "yarn lint && yarn ts:check && yarn test && yarn test:integration && yarn build"
   },
   "packageManager": "yarn@4.12.0",
   "devDependencies": {

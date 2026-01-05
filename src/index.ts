@@ -13,7 +13,7 @@ const program = new Command();
 
 program
   .version(packageJson.version, "-V, --version", "Output the version number")
-  .argument("<search-terms...>", "Terms to search for (space-separated)")
+  .argument("[search-terms...]", "Terms to search for (space-separated)")
   .option("-i, --ignore-case", "Ignore case when searching", false)
   .option("-v, --verbose", "Enable verbose output", false)
   .option("-f, --format <format>", "Output format (yaml or json)", "yaml")

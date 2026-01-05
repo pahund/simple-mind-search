@@ -33,7 +33,33 @@ export function findMatches({
 }: FindMatchesParams): Match[] {
   const matches: Match[] = [];
 
+  // When todo flag is set and searchString is empty, return all topics with unchecked checkboxes
   if (searchString.trim().length === 0) {
+    if (todo) {
+      for (const topic of topics) {
+        const text = topic["@_text"];
+        if (typeof text !== "string") {
+          continue;
+        }
+
+        const done = extractDoneStatus(topic);
+
+        // Only include topics with unchecked checkboxes
+        if (done === false) {
+          const url = extractUrl(topic);
+          const date = extractDate(topic);
+          const notes = extractNotes(topic);
+
+          matches.push({
+            text,
+            url,
+            done,
+            date,
+            notes: notes.length > 0 ? notes : undefined
+          });
+        }
+      }
+    }
     return matches;
   }
 
