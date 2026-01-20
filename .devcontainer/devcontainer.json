@@ -4,7 +4,11 @@
   "workspaceFolder": "/home/dev/workspace",
   "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
   "remoteUser": "dev",
-  "features": {},
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "latest"
+    }
+  },
   "mounts": [
     "source=${localEnv:HOME}/.mde-devcontainer/.aws,target=/home/dev/.aws,type=bind,consistency=cached",
     "source=${localEnv:HOME}/.mde-devcontainer/.claude/,target=/home/dev/.claude,type=bind,consistency=cached",
