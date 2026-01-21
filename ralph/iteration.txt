@@ -1,0 +1,22 @@
+@tasks.json @progress.txt 
+1. Your working directory is /home/dev/workspace — make yourself familiar with
+   the project by...
+   - reading the project documentation: cat README.md
+   - listing the files in subdirectories to understand the project structure:
+     ls -la
+2. Find out about what the current status of work on this project is by...
+   - reading the file progress.txt: cat ralph/progress.txt
+   - checking the recent git history: git log --oneline -20
+   - counting the remaining tasks: 
+     cat ralph/tasks.json | grep '"done": false' | wc -l
+3. If the number of remaining tasks is 0, output <promise>COMPLETE</promise>
+4. If the number of remaining tasks is greater than 0, find the highest priority 
+   task to work on by reading ralph/tasks.json. \
+   This should be the one YOU decide has the highest priority - not necessarily
+   the first in the list
+5. Work on the task; DO NOT work on anything besides the one task you have selected
+6. After you have finished implementing and testing:
+   - make a git commit of your changes
+   - edit tasks.json, set "done" to true for the task you have completed; note
+     that you are NOT ALLOWED to change anything in tasks.json except "done"
+   - append a report of the changes you have made to progress.txt

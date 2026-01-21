@@ -1,0 +1,6 @@
+[
+  {
+    "description": "Implement a new CLI tool option --done to find mindmap nodes of tasks that are completed",
+    "done": true
+  }
+]
