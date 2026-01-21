@@ -1,6 +1,10 @@
 [
   {
     "description": "Implement a new CLI tool option --done to find mindmap nodes of tasks that are completed",
-    "done": true
+    "done": false
+  },
+  {
+    "description": "Make sure that combining --done and --todo options with a search term works correctly",
+    "done": false
   }
 ]

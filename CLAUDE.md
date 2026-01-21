@@ -2,6 +2,8 @@
 
 1.1 `yarn dev <SEARCH_TERM>`: Run the script during development for explorative testing, providing a search term
 
+1.1.1 PLEASE NOTE: the search is case sensitive by default; you can make it case-insensitive by using the -i option
+
 1.2 `yarn format`: Format source code files with Prettier
 
 1.3 `yarn lint`: Check source code for errors with ESLint
