@@ -1,10 +1,10 @@
 [
   {
     "description": "Implement a new CLI tool option --done to find mindmap nodes of tasks that are completed, similar to the already existing option --todo, which finds incomplete tasks",
-    "done": false
+    "done": true
   },
   {
     "description": "Make sure that combining --done and --todo options with a search term works correctly; when used together, the search results should include both results from tasks where done is true and tasks where done is false, but no results from mindmap nodes that do not represent tasks",
-    "done": false
+    "done": true
   }
 ]
