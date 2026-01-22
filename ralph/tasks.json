@@ -1,6 +1,6 @@
 [
   {
-    "description": "Implement a new CLI tool option --done to find mindmap nodes of tasks that are completed",
+    "description": "Implement a new CLI tool option --done to find mindmap nodes of tasks that are completed, similar to the already existing option --todo, which finds incomplete tasks",
     "done": false
   },
   {
