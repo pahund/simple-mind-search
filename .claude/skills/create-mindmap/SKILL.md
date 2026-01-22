@@ -1,12 +1,12 @@
 ---
-name: mindmap-visualizer
-description: Generate SimpleMind Pro mindmap files for visualising codebases, feature plans, architecture, and discussion summaries. Creates .smmx files in ./mindmaps/ directory.
+name: create-mindmap
+description: Create SimpleMind Pro mindmap files for visualising codebases, feature plans, architecture, and discussion summaries. Creates .smmx files in ./mindmaps/ directory.
 allowed-tools: Bash(python:*)
 ---
 
-# SimpleMind Mindmap Visualiser
+# Create SimpleMind Mindmap 
 
-Creates SimpleMind Pro mindmap files (.smmx) for visualising:
+Creates SimpleMind mindmap files (.smmx) for visualising:
 - Codebase structure and relationships
 - Feature planning and implementation steps
 - Architecture diagrams showing components
@@ -17,7 +17,7 @@ Creates SimpleMind Pro mindmap files (.smmx) for visualising:
 The skill accepts a JSON structure describing the mindmap:
 
 ```bash
-python ~/.claude/skills/mindmap-visualizer/scripts/generate_mindmap.py \
+python ~/workspace/.claude/skills/create-mindmap/scripts/generate_mindmap.py \
   --title "Feature: User Authentication" \
   --output ./mindmaps/auth-feature.smmx \
   --json '{
@@ -32,7 +32,7 @@ python ~/.claude/skills/mindmap-visualizer/scripts/generate_mindmap.py \
 Or pass JSON via stdin:
 
 ```bash
-echo '{"nodes": [...]}' | python ~/.claude/skills/mindmap-visualizer/scripts/generate_mindmap.py \
+echo '{"nodes": [...]}' | python ~/workspace/.claude/skills/create-mindmap/scripts/generate_mindmap.py \
   --title "My Mindmap" \
   --output ./mindmaps/my-map.smmx
 ```
@@ -41,6 +41,7 @@ echo '{"nodes": [...]}' | python ~/.claude/skills/mindmap-visualizer/scripts/gen
 
 Invoke this skill when the user:
 - Asks to "visualise this in a mindmap"
+- Asks to "create a mindmap"
 - Wants to see project structure as a mindmap
 - Needs a visual representation of a plan or architecture
 - Requests a summary of our discussion in mindmap format

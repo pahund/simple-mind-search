@@ -34,7 +34,7 @@
   "scripts": {
     "ralph": "ralph/run.sh 100",
     "ralph:once": "ralph/run.sh 1",
-    "clean": "rm -rf dist coverage tmp/*",
+    "clean": "rm -rf dist coverage tmp",
     "build": "tsc -p tsconfig.build.json",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
