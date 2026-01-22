@@ -2,6 +2,8 @@
 
 1.1 `yarn dev <SEARCH_TERM>`: Run the script during development for explorative testing, providing a search term
 
+1.1.1 PLEASE NOTE: the search is case sensitive by default; you can make it case-insensitive by using the -i option
+
 1.2 `yarn format`: Format source code files with Prettier
 
 1.3 `yarn lint`: Check source code for errors with ESLint
@@ -42,13 +44,23 @@
 
 # 3. Workflow
 
-3.0 Run yarn install
+3.0 Preparation - do this every time you start work on a new task
+
+3.0.1 Run yarn install to make sure npm dependencies are up-to-date
+
+3.0.2 Copy the file .simple-mind-search.default.yml to the home directory, renaming it to .simple-mind-search.yml
+
+3.0.3 Edit the YAML file in the home directory you have copied, change mindMapsDir to /home/dev/workspace/tmp
+
+3.0.4 Run an exploratory test to do a "smoke test", checking if basic functionality of the CLI tool works (cf. section 5)
+
+3.0.5 If the smoke tests fails, stop the workflow, DO NOT try to fix the problem, only report it back to the user
 
 3.1 When you implement a new function, put it in a separate TypeScript module that has the same name and import it where it is needed from there
 
 3.2 When you create a new TypeScript module, and the code is not trivial, create a unit test module with unit tests (cf. section 4)
 
-3.3 Test your code change exploratively by running the script (cf. section 1.1); there should be no uncaught exceptions and the result should be according to the desired result specified in the prompt
+3.3 Test your code change with exploratory tests (cf. section 5); there should be no uncaught exceptions and the result should be according to the desired result 
 
 3.4 Run the unit tests (cf. section 1.5), make sure no tests fail, fix failing tests, if any
 
@@ -84,14 +96,22 @@
 
 4.6 Do not add or change any integration tests; for now, you have to leave this to the humans, because it involves editing the fixture files in the SimpleMind Pro macOS app, which is something you are not capable of
 
-# 5. General rules
+# 5. Exploratory testing
 
-5.1 use British English for naming things in the code
+5.1 Use the skill mindmap-visualizer to create a smmx file in the tmp directory, to be used for testing
 
-5.2 use British English for writing documentation
+5.2 Use the yarn dev command to run a search in the smmx file you have created
 
-5.3 use British English in the Claude Code chat
+5.3 Make sure the command returns the correct output, i.e. the result from the test mindmap that you were searching for
 
-# 6. Version control
+# 6. General rules
 
-6.1 use conventional commits style for commit messages
+6.1 use British English for naming things in the code
+
+6.2 use British English for writing documentation
+
+6.3 use British English in the Claude Code chat
+
+# 7. Version control
+
+7.1 use conventional commits style for commit messages

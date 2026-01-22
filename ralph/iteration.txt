@@ -1,0 +1,30 @@
+@tasks.json @progress.md
+1. Your working directory is /home/dev/workspace
+2. Put any temporary files you are creating while you work in the directory
+   /home/dev/workspace/tmp; it the directory doesn't exist yet, create it
+3. Check if the file ralph.log exists in the tmp directory; if it doesn't, 
+   create it
+4. From now on, document everything you do by appending log statements to the
+   log file tmp/ralph.log; make sure log entries are prefixed with timestamps
+   that reflect the exact time at which the log entry is being created;
+   example timestamp: [2026-01-22 11:13:10]
+5. Make yourself familiar with the project by...
+   - reading the project documentation: cat README.md
+   - listing the files in the workspace to understand the project structure:
+     ls -la
+6. Find out about what the current status of work on this project is by...
+   - reading the file progress.md: cat ralph/progress.md
+   - checking the recent git history: git log --oneline -20
+   - counting the remaining tasks:
+     cat ralph/tasks.json | grep '"done": false' | wc -l
+7. If the number of remaining tasks is 0, output <promise>COMPLETE</promise>
+8. If the number of remaining tasks is greater than 0, find the highest priority
+   task to work on by reading ralph/tasks.json; this should be the one YOU 
+   decide has the highest priority - not necessarily the first in the list
+9. Work on the task; DO NOT work on anything besides the one task you have selected
+10. After you have finished implementing and testing:
+   - commit your changes to Git version control using the git command
+   - edit tasks.json, set "done" to true for the task you have completed; note
+     that you are NOT ALLOWED to change anything in tasks.json except "done"
+   - APPEND a summary of the changes you have made to progress.md; NO NOT
+     change any existing text in progress.md
