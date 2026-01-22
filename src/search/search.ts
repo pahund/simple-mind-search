@@ -16,6 +16,7 @@ export interface SearchParams {
   verbose?: boolean;
   format?: string;
   todo?: boolean;
+  done?: boolean;
 }
 
 export async function search({
@@ -25,7 +26,8 @@ export async function search({
   exactPhrase = false,
   verbose = false,
   format = "yaml",
-  todo = false
+  todo = false,
+  done = false
 }: SearchParams): Promise<void> {
   if (verbose) {
     console.log(`Searching for: ${searchString}`);
@@ -51,7 +53,8 @@ export async function search({
       searchString,
       ignoreCase,
       exactPhrase,
-      todo
+      todo,
+      done
     });
 
     for (const match of matches) {

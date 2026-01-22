@@ -632,4 +632,109 @@ describe("findMatches", () => {
     expect(result[0].date).toBeInstanceOf(Date);
     expect(result[0].notes).toEqual(["Important note"]);
   });
+
+  it("should filter to only checked tasks when done flag is true", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Unchecked task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "50"
+      },
+      {
+        "@_text": "Checked task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "100"
+      },
+      {
+        "@_text": "No checkbox task"
+      }
+    ];
+
+    const result = findMatches({ topics, searchString: "task", done: true });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].text).toBe("Checked task");
+    expect(result[0].done).toBe(true);
+  });
+
+  it("should filter to only checked tasks with exact phrase", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Unchecked task with exact phrase",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "0"
+      },
+      {
+        "@_text": "Checked task with exact phrase",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "100"
+      }
+    ];
+
+    const result = findMatches({
+      topics,
+      searchString: "exact phrase",
+      done: true,
+      exactPhrase: true
+    });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].text).toBe("Checked task with exact phrase");
+  });
+
+  it("should return empty result when no checked tasks match", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Unchecked task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "50"
+      },
+      {
+        "@_text": "No checkbox task"
+      }
+    ];
+
+    const result = findMatches({ topics, searchString: "task", done: true });
+
+    expect(result).toHaveLength(0);
+  });
+
+  it("should return all checked tasks when searchString is empty and done flag is true", () => {
+    const topics: Topic[] = [
+      {
+        "@_text": "Unchecked task",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "50"
+      },
+      {
+        "@_text": "Checked task one",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "100"
+      },
+      {
+        "@_text": "Checked task two",
+        "@_checkbox-mode": "checkbox",
+        "@_checkbox": "true",
+        "@_progress": "100"
+      },
+      {
+        "@_text": "No checkbox"
+      }
+    ];
+
+    const result = findMatches({ topics, searchString: "", done: true });
+
+    expect(result).toHaveLength(2);
+    expect(result[0].text).toBe("Checked task one");
+    expect(result[0].done).toBe(true);
+    expect(result[1].text).toBe("Checked task two");
+    expect(result[1].done).toBe(true);
+  });
 });

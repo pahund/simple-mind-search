@@ -18,6 +18,7 @@ program
   .option("-v, --verbose", "Enable verbose output", false)
   .option("-f, --format <format>", "Output format (yaml or json)", "yaml")
   .option("--todo", "Only show topics with unchecked checkboxes", false)
+  .option("--done", "Only show topics with checked checkboxes", false)
   .action(search);
 
 program.parse(process.argv);
