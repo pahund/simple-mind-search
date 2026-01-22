@@ -10,10 +10,15 @@ export async function search(
     verbose: boolean;
     format: string;
     todo?: boolean;
+    done?: boolean;
   }
 ) {
-  // Validate that search terms are provided when --todo is not used
-  if (!options.todo && (!searchTerms || searchTerms.length === 0)) {
+  // Validate that search terms are provided when --todo or --done is not used
+  if (
+    !options.todo &&
+    !options.done &&
+    (!searchTerms || searchTerms.length === 0)
+  ) {
     console.error("error: missing required argument 'search-terms'");
     process.exit(1);
   }
@@ -41,6 +46,7 @@ export async function search(
     exactPhrase,
     verbose: options.verbose,
     format: options.format,
-    todo: options.todo ?? false
+    todo: options.todo ?? false,
+    done: options.done ?? false
   });
 }

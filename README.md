@@ -90,8 +90,21 @@ simple-mind-search --todo
 # Show only unchecked to-do items matching search terms
 simple-mind-search --todo task
 
+# Show all checked/completed to-do items (no search term required)
+simple-mind-search --done
+
+# Show only checked/completed to-do items matching search terms
+simple-mind-search --done task
+
 # Combine with other options
 simple-mind-search --todo -i urgent
+simple-mind-search --done -i urgent
+
+# Show all tasks (both checked and unchecked) with search term
+simple-mind-search --todo --done task
+
+# Show all tasks (both checked and unchecked) without search term
+simple-mind-search --todo --done
 ```
 
 ### Options
@@ -100,6 +113,8 @@ simple-mind-search --todo -i urgent
 - `-v, --verbose` – Show verbose output with search statistics (files searched, matches found, etc.)
 - `-f, --format <format>` – Output format: `yaml` (default) or `json`
 - `--todo` – Only show topics with unchecked checkboxes (excludes completed tasks and topics without checkboxes). When used without search terms, shows all unchecked to-do items
+- `--done` – Only show topics with checked checkboxes (excludes incomplete tasks and topics without checkboxes). When used without search terms, shows all checked to-do items
+- `--todo --done` – When both flags are used together, shows all topics with any checkbox (both checked and unchecked), but excludes topics without checkboxes. Useful for viewing all task-related items whilst filtering out non-task topics
 
 ### Output Formats
 

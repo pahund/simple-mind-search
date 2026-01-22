@@ -22,6 +22,7 @@ export interface FindMatchesParams {
   ignoreCase?: boolean;
   exactPhrase?: boolean;
   todo?: boolean;
+  done?: boolean;
 }
 
 export function findMatches({
@@ -29,23 +30,31 @@ export function findMatches({
   searchString,
   ignoreCase = false,
   exactPhrase = false,
-  todo = false
+  todo = false,
+  done = false
 }: FindMatchesParams): Match[] {
   const matches: Match[] = [];
 
-  // When todo flag is set and searchString is empty, return all topics with unchecked checkboxes
+  // When todo or done flag is set and searchString is empty, return filtered topics
   if (searchString.trim().length === 0) {
-    if (todo) {
+    if (todo || done) {
       for (const topic of topics) {
         const text = topic["@_text"];
         if (typeof text !== "string") {
           continue;
         }
 
-        const done = extractDoneStatus(topic);
+        const doneStatus = extractDoneStatus(topic);
 
-        // Only include topics with unchecked checkboxes
-        if (done === false) {
+        // If both todo and done flags are set, include topics with any checkbox (checked or unchecked)
+        // If only todo flag is set, only include topics with unchecked checkboxes
+        // If only done flag is set, only include topics with checked checkboxes
+        const shouldInclude =
+          (todo && done && doneStatus !== undefined) ||
+          (todo && !done && doneStatus === false) ||
+          (!todo && done && doneStatus === true);
+
+        if (shouldInclude) {
           const url = extractUrl(topic);
           const date = extractDate(topic);
           const notes = extractNotes(topic);
@@ -53,7 +62,7 @@ export function findMatches({
           matches.push({
             text,
             url,
-            done,
+            done: doneStatus,
             date,
             notes: notes.length > 0 ? notes : undefined
           });
@@ -81,11 +90,19 @@ export function findMatches({
 
       if (phraseFound) {
         const url = extractUrl(topic);
-        const done = extractDoneStatus(topic);
+        const doneStatus = extractDoneStatus(topic);
         const date = extractDate(topic);
 
-        // If todo flag is set, only include topics with unchecked checkboxes
-        if (todo && done !== false) {
+        // If both todo and done flags are set, include topics with any checkbox (checked or unchecked)
+        // If only todo flag is set, only include topics with unchecked checkboxes
+        // If only done flag is set, only include topics with checked checkboxes
+        const shouldInclude =
+          (!todo && !done) ||
+          (todo && done && doneStatus !== undefined) ||
+          (todo && !done && doneStatus === false) ||
+          (!todo && done && doneStatus === true);
+
+        if (!shouldInclude) {
           continue;
         }
 
@@ -98,7 +115,7 @@ export function findMatches({
         matches.push({
           text,
           url,
-          done,
+          done: doneStatus,
           date,
           notes: matchingNotes.length > 0 ? matchingNotes : undefined
         });
@@ -127,11 +144,19 @@ export function findMatches({
 
       if (allTokensFound) {
         const url = extractUrl(topic);
-        const done = extractDoneStatus(topic);
+        const doneStatus = extractDoneStatus(topic);
         const date = extractDate(topic);
 
-        // If todo flag is set, only include topics with unchecked checkboxes
-        if (todo && done !== false) {
+        // If both todo and done flags are set, include topics with any checkbox (checked or unchecked)
+        // If only todo flag is set, only include topics with unchecked checkboxes
+        // If only done flag is set, only include topics with checked checkboxes
+        const shouldInclude =
+          (!todo && !done) ||
+          (todo && done && doneStatus !== undefined) ||
+          (todo && !done && doneStatus === false) ||
+          (!todo && done && doneStatus === true);
+
+        if (!shouldInclude) {
           continue;
         }
 
@@ -146,7 +171,7 @@ export function findMatches({
         matches.push({
           text,
           url,
-          done,
+          done: doneStatus,
           date,
           notes: matchingNotes.length > 0 ? matchingNotes : undefined
         });
