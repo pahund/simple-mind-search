@@ -46,9 +46,15 @@ export function findMatches({
 
         const doneStatus = extractDoneStatus(topic);
 
-        // If todo flag is set, only include topics with unchecked checkboxes
-        // If done flag is set, only include topics with checked checkboxes
-        if ((todo && doneStatus === false) || (done && doneStatus === true)) {
+        // If both todo and done flags are set, include topics with any checkbox (checked or unchecked)
+        // If only todo flag is set, only include topics with unchecked checkboxes
+        // If only done flag is set, only include topics with checked checkboxes
+        const shouldInclude =
+          (todo && done && doneStatus !== undefined) ||
+          (todo && !done && doneStatus === false) ||
+          (!todo && done && doneStatus === true);
+
+        if (shouldInclude) {
           const url = extractUrl(topic);
           const date = extractDate(topic);
           const notes = extractNotes(topic);
@@ -87,9 +93,16 @@ export function findMatches({
         const doneStatus = extractDoneStatus(topic);
         const date = extractDate(topic);
 
-        // If todo flag is set, only include topics with unchecked checkboxes
-        // If done flag is set, only include topics with checked checkboxes
-        if ((todo && doneStatus !== false) || (done && doneStatus !== true)) {
+        // If both todo and done flags are set, include topics with any checkbox (checked or unchecked)
+        // If only todo flag is set, only include topics with unchecked checkboxes
+        // If only done flag is set, only include topics with checked checkboxes
+        const shouldInclude =
+          (!todo && !done) ||
+          (todo && done && doneStatus !== undefined) ||
+          (todo && !done && doneStatus === false) ||
+          (!todo && done && doneStatus === true);
+
+        if (!shouldInclude) {
           continue;
         }
 
@@ -134,9 +147,16 @@ export function findMatches({
         const doneStatus = extractDoneStatus(topic);
         const date = extractDate(topic);
 
-        // If todo flag is set, only include topics with unchecked checkboxes
-        // If done flag is set, only include topics with checked checkboxes
-        if ((todo && doneStatus !== false) || (done && doneStatus !== true)) {
+        // If both todo and done flags are set, include topics with any checkbox (checked or unchecked)
+        // If only todo flag is set, only include topics with unchecked checkboxes
+        // If only done flag is set, only include topics with checked checkboxes
+        const shouldInclude =
+          (!todo && !done) ||
+          (todo && done && doneStatus !== undefined) ||
+          (todo && !done && doneStatus === false) ||
+          (!todo && done && doneStatus === true);
+
+        if (!shouldInclude) {
           continue;
         }
 
