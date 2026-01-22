@@ -6,7 +6,8 @@
    create it
 4. From now on, document everything you do by appending log statements to the
    log file tmp/ralph.log; make sure log entries are prefixed with timestamps
-   that reflect the exact time at which the log entry is being created
+   that reflect the exact time at which the log entry is being created;
+   example timestamp: [2026-01-22 11:13:10]
 5. Make yourself familiar with the project by...
    - reading the project documentation: cat README.md
    - listing the files in the workspace to understand the project structure:
@@ -25,4 +26,5 @@
    - commit your changes to Git version control using the git command
    - edit tasks.json, set "done" to true for the task you have completed; note
      that you are NOT ALLOWED to change anything in tasks.json except "done"
-   - append a summary of the changes you have made to progress.md
+   - APPEND a summary of the changes you have made to progress.md; NO NOT
+     change any existing text in progress.md
