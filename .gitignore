@@ -10,8 +10,8 @@ dist
 .pnp.*
 coverage
 example*.xml
-.claude
 .git
 package.tgz
 *.log
 tmp
+.claude/settings.local.json
