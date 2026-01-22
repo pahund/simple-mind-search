@@ -10,7 +10,7 @@ for ((i=1; i<=$1; i++)); do
   echo "------------------------------"
   echo "Iteration $i - $(date '+%Y-%m-%d %H:%M:%S')"
   claude --permission-mode acceptEdits \
-    --allowed-tools Bash(git commit:*) \
+    --allowed-tools "Bash(git commit:*)" \
     --print "$(cat /home/dev/workspace/ralph/iteration.txt)" | tee /tmp/claude_output.txt
   result=$(cat /tmp/claude_output.txt)
   if [[ "$result" == *"<promise>COMPLETE</promise>"* ]]; then
