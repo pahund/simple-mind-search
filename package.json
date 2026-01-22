@@ -1,6 +1,6 @@
 {
   "name": "simple-mind-search",
-  "version": "1.4.0-beta.0",
+  "version": "1.4.0",
   "description": "A CLI tool to search across all your SimpleMind mind maps at once",
   "keywords": [
     "simplemind",
