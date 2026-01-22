@@ -98,7 +98,7 @@
 
 # 5. Exploratory testing
 
-5.1 Use the skill mindmap-visualizer to create a smmx file in the tmp directory, to be used for testing
+5.1 Use the skill create-mindmap to create a smmx file in the tmp directory, to be used for testing
 
 5.2 Use the yarn dev command to run a search in the smmx file you have created
 
