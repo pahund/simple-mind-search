@@ -1,4 +1,4 @@
-@tasks.json @progress.txt
+@tasks.json @progress.md
 1. Your working directory is /home/dev/workspace
 2. Check if the file tmp/ralph.log exists; if it doesn't, create it
 3. From now on, document everything you do by appending log statements to the
@@ -8,7 +8,7 @@
    - listing the files in subdirectories to understand the project structure:
      ls -la
 5. Find out about what the current status of work on this project is by...
-   - reading the file progress.txt: cat ralph/progress.txt
+   - reading the file progress.md: cat ralph/progress.md
    - checking the recent git history: git log --oneline -20
    - counting the remaining tasks:
      cat ralph/tasks.json | grep '"done": false' | wc -l
@@ -21,4 +21,4 @@
    - commit your changes to Git version control using the git command
    - edit tasks.json, set "done" to true for the task you have completed; note
      that you are NOT ALLOWED to change anything in tasks.json except "done"
-   - append a summary of the changes you have made to progress.txt
+   - append a summary of the changes you have made to progress.md

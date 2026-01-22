@@ -4,7 +4,7 @@
     "done": false
   },
   {
-    "description": "Make sure that combining --done and --todo options with a search term works correctly",
+    "description": "Make sure that combining --done and --todo options with a search term works correctly; when used together, the search results should include both results from tasks where done is true and tasks where done is false, but no results from mindmap nodes that do not represent tasks",
     "done": false
   }
 ]
