@@ -1,0 +1,8 @@
+# Python dependencies for JIRA skill
+
+# Core dependencies
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# Optional dependencies for YAML output format
+pyyaml>=6.0.0
