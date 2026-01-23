@@ -251,6 +251,51 @@ lnav -i resources/simple_mind_search.json
   - `sort/` - Result sorting
   - `utils/` - Utility functions
 - `dist/` - Compiled JavaScript output
+- `.claude/skills/` - Claude Code skills for development and integration
+  - `create-mindmap/` - Skill for creating test SimpleMind mind maps
+  - `jira/` - Skill for JIRA integration via REST API
+
+### Claude Code Skills
+
+This project includes custom Claude Code skills to enhance development workflow:
+
+#### JIRA Integration Skill
+
+The JIRA skill allows you to fetch and manage JIRA issues directly from Claude Code.
+
+**Usage:**
+```bash
+/jira get PROJ-123                    # Get issue details
+/jira search "assignee = currentUser()" # Search issues with JQL
+/jira comments PROJ-456               # Get comments
+/jira related PROJ-789                # Get related issues
+```
+
+**Setup:**
+1. Install Python dependencies:
+   ```bash
+   pip3 install -r .claude/skills/jira/requirements.txt
+   ```
+
+2. Configure environment variables:
+   ```bash
+   export JIRA_BASE_URL="https://your-company.atlassian.net"
+   export JIRA_API_TOKEN="your-api-token"
+   export JIRA_EMAIL="your.email@company.com"
+   ```
+
+See [`.claude/skills/jira/SKILL.md`](.claude/skills/jira/SKILL.md) for complete documentation.
+
+#### Create Mindmap Skill
+
+The `create-mindmap` skill generates SimpleMind Pro mind map files for testing purposes. This skill is used during development to create test fixtures for exploratory testing.
+
+**Usage:**
+```bash
+/create-mindmap
+```
+
+This skill is primarily used internally for testing the search functionality.
 
 ## Acknowledgements
 
